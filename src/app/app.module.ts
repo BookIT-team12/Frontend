@@ -8,6 +8,7 @@ import { UserAccountManagementComponent } from './user-account-management/user-a
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   imports: [
     MatToolbarModule,
     MatMenuModule,
+    MatFormFieldModule,
     BrowserModule,
     FormsModule,
     MatButtonModule,
