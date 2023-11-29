@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {RouterModule, Routes} from "@angular/router";
+import {User} from "./model/User";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,21 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Frontend';
+  currentUser: User;
+  constructor() {
+    this.currentUser = new User(
+    'John Doe',
+    'john@example.com',
+    'Doe',
+    'oldPassword123',
+    'newPassword456',
+    '123-456-7890',
+    '123 Main St',
+    null
+  );
+    console.log(this.currentUser)
+}
+
+  title = 'BookIT';
+
 }
