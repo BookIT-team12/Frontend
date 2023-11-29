@@ -9,16 +9,15 @@ import {AccessControlModuleModule} from "./access-control-module/access-control-
 import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app-routing.module";
 import { UserAccountManagementComponent } from './user-account-management/user-account-management.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import {BaseModule} from "./base/base.module";
 
 @NgModule({
   declarations: [
     AppComponent,
-    UserAccountManagementComponent,
-    NavbarComponent
+    UserAccountManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +32,8 @@ import {MatFormField, MatFormFieldModule} from "@angular/material/form-field";
     BrowserModule,
     FormsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    BaseModule
   ],
   providers: [],
   bootstrap: [AppComponent]
