@@ -1,0 +1,9 @@
+.background-container {
+  /* Set the background image */
+  background-image: url('../assets/europe_background.jpg'); /* Adjust the path accordingly */
+  /* Set background size and other properties */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*!* Set other styles as needed *!*/
+}
