@@ -19,10 +19,11 @@
       </mat-icon>
     </span>
     <input matInput [type]=" hide ? 'password' : 'text'" required>
-    <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+    <button  mat-icon-button matSuffix (click)="hide = !hide"
              [attr.aria-pressed]="hide">
-      <mat-icon>
-        <span class="material-symbols-outlined">visibility_off</span>
+      <mat-icon >
+        <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+        <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
       </mat-icon>
     </button>
   </mat-form-field>

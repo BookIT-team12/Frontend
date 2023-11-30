@@ -9,7 +9,8 @@ import {User} from "../model/User";
 })
 
 export class UserAccountManagementComponent {
-
+  hide: boolean = true;
+  hideConfirmation: boolean = true;
 /*
   userForm:FormGroup;
     currentUser:User;

@@ -43,7 +43,14 @@
       <mat-label>
         Enter your password
       </mat-label>
-      <input matInput type="password">
+      <input matInput [type]=" hide ? 'password' : 'text'" required>
+      <button  mat-icon-button matSuffix (click)="hide = !hide"
+               [attr.aria-pressed]="hide">
+        <mat-icon >
+          <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+          <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+        </mat-icon>
+      </button>
     </mat-form-field>
     <mat-form-field class="global-icon-color">
     <span matTextPrefix>
@@ -54,7 +61,14 @@
       <mat-label>
         Confirm your password
       </mat-label>
-      <input matInput type="password">
+      <input matInput [type]=" hideConfirmation ? 'password' : 'text'" required>
+      <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
+               [attr.aria-pressed]="hideConfirmation">
+        <mat-icon >
+          <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
+          <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
+        </mat-icon>
+      </button>
     </mat-form-field>
     <mat-form-field class="global-icon-color">
     <span matTextPrefix>
