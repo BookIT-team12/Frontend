@@ -3,6 +3,8 @@ mat-toolbar {
   position: sticky;
   top: 0;
   background-color:#CDDBFF;
+  display: flex;
+  align-items: center;
 }
 
 .logo {
@@ -30,9 +32,9 @@ mat-toolbar {
 .rectangle37 {
   position: absolute;
   right: 10px; /* Adjust the right position */
-  top: 20px; /* Adjust the top position */
-  width: 120px;
-  height: 26px;
+  top: 10px; /* Adjust the top position */
+  width: 176px;
+  height: 46px;
   border-radius: 8px;
   background-color: #6d8ecf33;
 }
@@ -51,12 +53,47 @@ button.mat-button.mat-accent:hover {
   'Liberation Sans', sans-serif;
   font-weight: bold;
   font-size: 15px;
+  margin-top: 0;
 }
 
+.text1{
+  color:#080067;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top:0;
+}
+
+
+
 .material-icons {
-  font-size: 25px;
+  font-size: 23px;
+  margin-right: 10px;
   color: #080067;
 }
+.icon{
+  font-size: 23px;
+  color: #080067;
+  margin-right: 10px;
+
+
+
+}
+
+/*.material-icons:not(.special-icon) {*/
+/*  font-size: 25px;*/
+/*  color: #080067;*/
+/*}*/
+
+
+/*.mat-menu-item {*/
+/*  font-weight: bold;*/
+/*  color: #080067;*/
+/*  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',*/
+/*  'Liberation Sans', sans-serif;*/
+
+/*}*/
 .spacer {
   flex: 1;
 }

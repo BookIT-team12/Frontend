@@ -2,19 +2,33 @@
   <img src="../../../assets/logo.png" alt="Logo" class="logo">
   <h1 class="title">BookIT</h1>
   <span class="spacer"></span>
-  <span class="material-icons">account_circle</span>
+  <mat-icon class="icon">
+  <span class="material-icons-outlined">menu</span>
+  </mat-icon>
+    <!--
+  <span class="material-icons special-icon">account_circle</span>
+-->
 
-  <button mat-button color="primary" class="text" [matMenuTriggerFor]="accountMenu">My Account</button>
-  <mat-menu #accountMenu="matMenu">
-    <button mat-menu-item>Home</button>
-    <button mat-menu-item>Manage account</button>
-    <button mat-menu-item>Trips and reservations</button>
-    <button mat-menu-item>Reviews</button>
-    <button mat-menu-item>Notifications</button>
-    <button mat-menu-item>Logout</button>
+  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
+  <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
+    <button mat-menu-item class="text"><span class="material-icons">home</span>
+      Home</button>
+
+    <button mat-menu-item>
+      <span class="material-icons">edit</span>Manage account</button>
+
+
+    <button mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
+
+    <button mat-menu-item><span class="material-icons">star</span>Reviews</button>
+
+    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>
+
+    <button mat-menu-item><span class="material-icons">logout</span>Logout</button>
+
 
   </mat-menu>
 
-<!--  <div class="rectangle37"></div>-->
+  <div class="rectangle37"></div>
 
 </mat-toolbar>
