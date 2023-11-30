@@ -1,0 +1,34 @@
+.form-container {
+  border-radius: 40px; /* Adjust the border-radius for a smoother look */
+  width: 90%; /* Use percentage for responsiveness */
+  max-width: 1200px; /* Set a maximum width if needed */
+  margin: 100px auto; /* Center the container horizontally and add top margin */
+  max-height: 1700px;
+  padding: 2%;
+  background: rgba(109, 142,207,0.74);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-heading {
+  color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  font-size: 2em; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+}
+
+.login-heading::after {
+  content: ''; /* Required for pseudo-elements */
+  display: block; /* Display as a block to apply styles */
+  width: 100%; /* Width to span the entire line */
+  height: 4px; /* Height for the line thickness */
+  background-color: white; /* Color of the line */
+  position: absolute; /* Positioning */
+  bottom: -5px; /* Positioning to be just below the text */
+  left: 0; /* Position from the left edge of the h1 element */
+}
+
+.login-btn{
+  margin-left: 25%;
+  margin-right: 25%;
+}

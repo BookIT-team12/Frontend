@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <img src="../../../assets/logo.png" alt="Logo" class="logo">
+  <h1 class="title">BookIT</h1>
+  <span class="spacer"></span>
+  <span class="material-icons">account_circle</span>
+
+  <button mat-button color="primary" class="text" [matMenuTriggerFor]="accountMenu">My Account</button>
+  <mat-menu #accountMenu="matMenu">
+    <button mat-menu-item>Home</button>
+    <button mat-menu-item>Manage account</button>
+    <button mat-menu-item>Trips and reservations</button>
+    <button mat-menu-item>Reviews</button>
+    <button mat-menu-item>Notifications</button>
+    <button mat-menu-item>Logout</button>
+
+  </mat-menu>
+
+<!--  <div class="rectangle37"></div>-->
+
+</mat-toolbar>
