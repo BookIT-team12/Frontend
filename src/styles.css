@@ -9,6 +9,10 @@ body {
     color:  white;
     background-color: rgba(8,0,103,1);
   }
+  .mat-mdc-raised-button.global-dangerBtn{
+    color: white;
+    background-color: rgba(177, 0, 0, 1);
+  }
 
   .global-icon-color{
     color: rgba(8, 0, 103, 1); /* Changes text color to blue */
@@ -36,10 +40,4 @@ body {
     border-bottom: none;
   }
 
-
-
-  .mat-mdc-raised-button.global-dangerBtn{
-    color: white;
-    background-color: rgba(177, 0, 0, 1);
-  }
 }
