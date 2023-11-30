@@ -10,14 +10,14 @@
   flex-direction: column;
 }
 
-.login-heading {
+.login-header {
   color: rgba(8, 0, 103, 1); /* Changes text color to blue */
   font-size: 2em; /* Increases font size */
   font-weight: bold; /* Makes the text bold */
   position: relative;
 }
 
-.login-heading::after {
+.login-header::after {
   content: ''; /* Required for pseudo-elements */
   display: block; /* Display as a block to apply styles */
   width: 100%; /* Width to span the entire line */
