@@ -10,6 +10,21 @@
   flex-direction: column;
 }
 
+.left-part {
+  margin-top: 3%;
+  float: left;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-part{
+  float: right;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+}
+
 .register-header {
   color: rgba(8, 0, 103, 1); /* Changes text color to blue */
   font-size: 2em; /* Increases font size */

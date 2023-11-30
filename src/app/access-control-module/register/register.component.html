@@ -1,96 +1,102 @@
 <app-navbar></app-navbar>
-<div class="form-container">
+<form class="form-container">
   <h1 class="register-header">Register</h1>
-  <mat-form-field class="global-icon-color">
-     <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">alternate_email</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your email
-    </mat-label>
-    <input matInput>
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">key</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your password
-    </mat-label>
-    <input matInput [type]=" hide ? 'password' : 'text'" required>
-    <button  mat-icon-button matSuffix (click)="hide = !hide"
-             [attr.aria-pressed]="hide">
-      <mat-icon >
-        <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
-        <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
-      </mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">key</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Confirm your password
-    </mat-label>
-    <input matInput [type]=" hideConfirmation ? 'password' : 'text'" required>
-    <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
-             [attr.aria-pressed]="hideConfirmation">
-      <mat-icon >
-        <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
-        <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
-      </mat-icon>
-    </button>
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">badge</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your name
-    </mat-label>
-    <input matInput>
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">badge</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your last name
-    </mat-label>
-    <input matInput>
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">call</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your phone
-    </mat-label>
-    <input matInput type="number">
-  </mat-form-field>
-  <mat-form-field class="global-icon-color">
-    <span matTextPrefix>
-      <mat-icon>
-        <span class="material-symbols-outlined">location_on</span>
-      </mat-icon>
-    </span>
-    <mat-label>
-      Enter your home address
-    </mat-label>
-    <input matInput>
-  </mat-form-field>
+  <div>
+    <div class="left-part">
+      <mat-form-field class="global-icon-color">
+         <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">alternate_email</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your email
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your password
+        </mat-label>
+        <input matInput [type]=" hide ? 'password' : 'text'" required>
+        <button  mat-icon-button matSuffix (click)="hide = !hide"
+                 [attr.aria-pressed]="hide">
+          <mat-icon >
+            <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Confirm your password
+        </mat-label>
+        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" required>
+        <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
+                 [attr.aria-pressed]="hideConfirmation">
+          <mat-icon >
+            <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="right-part">
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your name
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your last name
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">call</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your phone
+        </mat-label>
+        <input matInput type="number">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">location_on</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your home address
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+    </div>
+  </div>
   <button mat-raised-button class="global-darkBtn register-btn"> Register </button>
-</div>
+</form>
