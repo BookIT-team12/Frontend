@@ -8,17 +8,17 @@ import { AppComponent } from './app.component';
 import {AccessControlModuleModule} from "./access-control-module/access-control-module.module";
 import {HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app-routing.module";
-import { UserAccountManagementComponent } from './user-account-management/user-account-management.component';
+import { UserAccountManagementComponent } from './account-managment/user-account-management/user-account-management.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {BaseModule} from "./base/base.module";
 import {AccommodationModule} from "./accommodation/accommodation.module";
+import {AccountManagmentModule} from "./account-managment/account-managment.module";
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UserAccountManagementComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +36,8 @@ import {AccommodationModule} from "./accommodation/accommodation.module";
     MatInputModule,
     BaseModule,
     AccommodationModule
+    BaseModule,
+    AccountManagmentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

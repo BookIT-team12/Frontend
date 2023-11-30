@@ -1,7 +1,7 @@
 .form-container {
   border-radius: 40px; /* Adjust the border-radius for a smoother look */
   width: 90%; /* Use percentage for responsiveness */
-  max-width: 1200px; /* Set a maximum width if needed */
+  max-width: 900px; /* Set a maximum width if needed */
   margin: 100px auto; /* Center the container horizontally and add top margin */
   max-height: 1700px;
   padding: 2%;

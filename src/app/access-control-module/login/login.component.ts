@@ -12,7 +12,6 @@ export class LoginComponent {
     password: "test sifra", phone: "test telefon", role: "test uloga"}
   constructor() {}
 
-  hide: boolean = false
-  ngOnInit() {
-  }
+  hide: boolean = true
+
 }

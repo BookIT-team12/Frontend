@@ -9,8 +9,35 @@ body {
     color:  white;
     background-color: rgba(8,0,103,1);
   }
+  .mat-mdc-raised-button.global-dangerBtn{
+    color: white;
+    background-color: rgba(177, 0, 0, 1);
+  }
 
   .global-icon-color{
     color: rgba(8, 0, 103, 1); /* Changes text color to blue */
   }
+
+  .mat-menu-content {
+    font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+    font-weight: bold;
+  }
+
+  /* Round the edges of the menu */
+  .mat-menu-panel {
+    border-radius: 8px; /* Adjust the value as needed */
+  }
+
+  /* Style the lines between menu items */
+  .mat-menu-item {
+    border-bottom: 1px rgba(8, 0, 103, 1); /* Changes text color to blue */
+
+  }
+  /* Style the last item to remove the bottom border */
+  .mat-menu-item:last-child {
+    border-bottom: none;
+  }
+
 }

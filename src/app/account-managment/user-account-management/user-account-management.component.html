@@ -1,0 +1,115 @@
+<app-navbar></app-navbar>
+<form class="form-container">
+  <h1 class="acc-management-header">Manage account details</h1>
+  <div>
+    <div class="left-part">
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">alternate_email</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          current.adress@gmail.com
+        </mat-label>
+        <input matInput readonly>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">badge</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Enter your name
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">badge</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Enter your last name
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">key</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Enter your password
+        </mat-label>
+        <input matInput [type]=" hide ? 'password' : 'text'" required>
+        <button  mat-icon-button matSuffix (click)="hide = !hide"
+                 [attr.aria-pressed]="hide">
+          <mat-icon >
+            <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">key</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Confirm your password
+        </mat-label>
+        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" required>
+        <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
+                 [attr.aria-pressed]="hideConfirmation">
+          <mat-icon >
+            <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="right-part">
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">phone</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Enter your phone number
+        </mat-label>
+        <input matInput type="number">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">location_on</span>
+        </mat-icon>
+      </span>
+        <mat-label>
+          Enter your address
+        </mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-card class="profile-picture-container">
+        <img *ngIf="profilePicture != null" mat-card-lg-image alt="Profile picture" [src] = profilePicture>
+        <img *ngIf="profilePicture == null" mat-card-lg-image alt="Profile picture" src = "assets/empty_profile_picture.png">
+        <button mat-raised-button class="add-profile-picture-button">
+          <mat-label class="global-icon-color">Add profile picture</mat-label>
+          <mat-icon class="global-icon-color">
+            <span class="material-symbols-outlined">add_photo_alternate</span>
+          </mat-icon>
+        </button>
+      </mat-card>
+    </div>
+  </div>
+
+  <button mat-raised-button class="global-darkBtn save-changes-btn"> Update account </button>
+  <button mat-raised-button class="global-dangerBtn save-changes-btn"> Delete account </button>
+</form>
+
