@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {BaseModule} from "./base/base.module";
+import {AccommodationModule} from "./accommodation/accommodation.module";
 import {AccountManagmentModule} from "./account-managment/account-managment.module";
 
 @NgModule({
@@ -25,6 +26,16 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
     AppRoutingModule,
     AccessControlModuleModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    BrowserModule,
+    FormsModule,
+    MatButtonModule,
+    MatInputModule,
+    BaseModule,
+    AccommodationModule
     BaseModule,
     AccountManagmentModule
   ],

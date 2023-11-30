@@ -1,0 +1,56 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<app-navbar></app-navbar>
+<div class="form-container">
+  <h1 class="register-header">Accommodation Details</h1>
+  <div class="container">
+    <div class="half">
+      <div class="picture_container">
+        <div class="main_picture"><img src="./assets/europe_background.jpg" alt="Slika"></div>
+        <div class="sidebar_pictures">
+          TESTT
+        </div>
+      </div>
+      <div class="container1">
+        <h1 class="acc-header">WHAT THIS PLACE HAS TO OFFER</h1>
+        <div class="grid-container">
+          <div class="grid-item"><span class="material-icons">wifi</span><body class="grid-item-text">Wi-Fi</body></div>
+          <div class="grid-item"><span class="material-icons">local_parking</span><body class="grid-item-text">Parking</body></div>
+          <div class="grid-item"><span class="material-icons">ac_unit</span><body class="grid-item-text">AC Unit</body></div>
+          <div class="grid-item"><span class="material-icons">kitchen</span><body class="grid-item-text">Fridge</body></div>
+          <div class="grid-item"><span class="material-icons">balcony</span><body class="grid-item-text">Balcony</body></div>
+          <div class="grid-item"><span class="material-icons">elevator</span><body class="grid-item-text">Elevator</body></div>
+        </div>
+      </div>
+      <div class="container1">
+        <h1 class="acc-header">DESCRIPTION</h1>
+        <body class="description">
+        Only 10km from Novi Sad on the idyllic part of the Danube River bank, there is a futuristic building Maui Wikendaya. Fairytale family cottage next to the water in which a lot of love and effort is invested will provide you with unforgettable moments of relaxation in nature.
+        </body>
+      </div>
+    </div>
+    <div class="half">
+      <div class="container1">
+        <h1 class="name-header">Cottage Mauiwikendaya</h1>
+        <ul class="list"><li class="list-item">Novi Sad, Serbia</li><li class="list-item">$80 Per Night</li></ul>
+      </div>
+      <div class="container1">
+        <h3 class="date-picker-text">Choose time of your stay: </h3>
+        <mat-form-field>
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date">
+            <input matEndDate placeholder="End date">
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button mat-raised-button class="global-darkBtn login-btn"> BOOKIT </button>
+      </div>
+      <div class="container-reviews">
+        <div class="review"><span class="material-icons">star</span><h1 class="review">3 REVIEWS •  4.7</h1></div>
+      </div>
+    </div>
+  </div>
+</div>
+
