@@ -13,6 +13,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from "@angular/material/form-field";
 import {BaseModule} from "./base/base.module";
+import {AccommodationModule} from "./accommodation/accommodation.module";
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {BaseModule} from "./base/base.module";
     FormsModule,
     MatButtonModule,
     MatInputModule,
-    BaseModule
+    BaseModule,
+    AccommodationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
