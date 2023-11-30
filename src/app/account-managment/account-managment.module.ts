@@ -4,6 +4,9 @@ import {UserAccountManagementComponent} from "./user-account-management/user-acc
 import {FormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {BaseModule} from "../base/base.module";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
 
 
 
@@ -15,7 +18,10 @@ import {BaseModule} from "../base/base.module";
     CommonModule,
     FormsModule,
     MatButtonModule,
-    BaseModule
+    BaseModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule
 
   ], exports: [
     UserAccountManagementComponent
