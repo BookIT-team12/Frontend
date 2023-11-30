@@ -19,7 +19,18 @@
       </mat-icon>
     </span>
     <mat-label>Enter your password</mat-label>
-    <input matInput>
+    <input matInput [type]=" hide ? 'password' : 'text'" required>
+    <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide Password'"
+             [attr.aria-pressed]="hide">
+      <mat-icon>
+        <span class="material-symbols-outlined">visibility_off</span>
+      </mat-icon>
+    </button>
+<!--    <span matTextSuffix>-->
+<!--      <mat-icon>-->
+<!--        <span class="material-symbols-outlined">visibility</span>-->
+<!--      </mat-icon>-->
+<!--    </span>-->
   </mat-form-field>
   <button mat-raised-button class="global-darkBtn login-btn"> Log in </button>
 </div>
