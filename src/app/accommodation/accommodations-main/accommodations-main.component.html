@@ -1,0 +1,100 @@
+<mat-toolbar>
+  <span class="spacer"></span>
+
+  <mat-icon class="icon">
+    <span class="material-icons-outlined">menu</span>
+  </mat-icon>
+  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
+  <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
+    <button mat-menu-item class="text"><span class="material-icons">home</span>
+      Home</button>
+    <button mat-menu-item>
+      <span class="material-icons">edit</span>Manage account</button>
+    <button mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
+    <button mat-menu-item><span class="material-icons">star</span>Reviews</button>
+    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>
+    <button mat-menu-item><span class="material-icons">logout</span>Logout</button>
+  </mat-menu>
+  <div class="rectangle37"></div>
+</mat-toolbar>
+<mat-drawer-container>
+  <mat-drawer opened mode="side" class="sidenav">
+   <h1 class="logo-header">
+     <img src="../../../assets/logo.png" alt="Logo" class="logo">
+     <h1 class="title">BookIT</h1>
+   </h1>
+   <div class="filters-container">
+     <div class="aaa"><div class="filters-title"><h2>Filters:</h2></div></div>
+     <h1>  </h1>
+     <div class="aaa">
+       <span class="material-icons">person</span>
+       <h3 class="filters-txt">Num. of guests: </h3>
+       <mat-form-field class="example">
+         <mat-label></mat-label>
+         <input matInput [(ngModel)]="value">
+       </mat-form-field>
+     </div>
+     <div class="aaa">
+       <span class="material-icons">wifi</span>
+       <h3 class="filters-txt">Wi-Fi: </h3>
+       <mat-checkbox
+         class="example-cb"
+         [(ngModel)]="wifi">
+       </mat-checkbox>
+     </div>
+     <div class="aaa">
+       <span class="material-icons">local_parking</span>
+       <h3 class="filters-txt">Parking: </h3>
+       <mat-checkbox
+         class="example-cb"
+         [(ngModel)]="parking">
+       </mat-checkbox>
+     </div>
+     <div class="aaa">
+       <span class="material-icons">ac_unit</span>
+       <h3 class="filters-txt">Air Condition: </h3>
+       <mat-checkbox
+         class="example-cb"
+         [(ngModel)]="ac_unit">
+       </mat-checkbox>
+     </div>
+     <div class="aaa">
+       <span class="material-icons">date_range</span>
+       <mat-form-field>
+         <mat-label>Enter a date range</mat-label>
+         <mat-date-range-input [rangePicker]="picker">
+           <input matStartDate placeholder="Start date">
+           <input matEndDate placeholder="End date">
+         </mat-date-range-input>
+         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+         <mat-date-range-picker #picker></mat-date-range-picker>
+       </mat-form-field>
+     </div>
+     <div class="aaa">
+       <span class="material-icons">paid</span>
+       <h3 class="filters-txt">Price range: </h3>
+       <mat-slider min="10" max="1000">
+         <input matSliderStartThumb>
+         <input matSliderEndThumb>
+       </mat-slider>
+     </div>
+
+     <h1></h1>
+     <div class="aaa1">
+       <button mat-raised-button class="global-darkBtn login-btn"> Apply filters </button>
+     </div>
+   </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-grid-list cols="3" rowHeight="3:4">
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+    </mat-grid-list>
+  </mat-drawer-content>
+</mat-drawer-container>
