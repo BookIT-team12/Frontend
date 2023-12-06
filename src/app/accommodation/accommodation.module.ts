@@ -4,16 +4,26 @@ import { DetailsComponent } from './details/details.component';
 import {BaseModule} from "../base/base.module";
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatButtonModule} from "@angular/material/button";
-
+import { AccommodationsMainComponent } from './accommodations-main/accommodations-main.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list';
+import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from "@angular/material/select";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSliderModule} from "@angular/material/slider";
 
 
 
 @NgModule({
   declarations: [
-    DetailsComponent
+    DetailsComponent,
+    AccommodationsMainComponent
   ],
   imports: [
     CommonModule,
@@ -22,10 +32,21 @@ import {MatButtonModule} from "@angular/material/button";
     MatDatepickerModule,
     ReactiveFormsModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSidenavModule,
+    MatGridListModule,
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    FormsModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatSliderModule
   ],
   exports: [
-    DetailsComponent
+    DetailsComponent,
+    AccommodationsMainComponent
   ]
 })
 export class AccommodationModule { }

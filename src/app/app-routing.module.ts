@@ -7,12 +7,14 @@ import {DetailsComponent} from "./accommodation/details/details.component";
 import {
   UserAccountManagementComponent
 } from "./account-managment/user-account-management/user-account-management.component";
+import {AccommodationsMainComponent} from "./accommodation/accommodations-main/accommodations-main.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
-  {path: "accommodation_details", component: DetailsComponent}
-  {path: "manage", component: UserAccountManagementComponent}
+  {path: "accommodation_details", component: DetailsComponent},
+  {path: "manage", component: UserAccountManagementComponent},
+  {path: "main", component: AccommodationsMainComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

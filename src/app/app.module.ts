@@ -35,9 +35,9 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
     MatButtonModule,
     MatInputModule,
     BaseModule,
-    AccommodationModule
+    AccommodationModule,
     BaseModule,
-    AccountManagmentModule
+    AccountManagmentModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
