@@ -39,5 +39,18 @@ body {
   .mat-menu-item:last-child {
     border-bottom: none;
   }
+/*
+  .mat-form-field {
+    border-radius: 8px; !* Adjust the border-radius for rounded corners *!
+    border: 1px solid lightgray; !* Add a light gray border *!
+    margin-bottom: 10px; !* Add margin for spacing between mat-form-fields *!
+  }
+
+  !* Style the input inside mat-form-field *!
+  .mat-form-field-wrapper input {
+    border: none; !* Remove default input border inside mat-form-field *!
+  }*/
+
+
 
 }

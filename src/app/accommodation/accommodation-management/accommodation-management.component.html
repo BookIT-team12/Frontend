@@ -1,0 +1,117 @@
+<app-navbar></app-navbar>
+<form class="form-container">
+  <h1 class="acc-management-header">Add new accommodation</h1>
+  <div>
+    <div class="left-part">
+      <!-- Accommodation Name -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
+        <input matInput placeholder="Enter accommodation name" required>
+      </mat-form-field>
+
+      <!-- Number of Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of guests" required>
+      </mat-form-field>
+
+      <!-- Price per Night -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
+        <input matInput type="number" placeholder="Enter price per night" required>
+      </mat-form-field>
+
+      <!-- Location -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">location_on</mat-icon>Location</mat-label>
+        <input matInput placeholder="Enter location" required>
+      </mat-form-field>
+
+      <!-- Detailed Description -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
+        <textarea matInput placeholder="Enter detailed description"></textarea>
+      </mat-form-field>
+
+<!--      &lt;!&ndash; Add Image &ndash;&gt;-->
+<!--      <mat-form-field class="global-icon-color">-->
+<!--        <mat-label>Add Image</mat-label>-->
+<!--        <input matInput type="file">-->
+<!--      </mat-form-field>-->
+    </div>
+
+
+    <div class="right-part">
+      <div class="amenities-container">
+        <!-- Amenities Checkboxes -->
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">local_parking</mat-icon>Parking
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">wifi</mat-icon>Wifi
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">pool</mat-icon>Pool
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color">
+            <mat-icon class="material-icons">balcony</mat-icon>Balcony
+          </mat-checkbox>
+        </div>
+      </div>
+
+
+      <!-- Datepicker for "From" Date -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> From</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Datepicker for "To" Date -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> To</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <div>
+        <input type="file" (change)="onFileSelected($event)" />
+<!--
+        <button (click)="onUpload()">Upload</button>
+-->
+      </div>
+      <img *ngIf="imageUrl" [src]="imageUrl" alt="Uploaded Image" />
+
+    </div>
+
+
+
+<!--    <mat-card class="profile-picture-container">-->
+<!--      <img *ngIf="profilePicture != null" mat-card-lg-image alt="Profile picture" [src] = profilePicture>-->
+<!--      <img *ngIf="profilePicture == null" mat-card-lg-image alt="Profile picture" src = "assets/empty_profile_picture.png">-->
+<!--      <button mat-raised-button class="add-profile-picture-button">-->
+<!--        <mat-label class="global-icon-color">Add profile picture</mat-label>-->
+<!--        <mat-icon class="global-icon-color">-->
+<!--          <span class="material-symbols-outlined">add_photo_alternate</span>-->
+<!--        </mat-icon>-->
+<!--      </button>-->
+<!--    </mat-card>-->
+
+  </div>
+
+  <button mat-raised-button class="global-darkBtn save-changes-btn">Add Apartment</button>
+</form>
