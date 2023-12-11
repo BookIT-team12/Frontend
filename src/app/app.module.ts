@@ -37,7 +37,7 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
     BaseModule,
     AccommodationModule,
     BaseModule,
-    AccountManagmentModule,
+    AccountManagmentModule
   ],
   providers: [],
   bootstrap: [AppComponent]

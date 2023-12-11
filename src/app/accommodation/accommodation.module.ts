@@ -17,13 +17,17 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from "@angular/material/select";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatSliderModule} from "@angular/material/slider";
-
+import { AccommodationApprovalComponent } from './accommodation-approval/accommodation-approval.component';
+import { AccommodationApprovalCardComponent } from './accommodation-approval-card/accommodation-approval-card.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 @NgModule({
   declarations: [
     DetailsComponent,
-    AccommodationsMainComponent
+    AccommodationsMainComponent,
+    AccommodationApprovalComponent,
+    AccommodationApprovalCardComponent
   ],
   imports: [
     CommonModule,
@@ -42,11 +46,13 @@ import {MatSliderModule} from "@angular/material/slider";
     FormsModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatSliderModule
+    MatSliderModule,
+    MatCardModule
   ],
   exports: [
     DetailsComponent,
-    AccommodationsMainComponent
+    AccommodationsMainComponent,
+    AccommodationApprovalComponent
   ]
 })
 export class AccommodationModule { }
