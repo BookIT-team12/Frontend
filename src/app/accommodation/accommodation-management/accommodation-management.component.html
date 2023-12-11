@@ -21,11 +21,6 @@
         <input matInput type="number" placeholder="Enter price per night" required>
       </mat-form-field>
 
-      <!-- Location -->
-      <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">location_on</mat-icon>Location</mat-label>
-        <input matInput placeholder="Enter location" required>
-      </mat-form-field>
 
       <!-- Detailed Description -->
       <mat-form-field class="global-icon-color">
@@ -33,7 +28,18 @@
         <textarea matInput placeholder="Enter detailed description"></textarea>
       </mat-form-field>
 
-<!--      &lt;!&ndash; Add Image &ndash;&gt;-->
+      <div>
+        <input type="file" (change)="onFileSelected($event)" multiple />
+        <!-- Display selected images -->
+        <div class="image-container">
+        <div *ngFor="let image of accommodationForm.images">
+          <img [src]="getUrl(image)" alt="Uploaded Image" />
+        </div>
+        </div>
+      </div>
+
+
+      <!--      &lt;!&ndash; Add Image &ndash;&gt;-->
 <!--      <mat-form-field class="global-icon-color">-->
 <!--        <mat-label>Add Image</mat-label>-->
 <!--        <input matInput type="file">-->
@@ -88,13 +94,22 @@
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
 
-      <div>
-        <input type="file" (change)="onFileSelected($event)" />
-<!--
-        <button (click)="onUpload()">Upload</button>
--->
+
+      <!-- Location -->
+
+<!--      TODO: UVEZATI LEAFLET MAPU!!!-->
+<!--      <div class="mat-form-field global-icon-color">
+        <input matInput placeholder="Enter location" [(ngModel)]="searchAddress" required>
+        <button mat-button (click)="searchLocation()">Search</button>
       </div>
-      <img *ngIf="imageUrl" [src]="imageUrl" alt="Uploaded Image" />
+      <app-map [searchAddress]="searchAddress"></app-map>-->
+        <app-map></app-map>
+<!--      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">location_on</mat-icon>Location</mat-label>
+        <input matInput placeholder="Enter location" required>
+      </mat-form-field>-->
+
+
 
     </div>
 

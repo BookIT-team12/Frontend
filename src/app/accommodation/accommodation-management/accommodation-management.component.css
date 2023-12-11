@@ -83,3 +83,20 @@
 .mat-form-field-wrapper input {
   border: none; /* Remove default input border inside mat-form-field */
 }
+
+/* Container for uploaded images */
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Styling for each uploaded image */
+.image-container img {
+  width: 100px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+  object-fit: cover; /* Preserve aspect ratio while covering the container */
+  margin-right: 10px; /* Adjust the spacing between images */
+  margin-bottom: 10px; /* Adjust the spacing between rows of images */
+  border-radius: 10px; /* Add rounded corners */
+}

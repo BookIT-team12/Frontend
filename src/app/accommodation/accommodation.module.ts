@@ -20,13 +20,18 @@ import {MatSliderModule} from "@angular/material/slider";
 import { AccommodationManagementComponent } from './accommodation-management/accommodation-management.component';
 import {MatCardModule} from "@angular/material/card";
 import { HttpClientModule } from '@angular/common/http';
+import {MapModule} from "../map/map.module";
+import {MapComponent} from "../map/map.component";
 
 
 @NgModule({
   declarations: [
     DetailsComponent,
     AccommodationsMainComponent,
-    AccommodationManagementComponent
+    AccommodationManagementComponent,
+/*
+    MapComponent
+*/
   ],
   imports: [
     CommonModule,
@@ -40,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatGridListModule,
     MatIconModule,
     MatMenuModule,
+    MapModule,
     MatToolbarModule,
     MatFormFieldModule,
     FormsModule,
@@ -47,7 +53,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatCheckboxModule,
     MatSliderModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   exports: [
     DetailsComponent,

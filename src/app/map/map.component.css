@@ -1,0 +1,10 @@
+.map-frame {
+  border: 2px solid black;
+  margin: 10px; /* Adjust the margin for spacing */
+}
+
+#map {
+  width: 90%; /* Use 100% width for responsiveness */
+  height: 400px; /* Adjust the height as needed */
+  border-radius: 10px; /* Add rounded corners */
+}

@@ -15,17 +15,18 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import {BaseModule} from "./base/base.module";
 import {AccommodationModule} from "./accommodation/accommodation.module";
 import {AccountManagmentModule} from "./account-managment/account-managment.module";
+import {MapModule} from "./map/map.module";
 
 @NgModule({
   declarations: [
-    AppComponent
-  ],
+    AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     AccessControlModuleModule,
     HttpClientModule,
+    MapModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatMenuModule,
@@ -37,7 +38,7 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
     BaseModule,
     AccommodationModule,
     BaseModule,
-    AccountManagmentModule,
+    AccountManagmentModule
   ],
   providers: [],
   bootstrap: [AppComponent]
