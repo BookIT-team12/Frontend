@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {User} from "../model/User";
 
 @Component({
   selector: 'app-user-account-management',
@@ -17,14 +16,7 @@ export class UserAccountManagementComponent {
 */
 
 
-  name: string = '';
-  email: string = '';
-  surname:string ='';
-  oldPassword:string = '';
-  newPassword:string = '';
-  address:string = '';
   profilePicture:File |null=null;
-  phone:string = '';
 
 
 /*  constructor(private fb: FormBuilder) {
