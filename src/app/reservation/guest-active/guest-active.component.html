@@ -1,0 +1,29 @@
+<app-navbar></app-navbar>
+
+<h1 class="header">
+  <mat-icon class="header-icon">
+    <span class="material-symbols-outlined">work</span>
+  </mat-icon>
+  Reservations
+</h1>
+<div class="navigation-div">
+  <mat-form-field class="reservation-status-form">
+    <mat-label>Reservation status</mat-label>
+    <select matNativeControl>
+      <option value=" " selected></option>
+      <option value="canceled">Canceled</option>
+      <option value="approved">Approved</option>
+      <option value="pending">Pending</option>
+      <option value="denied">Denied</option>
+    </select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Search by name</mat-label>
+      <mat-icon matIconPrefix>
+      <span class="material-symbols-outlined">search</span>
+    </mat-icon>
+    <input type="text" matInput>
+  </mat-form-field>
+</div>
+<app-guest-active-card></app-guest-active-card>
+<app-guest-active-card></app-guest-active-card>

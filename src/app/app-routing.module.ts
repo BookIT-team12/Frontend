@@ -11,6 +11,7 @@ import {AccommodationsMainComponent} from "./accommodation/accommodations-main/a
 import {
   AccommodationManagementComponent
 } from "./accommodation/accommodation-management/accommodation-management.component";
+import {GuestActiveComponent} from "./reservation/guest-active/guest-active.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -18,6 +19,7 @@ const routes: Routes=[
   {path: "accommodation_details", component: DetailsComponent},
   {path: "manage", component: UserAccountManagementComponent},
   {path: "main", component: AccommodationsMainComponent},
+  {path: "guest-active-res", component: GuestActiveComponent},
   {path: "add_accommodation", component: AccommodationManagementComponent}
 
 ]
