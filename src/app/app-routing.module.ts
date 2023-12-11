@@ -8,13 +8,15 @@ import {
   UserAccountManagementComponent
 } from "./account-managment/user-account-management/user-account-management.component";
 import {AccommodationsMainComponent} from "./accommodation/accommodations-main/accommodations-main.component";
+import {GuestActiveComponent} from "./reservation/guest-active/guest-active.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "accommodation_details", component: DetailsComponent},
   {path: "manage", component: UserAccountManagementComponent},
-  {path: "main", component: AccommodationsMainComponent}
+  {path: "main", component: AccommodationsMainComponent},
+  {path: "guest-active-res", component: GuestActiveComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

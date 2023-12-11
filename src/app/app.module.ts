@@ -15,6 +15,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import {BaseModule} from "./base/base.module";
 import {AccommodationModule} from "./accommodation/accommodation.module";
 import {AccountManagmentModule} from "./account-managment/account-managment.module";
+import {ReservationModule} from "./reservation/reservation.module";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
     AccommodationModule,
     BaseModule,
     AccountManagmentModule,
+    ReservationModule
   ],
   providers: [],
   bootstrap: [AppComponent]
