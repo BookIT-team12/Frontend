@@ -6,6 +6,7 @@ import {DetailsComponent} from "./accommodation/details/details.component";
 import {UserAccountManagementComponent} from "./account-managment/user-account-management/user-account-management.component";
 import {AccommodationsMainComponent} from "./accommodation/accommodations-main/accommodations-main.component";
 import {AccommodationApprovalComponent} from "./accommodation/accommodation-approval/accommodation-approval.component";
+import {GuestActiveComponent} from "./reservation/guest-active/guest-active.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -14,6 +15,7 @@ const routes: Routes=[
   {path: "manage", component: UserAccountManagementComponent},
   {path: "main", component: AccommodationsMainComponent},
   {path: "accommodation-approval", component: AccommodationApprovalComponent}
+  {path: "guest-active-res", component: GuestActiveComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
