@@ -9,12 +9,14 @@ import {MatButtonModule} from "@angular/material/button";
 import { GuestActiveCardComponent } from './guest-active-card/guest-active-card.component';
 import {MatCardModule} from "@angular/material/card";
 import { OwnerApprovalComponent } from './owner-approval/owner-approval.component';
+import { OwnerApprovalCardComponent } from './owner-approval-card/owner-approval-card.component';
 
 @NgModule({
   declarations: [
     GuestActiveComponent,
     GuestActiveCardComponent,
-    OwnerApprovalComponent
+    OwnerApprovalComponent,
+    OwnerApprovalCardComponent
   ],
   imports: [
     CommonModule,
