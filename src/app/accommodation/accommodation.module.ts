@@ -22,6 +22,8 @@ import {MatCardModule} from "@angular/material/card";
 import { HttpClientModule } from '@angular/common/http';
 import {MapModule} from "../map/map.module";
 import {MapComponent} from "../map/map.component";
+import { AccommodationApprovalComponent } from './accommodation-approval/accommodation-approval.component';
+import { AccommodationApprovalCardComponent } from './accommodation-approval-card/accommodation-approval-card.component';
 
 
 @NgModule({
@@ -32,6 +34,9 @@ import {MapComponent} from "../map/map.component";
 /*
     MapComponent
 */
+    AccommodationsMainComponent,
+    AccommodationApprovalComponent,
+    AccommodationApprovalCardComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +64,9 @@ import {MapComponent} from "../map/map.component";
   exports: [
     DetailsComponent,
     AccommodationsMainComponent,
+    AccommodationApprovalComponent,
     AccommodationManagementComponent
+
   ]
 })
 export class AccommodationModule { }

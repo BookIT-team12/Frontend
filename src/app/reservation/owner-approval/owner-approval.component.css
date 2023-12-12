@@ -1,0 +1,11 @@
+.header {
+  font-size: 3em;
+  color: rgba(8,0,103,1);
+  text-align: center;
+  margin-top: 3%;
+  font-weight: bold;
+}
+.header-icon {
+  padding: 0.5%;
+  font-size: 81%;
+}
