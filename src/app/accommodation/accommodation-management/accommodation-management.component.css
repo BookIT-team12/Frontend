@@ -100,3 +100,21 @@
   margin-bottom: 10px; /* Adjust the spacing between rows of images */
   border-radius: 10px; /* Add rounded corners */
 }
+
+
+.mat-select {
+  width: 100%;
+}
+
+/* Style for the accommodation type dropdown */
+.mat-form-field[appearance='outline'] {
+  background-color: #fff; /* Set the background color */
+  border-radius: 8px; /* Add rounded corners */
+  margin-bottom: 10px; /* Adjust the margin */
+}
+
+
+.mat-select-value {
+  color: rgba(24, 18, 140, 0.9); /* Set text color */
+}
+

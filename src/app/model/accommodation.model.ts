@@ -19,7 +19,7 @@ export enum AccommodationType {
 
 export class Accommodation {
   id: number;
-  owner: User;
+  owner: string; //IZMENA FROM USER--->STRING, PRIVREMENO!!!!
   accommodationType: AccommodationType;
   description: string;
   name: string;
@@ -33,7 +33,7 @@ export class Accommodation {
 
   constructor(
     id: number,
-    owner: User,
+    owner: string,
     accommodationType: AccommodationType,
     description: string,
     name: string,

@@ -3,7 +3,7 @@ import { User } from './user.model';
 export abstract class Review {
   id: number;
   text: string;
-  author: User;
+  author: string;
   createdAt: Date;
   rating: number;
   reviewType: string;
@@ -11,7 +11,7 @@ export abstract class Review {
   constructor(
     id: number,
     text: string,
-    author: User,
+    author: string,
     createdAt: Date,
     rating: number,
     reviewType: string

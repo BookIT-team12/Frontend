@@ -11,6 +11,7 @@ export class User {
   address: string;
   phone: string;
   role: Role;
+  confirmPassword:string;
 
   constructor(
     name: string,
@@ -19,7 +20,8 @@ export class User {
     password: string,
     address: string,
     phone: string,
-    role: Role
+    role: Role,
+    confirm:string,
   ) {
     this.name = name;
     this.lastName = lastName;
@@ -28,5 +30,6 @@ export class User {
     this.address = address;
     this.phone = phone;
     this.role = role;
+    this.confirmPassword=confirm;
   }
 }

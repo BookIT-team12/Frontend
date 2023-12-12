@@ -7,6 +7,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
 import {BaseModule} from "../base/base.module";
 import { RegisterComponent } from './register/register.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { RegisterComponent } from './register/register.component';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    BaseModule
+    BaseModule,
+    FormsModule
   ],
   exports: [
     LoginComponent

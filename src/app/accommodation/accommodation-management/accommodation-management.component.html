@@ -28,6 +28,26 @@
         <textarea matInput placeholder="Enter detailed description"></textarea>
       </mat-form-field>
 
+      <!-- Accommodation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Type</mat-label>
+        <mat-select placeholder="Select accommodation type" [(ngModel)]="accommodationForm.accommodationType" required>
+          <mat-option value="STUDIO">Studio</mat-option>
+          <mat-option value="APARTMENT">Apartment</mat-option>
+          <mat-option value="ROOM">Room</mat-option>
+          <mat-option value="HOTEL">Hotel</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Booking Confirmation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">check</mat-icon>Booking Confirmation Type</mat-label>
+        <mat-select placeholder="Select booking confirmation type" [(ngModel)]="accommodationForm.bookingConfirmationType" required>
+          <mat-option value="AUTOMATIC">Automatic</mat-option>
+          <mat-option value="MANUAL">Manual</mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <!-- Display selected images -->

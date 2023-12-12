@@ -15,7 +15,8 @@ export class AccommodationManagementComponent {
     description: '',
     images: [] as File[],
     imageUrl: '',
-    // ... other form fields
+    accommodationType: '',  // Add accommodation type field
+    bookingConfirmationType: '',  // Add booking confirmation type field
   };
 
   constructor(private http: HttpClient) {}

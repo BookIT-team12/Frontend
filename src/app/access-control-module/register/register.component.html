@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<form class="form-container">
+<form class="form-container" (ngSubmit)="onSubmit()">
   <h1 class="register-header">Register</h1>
   <div>
     <div class="left-part">
@@ -12,8 +12,10 @@
         <mat-label>
           Enter your email
         </mat-label>
-        <input matInput>
+        <input matInput [(ngModel)]="email" name="email" required>
       </mat-form-field>
+
+<!--      Password field-->
       <mat-form-field class="global-icon-color">
         <span matTextPrefix>
           <mat-icon>
@@ -23,7 +25,7 @@
         <mat-label>
           Enter your password
         </mat-label>
-        <input matInput [type]=" hide ? 'password' : 'text'" required>
+        <input matInput [type]=" hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required>
         <button  mat-icon-button matSuffix (click)="hide = !hide"
                  [attr.aria-pressed]="hide">
           <mat-icon >
@@ -32,16 +34,20 @@
           </mat-icon>
         </button>
       </mat-form-field>
+
+
+<!--      Confirm password-->
       <mat-form-field class="global-icon-color">
         <span matTextPrefix>
           <mat-icon>
             <span class="material-symbols-outlined">key</span>
           </mat-icon>
         </span>
+
         <mat-label>
           Confirm your password
         </mat-label>
-        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" required>
+        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required>
         <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
                  [attr.aria-pressed]="hideConfirmation">
           <mat-icon >
@@ -50,6 +56,7 @@
           </mat-icon>
         </button>
       </mat-form-field>
+
     </div>
     <div class="right-part">
       <mat-form-field class="global-icon-color">
@@ -61,7 +68,7 @@
         <mat-label>
           Enter your name
         </mat-label>
-        <input matInput>
+        <input matInput  [(ngModel)]="name" name="name" required>
       </mat-form-field>
       <mat-form-field class="global-icon-color">
         <span matTextPrefix>
@@ -72,7 +79,7 @@
         <mat-label>
           Enter your last name
         </mat-label>
-        <input matInput>
+        <input matInput  [(ngModel)]="lastName" name="lastName" required>
       </mat-form-field>
       <mat-form-field class="global-icon-color">
         <span matTextPrefix>
@@ -83,7 +90,7 @@
         <mat-label>
           Enter your phone
         </mat-label>
-        <input matInput type="number">
+        <input matInput type="number"  [(ngModel)]="phone" name="phone" required>
       </mat-form-field>
       <mat-form-field class="global-icon-color">
         <span matTextPrefix>
@@ -94,9 +101,9 @@
         <mat-label>
           Enter your home address
         </mat-label>
-        <input matInput>
+        <input matInput [(ngModel)]="address" name="address" required>
       </mat-form-field>
     </div>
   </div>
-  <button mat-raised-button class="global-darkBtn register-btn"> Register </button>
+  <button mat-raised-button class="global-darkBtn register-btn"  type="submit"> Register </button>
 </form>

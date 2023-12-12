@@ -9,8 +9,8 @@ export enum ReservationStatus {
 }
 export class Reservation {
   id: number;
-  accommodation: Accommodation;
-  guest: User;
+  accommodationId: number;
+  guestId: string;
   startDate: Date;
   endDate: Date;
   numberOfGuests: number;
@@ -18,16 +18,16 @@ export class Reservation {
 
   constructor(
     id: number,
-    accommodation: Accommodation,
-    guest: User,
+    accommodation: number,
+    guest: string,
     startDate: Date,
     endDate: Date,
     numberOfGuests: number,
     status: ReservationStatus
   ) {
     this.id = id;
-    this.accommodation = accommodation;
-    this.guest = guest;
+    this.accommodationId = accommodation;
+    this.guestId = guest;
     this.startDate = startDate;
     this.endDate = endDate;
     this.numberOfGuests = numberOfGuests;
