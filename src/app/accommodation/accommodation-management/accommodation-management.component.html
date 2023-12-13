@@ -1,37 +1,37 @@
 <app-navbar></app-navbar>
-<form class="form-container">
+<form class="form-container" (ngSubmit)="onSubmit()">
   <h1 class="acc-management-header">Add new accommodation</h1>
   <div>
     <div class="left-part">
       <!-- Accommodation Name -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
-        <input matInput placeholder="Enter accommodation name" required>
+        <input matInput placeholder="Enter accommodation name" name="name" [(ngModel)]="accommodationForm.name" required>
       </mat-form-field>
 
       <!-- Number of Guests -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of guests" required>
+        <input matInput type="number" placeholder="Enter number of guests" name="guests" [(ngModel)]="accommodationForm.guests" required>
       </mat-form-field>
 
       <!-- Price per Night -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
-        <input matInput type="number" placeholder="Enter price per night" required>
+        <input matInput type="number" placeholder="Enter price per night" name="price" [(ngModel)]="accommodationForm.price" required>
       </mat-form-field>
 
 
       <!-- Detailed Description -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
-        <textarea matInput placeholder="Enter detailed description"></textarea>
+        <textarea matInput placeholder="Enter detailed description" name="description" [(ngModel)]="accommodationForm.description"></textarea>
       </mat-form-field>
 
       <!-- Accommodation Type Dropdown -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Type</mat-label>
-        <mat-select placeholder="Select accommodation type" [(ngModel)]="accommodationForm.accommodationType" required>
+        <mat-select placeholder="Select accommodation type" name="accommodationType" [(ngModel)]="accommodationForm.accommodationType" required>
           <mat-option value="STUDIO">Studio</mat-option>
           <mat-option value="APARTMENT">Apartment</mat-option>
           <mat-option value="ROOM">Room</mat-option>
@@ -42,7 +42,7 @@
       <!-- Booking Confirmation Type Dropdown -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">check</mat-icon>Booking Confirmation Type</mat-label>
-        <mat-select placeholder="Select booking confirmation type" [(ngModel)]="accommodationForm.bookingConfirmationType" required>
+        <mat-select placeholder="Select booking confirmation type" name="bookingConfirmationType"  [(ngModel)]="accommodationForm.bookingConfirmationType" required>
           <mat-option value="AUTOMATIC">Automatic</mat-option>
           <mat-option value="MANUAL">Manual</mat-option>
         </mat-select>
@@ -68,32 +68,34 @@
 
 
     <div class="right-part">
+
       <div class="amenities-container">
+
         <!-- Amenities Checkboxes -->
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, {id: 1, name: 'Parking'})">
             <mat-icon class="material-icons">local_parking</mat-icon>Parking
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 2, name: 'Wifi' })">
             <mat-icon class="material-icons">wifi</mat-icon>Wifi
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 3, name: 'Air Conditioning' })">
             <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 4, name: 'Kitchen' })">
             <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 5, name: 'Bathroom' })">
             <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 6, name: 'Pool' })">
             <mat-icon class="material-icons">pool</mat-icon>Pool
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 7, name: 'Balcony' })">
             <mat-icon class="material-icons">balcony</mat-icon>Balcony
           </mat-checkbox>
         </div>
@@ -102,14 +104,14 @@
 
       <!-- Datepicker for "From" Date -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> From</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
 
       <!-- Datepicker for "To" Date -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> To</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
@@ -148,5 +150,5 @@
 
   </div>
 
-  <button mat-raised-button class="global-darkBtn save-changes-btn">Add Apartment</button>
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Add Apartment</button>
 </form>

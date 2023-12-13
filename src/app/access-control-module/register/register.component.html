@@ -13,6 +13,12 @@
           Enter your email
         </mat-label>
         <input matInput [(ngModel)]="email" name="email" required>
+        <mat-error *ngIf="emailControl?.hasError('required')">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="emailControl?.hasError('email')">
+          Please enter a valid email address.
+        </mat-error>
       </mat-form-field>
 
 <!--      Password field-->
@@ -26,6 +32,9 @@
           Enter your password
         </mat-label>
         <input matInput [type]=" hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required>
+        <mat-error *ngIf="passwordControl?.hasError('required')">
+          Password is required.
+        </mat-error>
         <button  mat-icon-button matSuffix (click)="hide = !hide"
                  [attr.aria-pressed]="hide">
           <mat-icon >
@@ -48,6 +57,12 @@
           Confirm your password
         </mat-label>
         <input matInput [type]=" hideConfirmation ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        <mat-error *ngIf="confirmPasswordControl?.hasError('required')">
+          Confirmation password is required.
+        </mat-error>
+        <mat-error *ngIf="form.hasError('passwordMismatch')">
+          Passwords do not match.
+        </mat-error>
         <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
                  [attr.aria-pressed]="hideConfirmation">
           <mat-icon >

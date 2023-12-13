@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {User} from "../model/user.model";
 
@@ -16,6 +16,7 @@ export class UserService {
     return this.http.post<User>(url, dto);
   }
 
+  //Obesrvable
   registerUser(dto:User):Observable<User>{
     const url = `${this.apiUrl}/register`;
     return this.http.post<User>(url, dto);
@@ -28,9 +29,17 @@ export class UserService {
     return this.http.delete<User>(url);
   }
 
-  getUser(email: string): Observable<User> {
+  getUser(email: string): Observable<HttpResponse<User>> {
     const url = `${this.apiUrl}/${email}`;
-    return this.http.get<User>(url);
+
+    // Configure options to handle redirects and include credentials
+    const options = {
+      observe: 'response' as 'response',
+      responseType: 'json' as 'json',
+      withCredentials: true,
+    };
+
+    return this.http.get<User>(url, options);
   }
 
   getAllUsers(): Observable<User[]> {

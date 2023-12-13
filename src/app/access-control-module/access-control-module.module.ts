@@ -8,21 +8,23 @@ import { MatButtonModule } from '@angular/material/button';
 import {BaseModule} from "../base/base.module";
 import { RegisterComponent } from './register/register.component';
 import {FormsModule} from "@angular/forms";
+import {MatRadioModule} from "@angular/material/radio";
 
 @NgModule({
   declarations: [
     LoginComponent,
     RegisterComponent
   ],
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    BaseModule,
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        BaseModule,
+        FormsModule,
+        MatRadioModule
+    ],
   exports: [
     LoginComponent
   ]
