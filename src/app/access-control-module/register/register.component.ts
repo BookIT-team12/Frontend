@@ -13,7 +13,7 @@ export class RegisterComponent {
   form: FormGroup;
   hide: boolean = true;
   hideConfirmation: boolean = true;
-
+  selectedRole: Role = Role.GUEST;
   name: string = '';
   lastName: string = '';
   email: string = '';
@@ -68,8 +68,8 @@ export class RegisterComponent {
         this.password,
         this.address,
         this.phone,
-        Role.OWNER,
-        this.confirmPassword
+      this.selectedRole as Role,  // Set the selected role
+      this.confirmPassword
     );
     console.log('User: ', newUser)
 

@@ -72,6 +72,20 @@
         </button>
       </mat-form-field>
 
+      <!-- Role selection dropdown -->
+      <mat-form-field class="global-icon-color">
+  <span matTextPrefix>
+    <mat-icon>
+      <span class="material-symbols-outlined">badge</span>
+    </mat-icon>
+  </span>
+        <mat-label>Select your role</mat-label>
+        <mat-select [(ngModel)]="selectedRole" name="selectedRole" required>
+          <mat-option value="OWNER">OWNER</mat-option>
+          <mat-option value="GUEST">GUEST</mat-option>
+          <!-- Add other role options as needed -->
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="right-part">
       <mat-form-field class="global-icon-color">
