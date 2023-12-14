@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<form class="form-container" [formGroup]="form">
+<form class="form-container" [formGroup]="form" (ngSubmit)="updateAccount()">
   <h1 class="acc-management-header">Manage account details</h1>
   <div>
     <div class="left-part">
@@ -97,6 +97,6 @@
     </div>
   </div>
 
-  <button mat-raised-button class="global-darkBtn save-changes-btn"> Update account </button>
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit" > Update account </button>
   <button mat-raised-button class="global-dangerBtn save-changes-btn"> Delete account </button>
 </form>
