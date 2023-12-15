@@ -1,0 +1,155 @@
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
+<form class="form-container" [formGroup]="accommodationForm" (ngSubmit)="onSubmit()">
+  <h1 class="acc-management-header">Accommodation update</h1>
+  <div>
+    <div class="left-part">
+      <!-- Accommodation Name -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
+        <input matInput placeholder="Enter accommodation name" name="name" formControlName="name" required>
+      </mat-form-field>
+
+      <!-- Number of Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of guests" name="guests" formControlName="guests" required>
+      </mat-form-field>
+
+      <!-- Price per Night -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
+        <input matInput type="number" placeholder="Enter price per night" name="price" formControlName="price" required>
+      </mat-form-field>
+
+
+      <!-- Detailed Description -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
+        <textarea matInput placeholder="Enter detailed description" name="description" formControlName="description"></textarea>
+      </mat-form-field>
+
+      <!-- Accommodation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Type</mat-label>
+        <mat-select placeholder="Select accommodation type" name="accommodationType" formControlName="accommodationType" required>
+          <mat-option value="STUDIO">Studio</mat-option>
+          <mat-option value="APARTMENT">Apartment</mat-option>
+          <mat-option value="ROOM">Room</mat-option>
+          <mat-option value="HOTEL">Hotel</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Booking Confirmation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">check</mat-icon>Booking Confirmation Type</mat-label>
+        <mat-select placeholder="Select booking confirmation type" name="bookingConfirmationType"  formControlName="bookingConfirmationType" required>
+          <mat-option value="AUTOMATIC">Automatic</mat-option>
+          <mat-option value="MANUAL">Manual</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+<!--      <div>
+        <input type="file" (change)="onFileSelected($event)" multiple />
+        &lt;!&ndash; Display selected images &ndash;&gt;
+        <div class="image-container">
+          <div *ngFor="let image of form.images">
+            <img [src]="getUrl(image)" alt="Uploaded Image" />
+          </div>
+        </div>
+      </div>-->
+
+
+      <!--      &lt;!&ndash; Add Image &ndash;&gt;-->
+      <!--      <mat-form-field class="global-icon-color">-->
+      <!--        <mat-label>Add Image</mat-label>-->
+      <!--        <input matInput type="file">-->
+      <!--      </mat-form-field>-->
+    </div>
+
+
+    <div class="right-part">
+
+      <div class="amenities-container">
+
+        <!-- Amenities Checkboxes -->
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, {id: 1, name: 'Parking'})">
+            <mat-icon class="material-icons">local_parking</mat-icon>Parking
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 2, name: 'Wifi' })">
+            <mat-icon class="material-icons">wifi</mat-icon>Wifi
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 3, name: 'Air Conditioning' })">
+            <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 4, name: 'Kitchen' })">
+            <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 5, name: 'Bathroom' })">
+            <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 6, name: 'Pool' })">
+            <mat-icon class="material-icons">pool</mat-icon>Pool
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 7, name: 'Balcony' })">
+            <mat-icon class="material-icons">balcony</mat-icon>Balcony
+          </mat-checkbox>
+        </div>
+      </div>
+
+
+      <!-- Datepicker for "From" Date -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Datepicker for "To" Date -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+
+
+      <!-- Location -->
+
+      <!--      TODO: UVEZATI LEAFLET MAPU!!!-->
+      <!--      <div class="mat-form-field global-icon-color">
+              <input matInput placeholder="Enter location" [(ngModel)]="searchAddress" required>
+              <button mat-button (click)="searchLocation()">Search</button>
+            </div>
+            <app-map [searchAddress]="searchAddress"></app-map>-->
+      <app-map></app-map>
+      <!--      <mat-form-field class="global-icon-color">
+              <mat-label><mat-icon class="material-icons">location_on</mat-icon>Location</mat-label>
+              <input matInput placeholder="Enter location" required>
+            </mat-form-field>-->
+
+
+
+    </div>
+
+
+
+    <!--    <mat-card class="profile-picture-container">-->
+    <!--      <img *ngIf="profilePicture != null" mat-card-lg-image alt="Profile picture" [src] = profilePicture>-->
+    <!--      <img *ngIf="profilePicture == null" mat-card-lg-image alt="Profile picture" src = "assets/empty_profile_picture.png">-->
+    <!--      <button mat-raised-button class="add-profile-picture-button">-->
+    <!--        <mat-label class="global-icon-color">Add profile picture</mat-label>-->
+    <!--        <mat-icon class="global-icon-color">-->
+    <!--          <span class="material-symbols-outlined">add_photo_alternate</span>-->
+    <!--        </mat-icon>-->
+    <!--      </button>-->
+    <!--    </mat-card>-->
+
+  </div>
+
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Update Accommodation</button>
+</form>
