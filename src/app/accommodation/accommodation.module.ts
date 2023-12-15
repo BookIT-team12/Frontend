@@ -24,6 +24,7 @@ import {MapModule} from "../map/map.module";
 import {MapComponent} from "../map/map.component";
 import { AccommodationApprovalComponent } from './accommodation-approval/accommodation-approval.component';
 import { AccommodationApprovalCardComponent } from './accommodation-approval-card/accommodation-approval-card.component';
+import {RouterOutlet} from "@angular/router";
 
 
 @NgModule({
@@ -38,29 +39,30 @@ import { AccommodationApprovalCardComponent } from './accommodation-approval-car
     AccommodationApprovalComponent,
     AccommodationApprovalCardComponent
   ],
-  imports: [
-    CommonModule,
-    BaseModule,
-    MatInputModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatNativeDateModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatGridListModule,
-    MatIconModule,
-    MatMenuModule,
-    MapModule,
-    MatToolbarModule,
-    MatFormFieldModule,
-    FormsModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatSliderModule,
-    MatCardModule,
-    HttpClientModule,
+    imports: [
+        CommonModule,
+        BaseModule,
+        MatInputModule,
+        MatDatepickerModule,
+        ReactiveFormsModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatGridListModule,
+        MatIconModule,
+        MatMenuModule,
+        MapModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        FormsModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatSliderModule,
+        MatCardModule,
+        HttpClientModule,
+        RouterOutlet,
 
-  ],
+    ],
   exports: [
     DetailsComponent,
     AccommodationsMainComponent,

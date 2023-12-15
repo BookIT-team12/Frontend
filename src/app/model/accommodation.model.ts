@@ -19,7 +19,7 @@ export enum AccommodationType {
 
 export class Accommodation {
   id: number;
-  owner: string; //IZMENA FROM USER--->STRING, PRIVREMENO!!!!
+  ownerEmail: string; //IZMENA FROM USER--->STRING, PRIVREMENO!!!!
   accommodationType: AccommodationType;
   description: string;
   name: string;
@@ -33,7 +33,7 @@ export class Accommodation {
 
   constructor(
     id: number,
-    owner: string,
+    ownerEmail: string,
     accommodationType: AccommodationType,
     description: string,
     name: string,
@@ -46,7 +46,7 @@ export class Accommodation {
     availabilityPeriods: AvailabilityPeriod[]
   ) {
     this.id = id;
-    this.owner = owner;
+    this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;
     this.description = description;
     this.name = name;

@@ -83,7 +83,7 @@ export class AccommodationManagementComponent{
 
     const accommodationData = {
       id:1, //TODO:HANDLING LOGIC FOR ID CREATION
-      owner: 'pera@gmail.com', // TODO:Replace with the actual user ID, retrieve it from your authentication service
+      ownerEmail: 'pera@gmail.com', // TODO:Replace with the actual user ID, retrieve it from your authentication service
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
       description: this.accommodationForm.description,
       name: this.accommodationForm.name,
@@ -101,13 +101,13 @@ export class AccommodationManagementComponent{
           endDate: this.accommodationForm.availableUntil,
           price: this.accommodationForm.price
         }
-      ]
+      ],
     };
 
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(
         accommodationData.id,
-        accommodationData.owner,
+        accommodationData.ownerEmail,
         accommodationData.accommodationType,
         accommodationData.description,
         accommodationData.name,
@@ -120,6 +120,8 @@ export class AccommodationManagementComponent{
         accommodationData.availabilityPeriods
     );
     console.log('New accommodation: ', newAccommodation)
+
+
 
     this.accommodationService.createAccommodation(newAccommodation).subscribe(
         (result) => {

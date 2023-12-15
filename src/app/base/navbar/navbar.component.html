@@ -11,14 +11,15 @@
 
   <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
   <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-    <button mat-menu-item class="text"><span class="material-icons">home</span>
-      Home</button>
+    <button routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
+      <span class="material-icons">home</span> Home
+    </button>
 
-    <button mat-menu-item>
-      <span class="material-icons">edit</span>Manage account</button>
+    <button mat-menu-item routerLink="/manage" (click)="menuItemClicked('manage')">
+      <span class="material-icons">edit</span> Manage account
+    </button>
 
-
-    <button mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
+    <button mat-menu-item ><span class="material-icons">hotel</span>Trips and reservations</button>
 
     <button mat-menu-item><span class="material-icons">star</span>Reviews</button>
 

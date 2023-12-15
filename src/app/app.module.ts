@@ -6,7 +6,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import { AppComponent } from './app.component';
 import {AccessControlModuleModule} from "./access-control-module/access-control-module.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AppRoutingModule} from "./app-routing.module";
 import { UserAccountManagementComponent } from './account-managment/user-account-management/user-account-management.component';
 import { MatMenuModule } from '@angular/material/menu';
@@ -17,12 +17,14 @@ import {AccommodationModule} from "./accommodation/accommodation.module";
 import {AccountManagmentModule} from "./account-managment/account-managment.module";
 import {MapModule} from "./map/map.module";
 import {ReservationModule} from "./reservation/reservation.module";
-
+import {AuthModule} from "./auth/auth.module";
+import {Interceptor} from "./auth/interceptor";
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
+    AuthModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -43,7 +45,13 @@ import {ReservationModule} from "./reservation/reservation.module";
     AccountManagmentModule,
     ReservationModule
   ],
-  providers: [],
+  providers: [
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: Interceptor,
+    multi: true,
+  },
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

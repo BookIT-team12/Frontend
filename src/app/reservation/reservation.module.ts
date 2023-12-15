@@ -10,6 +10,7 @@ import { GuestActiveCardComponent } from './guest-active-card/guest-active-card.
 import {MatCardModule} from "@angular/material/card";
 import { OwnerApprovalComponent } from './owner-approval/owner-approval.component';
 import { OwnerApprovalCardComponent } from './owner-approval-card/owner-approval-card.component';
+import {RouterOutlet} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -18,15 +19,16 @@ import { OwnerApprovalCardComponent } from './owner-approval-card/owner-approval
     OwnerApprovalComponent,
     OwnerApprovalCardComponent
   ],
-  imports: [
-    CommonModule,
-    BaseModule,
-    MatIconModule,
-    MatSelectModule,
-    MatInputModule,
-    MatButtonModule,
-    MatCardModule
-  ],
+    imports: [
+        CommonModule,
+        BaseModule,
+        MatIconModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatCardModule,
+        RouterOutlet
+    ],
   exports:[
     GuestActiveComponent,
     OwnerApprovalComponent
