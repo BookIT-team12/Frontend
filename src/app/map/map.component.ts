@@ -1,5 +1,5 @@
 // map.component.ts
-import { AfterViewInit, Component } from '@angular/core';
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 
@@ -12,13 +12,19 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private marker: any;
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService, private elementRef:ElementRef) {}
 
   private initMap(): void {
+    console.log('Initializing map...');
     this.map = L.map('map', {
       center: [45.2396, 19.8227],
       zoom: 13,
     });
+
+    if (!this.map) {
+      console.error('Leaflet map not initialized properly.');
+      return;
+    }
 
     const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
@@ -33,16 +39,16 @@ export class MapComponent implements AfterViewInit {
     window.addEventListener('resize', () => {
       this.map.invalidateSize();
     });
+
+    console.log('Map initialized successfully.');
   }
 
-  onMapClick(e: any): void {
+
+
+  onMapClick(e: L.LeafletMouseEvent): void {
     const coord = e.latlng;
     const lat = coord.lat;
     const lng = coord.lng;
-
-    this.mapService.reverseSearch(lat, lng).subscribe((res) => {
-      console.log(res.display_name);
-    });
 
     console.log('You clicked the map at latitude: ' + lat + ' and longitude: ' + lng);
 
@@ -53,7 +59,19 @@ export class MapComponent implements AfterViewInit {
 
     // Add a new marker at the clicked location
     this.marker = new L.Marker([lat, lng]).addTo(this.map);
+
+    this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+      const address = res.display_name;
+      console.log(address);
+
+    // Display address in a popup on the marker
+    this.marker = new L.Marker([lat, lng])
+      .bindPopup(address)
+      .addTo(this.map)
+      .openPopup();
+  });
   }
+
 
   searchLocation(address: string): void {
     this.mapService.search(address).subscribe({
@@ -80,10 +98,15 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
+
   ngAfterViewInit(): void {
-    L.Marker.prototype.options.icon = L.icon({
-      iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
-    });
-    this.initMap();
+    console.log('ngAfterViewInit called.');
+
+    setTimeout(() => {
+      L.Marker.prototype.options.icon = L.icon({
+        iconUrl: 'https://unpkg.com/leaflet@1.6.0/dist/images/marker-icon.png',
+      });
+      this.initMap();
+    }, 100); // You can adjust the delay (in milliseconds) if needed
   }
 }
