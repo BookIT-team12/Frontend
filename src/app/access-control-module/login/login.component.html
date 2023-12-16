@@ -1,3 +1,4 @@
+<form [formGroup]='loginForm' (ngSubmit)="login()">
 <app-navbar></app-navbar>
 <div class="form-container">
   <h1 class="login-header">Log in</h1>
@@ -28,5 +29,7 @@
       </mat-icon>
     </button>
   </mat-form-field>
-  <button mat-raised-button class="global-darkBtn login-btn"> Log in </button>
+  <button mat-raised-button class="global-darkBtn login-btn" type="submit"> Log in </button>
 </div>
+</form>
+

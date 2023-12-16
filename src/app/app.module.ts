@@ -17,14 +17,12 @@ import {AccommodationModule} from "./accommodation/accommodation.module";
 import {AccountManagmentModule} from "./account-managment/account-managment.module";
 import {MapModule} from "./map/map.module";
 import {ReservationModule} from "./reservation/reservation.module";
-import {AuthModule} from "./auth/auth.module";
-import {Interceptor} from "./auth/interceptor";
+
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    AuthModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -46,11 +44,6 @@ import {Interceptor} from "./auth/interceptor";
     ReservationModule
   ],
   providers: [
-  {
-    provide: HTTP_INTERCEPTORS,
-    useClass: Interceptor,
-    multi: true,
-  },
 ],
   bootstrap: [AppComponent]
 })
