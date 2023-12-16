@@ -28,7 +28,8 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     RouterLink,
     RouterLinkActive
   ], exports: [
-    NavbarComponent
+    NavbarComponent,
+    NavbarOwnerComponent
   ]
 })
 export class BaseModule { }

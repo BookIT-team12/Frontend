@@ -12,6 +12,7 @@ import {
 import {GuestActiveComponent} from "./reservation/guest-active/guest-active.component";
 import {OwnerApprovalComponent} from "./reservation/owner-approval/owner-approval.component";
 import {AccommodationUpdateComponent} from "./accommodation/accommodation-update/accommodation-update.component";
+import {OwnersAccommodationsComponent} from "./accommodation/owners-accommodations/owners-accommodations.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -22,8 +23,9 @@ const routes: Routes=[
   {path: "guest-active-res", component: GuestActiveComponent},
   {path: "add_accommodation", component: AccommodationManagementComponent},
   {path: "accommodation-approval", component: AccommodationApprovalComponent},
-{path: "owner-approval-res", component: OwnerApprovalComponent},
-  {path: "accommodation-update", component: AccommodationUpdateComponent}
+  {path: "owner-approval-res", component: OwnerApprovalComponent},
+  {path: "accommodation-update", component: AccommodationUpdateComponent},
+  {path: "owner-accommodations", component: OwnersAccommodationsComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

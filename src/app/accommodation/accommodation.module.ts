@@ -26,6 +26,7 @@ import { AccommodationApprovalComponent } from './accommodation-approval/accommo
 import { AccommodationApprovalCardComponent } from './accommodation-approval-card/accommodation-approval-card.component';
 import {RouterOutlet} from "@angular/router";
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
+import { OwnersAccommodationsComponent } from './owners-accommodations/owners-accommodations.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { AccommodationUpdateComponent } from './accommodation-update/accommodati
     AccommodationsMainComponent,
     AccommodationApprovalComponent,
     AccommodationApprovalCardComponent,
-    AccommodationUpdateComponent
+    AccommodationUpdateComponent,
+    OwnersAccommodationsComponent
   ],
     imports: [
         CommonModule,

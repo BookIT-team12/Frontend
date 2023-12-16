@@ -21,6 +21,10 @@ export class AccommodationService{
     return this.http.get<Accommodation[]>(this.apiUrl);
   }
 
+  getOwnerAccommodations(ownerEmail:string):Observable<Accommodation[]>{
+    return this.http.get<Accommodation[]>(this.apiUrl);
+  }
+
   createAccommodation(accommodation: Accommodation): Observable<Accommodation> {
     return this.http.post<Accommodation>(this.apiUrl, accommodation);
   }
