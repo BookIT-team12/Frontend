@@ -1,27 +1,68 @@
-.card-container{
-  margin: 2%;
-}
-mat-card{
-  background-color: rgba(109, 142,207,0.74);
-}
-mat-card-title{
-  color: rgba(8,0,103,1);
-}
-
-li{
-  color: rgba(8,0,103,1);
-}
-button{
-  margin: 0.2%;
-  width: 23em;
-  border-radius: 20px;
+.card-container {
+  border-radius: 30px;
+  width: 68%;
+  margin: 0 auto;
+  background-color: rgba(142, 182, 245, 0.66);
+  padding: 19px; /* Increased padding for better spacing */
+  margin-bottom: 15px;
+  border: 3px solid rgba(98, 129, 196, 0.71);
+  color: white;
+  transition: background-color 0.3s;
+  flex-direction: column;
+  display: flex;
 }
 
-.picture{
+.card-container:hover {
+  background-color: rgba(98, 129, 196, 0.71);
+  cursor: pointer;
+}
+
+mat-card {
+  background-color: transparent;
+}
+
+mat-card-title {
+  color: rgba(8, 0, 103, 1);
+  font-weight: bold;
+  font-size: 1.7em; /* Adjust the font size */
+  margin-bottom: 15px;
+}
+
+li {
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2em; /* Adjust the font size */
+}
+
+.white-text {
+  color: white;
+}
+
+.blue-text {
+  color: rgba(8, 0, 103, 1);
+}
+
+mat-card-content {
+  margin-top: 10px;
+  display: initial; /* Added display flex for mat-card-content */
+  justify-content: space-between; /* Align buttons horizontally */
+}
+
+button {
+  margin-top: 15px;
+  margin-right: 30px;
+  width: 25%; /* Adjusted the width of each button */
+  border-radius: 13px;
+  font-size: 1.2em;
+}
+
+.picture {
   margin-right: 2%;
   margin-top: 2%;
+  border-radius: 15px;
 }
 
-#add-pictures-btn{
+#add-pictures-btn {
   margin-top: 4.5%;
 }

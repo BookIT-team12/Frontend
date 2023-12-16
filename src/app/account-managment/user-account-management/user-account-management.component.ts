@@ -29,7 +29,7 @@ export class UserAccountManagementComponent implements OnInit {
       address: ['', Validators.required],
     });
 
-    this.fetchUserData('pera');
+    this.fetchUserData('pera@gmail.com');
   }
 
   fetchUserData(email: string): void {

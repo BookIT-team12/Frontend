@@ -44,4 +44,16 @@ export class AccommodationService{
     return this.http.delete<void>(url);
   }
 
+  getPendingAccommodations(): Observable<Accommodation[]> {
+    return this.http.get<Accommodation[]>(`${this.apiUrl}/pending`);
+  }
+
+  approveAccommodation(accommodationId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/approve/${accommodationId}`, {});
+  }
+
+  denyAccommodation(accommodationId: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/deny/${accommodationId}`, {});
+  }
+
 }

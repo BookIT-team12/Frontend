@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
 import {Amenity} from "../../model/amenity.model";
-import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
-import {DomEvent} from "leaflet";
+import {Accommodation, AccommodationType, BookingConfirmationType, AccommodationStatus} from "../../model/accommodation.model";
 import {ActivatedRoute} from "@angular/router";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
@@ -152,7 +151,7 @@ export class AccommodationUpdateComponent implements OnInit{
           endDate: this.accommodationForm.value.toDatePicker,
           price: this.accommodationForm.value.price,
         }], // Assuming you don't want to change availability periods
-        Status.PENDING
+        AccommodationStatus.PENDING
 
 
       );
