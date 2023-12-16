@@ -17,6 +17,13 @@ export enum AccommodationType {
 
 }
 
+export enum Status{
+  APPROVED='APPROVED',
+  DENIED='DENIED',
+  PENDING='PENDING'
+
+}
+
 export class Accommodation {
   id: number;
   ownerEmail: string; //IZMENA FROM USER--->STRING, PRIVREMENO!!!!
@@ -30,6 +37,7 @@ export class Accommodation {
   reservations: Reservation[];
   bookingConfirmationType: BookingConfirmationType;
   availabilityPeriods: AvailabilityPeriod[];
+  status:Status;
 
   constructor(
     id: number,
@@ -43,7 +51,8 @@ export class Accommodation {
     reviews: Review[],
     reservations: Reservation[],
     bookingConfirmationType: BookingConfirmationType,
-    availabilityPeriods: AvailabilityPeriod[]
+    availabilityPeriods: AvailabilityPeriod[],
+    status:Status
   ) {
     this.id = id;
     this.ownerEmail = ownerEmail;
@@ -57,6 +66,7 @@ export class Accommodation {
     this.reservations = reservations;
     this.bookingConfirmationType = bookingConfirmationType;
     this.availabilityPeriods = availabilityPeriods;
+    this.status=status;
   }
 }
 

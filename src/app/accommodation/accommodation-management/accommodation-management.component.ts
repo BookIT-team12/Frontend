@@ -1,14 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {MapModule} from "../../map/map.module";
+import {Component} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
-import {Accommodation, AccommodationType, BookingConfirmationType} from "../../model/accommodation.model";
+import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
 import {Amenity} from "../../model/amenity.model";
 import {Review} from "../../model/review.model";
 import {Reservation} from "../../model/reservation.model";
-import {Role, User} from "../../model/user.model";
-import { UserService } from "../../service/user.service";
-import {Observable} from "rxjs";  // Import UserService
+import {UserService} from "../../service/user.service";
 
 //TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
 
@@ -117,7 +114,8 @@ export class AccommodationManagementComponent{
         accommodationData.reviews,
         accommodationData.reservations,
         accommodationData.bookingConfirmationType,
-        accommodationData.availabilityPeriods
+        accommodationData.availabilityPeriods,
+      Status.PENDING
     );
     console.log('New accommodation: ', newAccommodation)
 
