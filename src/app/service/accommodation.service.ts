@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn:'root',
@@ -10,11 +11,15 @@ import {Accommodation} from "../model/accommodation.model";
 export class AccommodationService{
 
   private apiUrl = 'http://localhost:8080/api/accommodations';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router:Router) {}
 
   getAccommodationById(id: number): Observable<Accommodation> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.get<Accommodation>(url);
+  }
+
+  openUpdatePage(accommodationId:number){
+    this.router.navigate(['/accommodation-update',accommodationId]);
   }
 
   getAllAccommodations(): Observable<Accommodation[]> {

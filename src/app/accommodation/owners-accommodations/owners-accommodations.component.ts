@@ -12,6 +12,10 @@ export class OwnersAccommodationsComponent implements OnInit {
   constructor(private accommodationService: AccommodationService) {
   }
 
+  openAccommodationUpdate(accommodationId:number):void{
+    console.log(accommodationId);
+    this.accommodationService.openUpdatePage(accommodationId);}
+
   ngOnInit():void{
     this.loadAccommodations('pera@gmail.com'); //TODO: IZMENITI DA USER ID NIJE 'ZAKUCAN', VEC DA SE PROSLEDI ID LOGGED IN USER-A
   }

@@ -24,7 +24,7 @@ const routes: Routes=[
   {path: "add_accommodation", component: AccommodationManagementComponent},
   {path: "accommodation-approval", component: AccommodationApprovalComponent},
   {path: "owner-approval-res", component: OwnerApprovalComponent},
-  {path: "accommodation-update", component: AccommodationUpdateComponent},
+  {path: "accommodation-update/:id", component: AccommodationUpdateComponent},
   {path: "owner-accommodations", component: OwnersAccommodationsComponent}
 ]
 @NgModule({

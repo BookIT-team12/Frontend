@@ -5,6 +5,7 @@ import { Amenity } from "../../model/amenity.model";
 import {Accommodation, AccommodationType, BookingConfirmationType} from "../../model/accommodation.model";
 import {DomEvent} from "leaflet";
 import on = DomEvent.on;
+import {ActivatedRoute} from "@angular/router";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
 // DODATI LOKACIJU I SLIKE
@@ -20,17 +21,11 @@ export class AccommodationUpdateComponent implements OnInit{
   amenities: Amenity[] = [];
   accommodation!: Accommodation;
   images: File[]=[]; //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
-
-/*  name!: string;
-  guests!: number;
-  price!: number;
-  description!:string;
-  accommodationType!: AccommodationType;
-  bookingConfirmationType!: BookingConfirmationType;
-  fromDatePicker!: Date;
-  toDatePicker!: Date;*/
+  accommodationId!: number; // Accommodation ID retrieved from route parameters
 
   ngOnInit(): void {
+    this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
+
     this.accommodationForm = this.fb.group({
       name: ['', [Validators.required]],
       guests: ['', [Validators.required]],
@@ -41,28 +36,16 @@ export class AccommodationUpdateComponent implements OnInit{
       fromDatePicker: ['', [Validators.required]],
       toDatePicker: ['', [Validators.required]]
     });
-  }
-
-  constructor(private accommodationService: AccommodationService, private fb: FormBuilder) {
-
-    this.accommodationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      guests: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      accommodationType: ['', [Validators.required]],
-      bookingConfirmationType: ['', [Validators.required]],
-      fromDatePicker:['', [Validators.required]],
-      toDatePicker: ['', [Validators.required]],
-    });
 
 
 
     // Fetch accommodation data by ID and populate the form
-    //TODO: IZMENITI DA ACCOMMODATION ID BUDE ONAJ ID OD SELECTOVANOG ACCOMMODATION-A ZA IZMENU
-    this.accommodationService.getAccommodationById(1).subscribe(
+    this.accommodationService.getAccommodationById(this.accommodationId).subscribe(
+
       (accommodation: Accommodation) => {
+
         this.accommodation = accommodation;
+
         console.log(accommodation)
         // Populate the form with the retrieved accommodation data
         this.accommodationForm.patchValue({
@@ -79,12 +62,12 @@ export class AccommodationUpdateComponent implements OnInit{
         });
 
         accommodation.amenities.forEach((amenity:Amenity)=>{
-          this.amenities.forEach((formAmenity:Amenity)=>{
-            if(amenity.id==formAmenity.id){
-              const checkbox={checked:true};
-              this.onAmenityChange(checkbox,amenity);
-            }
-          });
+            this.amenities.forEach((formAmenity:Amenity)=>{
+              if(amenity.id==formAmenity.id){
+                const checkbox={checked:true};
+                this.onAmenityChange(checkbox,amenity);
+              }
+            });
           }
         );
 
@@ -94,6 +77,25 @@ export class AccommodationUpdateComponent implements OnInit{
         console.error('Error fetching accommodation data', error);
       }
     );
+  }
+
+  constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute) {
+
+    this.accommodationForm = this.fb.group({
+      name: ['', [Validators.required]],
+      guests: ['', [Validators.required]],
+      price: ['', [Validators.required]],
+      description: ['', [Validators.required]],
+      accommodationType: ['', [Validators.required]],
+      bookingConfirmationType: ['', [Validators.required]],
+      fromDatePicker:['', [Validators.required]],
+      toDatePicker: ['', [Validators.required]],
+    });
+
+
+
+
+
   }
 
   // Add a method to handle the changes in the amenities checkboxes
@@ -133,7 +135,6 @@ export class AccommodationUpdateComponent implements OnInit{
 
 
       const updatedAccommodation = new Accommodation(
-
         this.accommodation.id,
         this.accommodation.ownerEmail,
         this.accommodationForm.value.accommodationType as AccommodationType,
