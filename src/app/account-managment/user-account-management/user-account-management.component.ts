@@ -15,7 +15,6 @@ export class UserAccountManagementComponent implements OnInit {
   user: User | undefined;
   form!:FormGroup
 
-  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
   constructor(private userService:UserService, private fb:FormBuilder) {}
 
   ngOnInit(): void {
@@ -29,7 +28,8 @@ export class UserAccountManagementComponent implements OnInit {
       address: ['', Validators.required],
     });
 
-    this.fetchUserData('pera@gmail.com');
+    this.fetchUserData('pera@gmail.com');    //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
+
   }
 
   fetchUserData(email: string): void {
@@ -54,6 +54,18 @@ export class UserAccountManagementComponent implements OnInit {
       }
     );
   }
+  deleteAccount():void{
+/*    if (this.user?.email) {*/
+    this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+      (response) => {
+        console.log('User deleted successfully', response);
+      },
+      (error) => {
+        console.error('Error deleting user', error);
+      }
+    );
+  }
+
 
 
   updateAccount(): void {
