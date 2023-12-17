@@ -25,14 +25,14 @@ export enum Status{
 }
 
 export class Accommodation {
-  id: number;
-  ownerEmail: string; //IZMENA FROM USER--->STRING, PRIVREMENO!!!!
+  id?: number;
+  ownerEmail: string;
   accommodationType: AccommodationType;
   description: string;
   name: string;
   minGuests: number;
   maxGuests: number;
-  amenities: Amenity[];
+  amenities: number[];
   reviews: Review[];
   reservations: Reservation[];
   bookingConfirmationType: BookingConfirmationType;
@@ -40,21 +40,19 @@ export class Accommodation {
   status:Status;
 
   constructor(
-    id: number,
     ownerEmail: string,
     accommodationType: AccommodationType,
     description: string,
     name: string,
     minGuests: number,
     maxGuests: number,
-    amenities: Amenity[],
+    amenities: number[],
     reviews: Review[],
     reservations: Reservation[],
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
     status:Status
   ) {
-    this.id = id;
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;
     this.description = description;

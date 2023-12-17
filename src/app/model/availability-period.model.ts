@@ -1,7 +1,7 @@
 import {Accommodation} from "./accommodation.model";
 
 export class AvailabilityPeriod {
-  id: number;
+  id?: number;
   startDate: Date; // Use string or Date based on your needs
   endDate: Date;   // Use string or Date based on your needs
   price: number;

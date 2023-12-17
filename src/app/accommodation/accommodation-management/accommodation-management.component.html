@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
-<form class="form-container" (ngSubmit)="onSubmit()">
+<form class="form-container" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
   <h1 class="acc-management-header">Add new accommodation</h1>
   <div>
     <div class="left-part">
@@ -51,7 +51,7 @@
 
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
-        <!-- Display selected images -->
+         Display selected images
         <div class="image-container">
         <div *ngFor="let image of accommodationForm.images">
           <img [src]="getUrl(image)" alt="Uploaded Image" />

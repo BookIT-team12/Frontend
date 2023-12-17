@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn:'root',
@@ -30,11 +31,16 @@ export class AccommodationService{
     return this.http.get<Accommodation[]>(this.apiUrl);
   }
 
-  createAccommodation(accommodation: Accommodation): Observable<Accommodation> {
-    return this.http.post<Accommodation>(this.apiUrl, accommodation);
+  createAccommodation(accommodation: Accommodation, images: File[]): Observable<Accommodation> {
+    const formData: FormData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append('accommodation_images', images[i]);
+    }
+    formData.append("accommodationDTO", new Blob([JSON.stringify(accommodation)], {type: "application/json"}))
+    return this.http.post<Accommodation>(this.apiUrl, formData);
   }
 
-  updateAccommodation(id: number, accommodation: Accommodation): Observable<Accommodation> {
+  updateAccommodation(id: number | undefined, accommodation: Accommodation): Observable<Accommodation> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.put<Accommodation>(url, accommodation);
   }

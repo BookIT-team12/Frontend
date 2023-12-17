@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
 import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
@@ -12,11 +12,12 @@ import {UserService} from "../../service/user.service";
 @Component({
   selector: 'app-accommodation-management',
   templateUrl: './accommodation-management.component.html',
-  styleUrls: ['./accommodation-management.component.css']
+  styleUrls: ['./accommodation-management.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccommodationManagementComponent{
  // user=new User('Pera', 'Peric', 'pera','test', 'Novi Sad', '1234567890', Role.OWNER, 'test') ; //NON-NULL VREDNOST USER-A
-  amenities: Amenity[]=[];
+  amenities: number[]=[];
   reviews:Review[]=[];
   reservations:Reservation[]=[];
 
@@ -79,8 +80,7 @@ export class AccommodationManagementComponent{
   onSubmit(): void {
 
     const accommodationData = {
-      id:1, //TODO:HANDLING LOGIC FOR ID CREATION
-      ownerEmail: 'pera@gmail.com', // TODO:Replace with the actual user ID, retrieve it from your authentication service
+      ownerEmail: 'dusan@gmail.com',
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
       description: this.accommodationForm.description,
       name: this.accommodationForm.name,
@@ -93,7 +93,6 @@ export class AccommodationManagementComponent{
 
       availabilityPeriods: [
         {
-          id:1, //TODO: HANDLE ID CREATION
           startDate: this.accommodationForm.availableFrom,
           endDate: this.accommodationForm.availableUntil,
           price: this.accommodationForm.price
@@ -103,7 +102,6 @@ export class AccommodationManagementComponent{
 
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(
-        accommodationData.id,
         accommodationData.ownerEmail,
         accommodationData.accommodationType,
         accommodationData.description,
@@ -115,13 +113,13 @@ export class AccommodationManagementComponent{
         accommodationData.reservations,
         accommodationData.bookingConfirmationType,
         accommodationData.availabilityPeriods,
-      Status.PENDING
+        Status.PENDING
     );
     console.log('New accommodation: ', newAccommodation)
 
 
 
-    this.accommodationService.createAccommodation(newAccommodation).subscribe(
+    this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.images).subscribe(
         (result) => {
           // Handle success, if needed
           console.log('Accommodation created successfully', result);
@@ -136,10 +134,10 @@ export class AccommodationManagementComponent{
   onAmenityChange(event: any, amenity: Amenity): void {
     // Handle the change in the checkbox state
     if (event.checked) {
-      this.amenities.push(amenity);
+      this.amenities.push(amenity.id);
     } else {
       // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a.id === amenity.id);
+      const index = this.amenities.findIndex(a => a === amenity.id);
       if (index !== -1) {
         this.amenities.splice(index, 1);
       }

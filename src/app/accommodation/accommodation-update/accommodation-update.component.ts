@@ -17,7 +17,7 @@ import {ActivatedRoute} from "@angular/router";
 export class AccommodationUpdateComponent implements OnInit{
 
   accommodationForm: FormGroup;
-  amenities: Amenity[] = [];
+  amenities: number[] = [];
   accommodation!: Accommodation;
   images: File[]=[]; //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
   accommodationId!: number; // Accommodation ID retrieved from route parameters
@@ -61,11 +61,11 @@ export class AccommodationUpdateComponent implements OnInit{
 
         });
 
-        accommodation.amenities.forEach((amenity:Amenity)=>{
-            this.amenities.forEach((formAmenity:Amenity)=>{
-              if(amenity.id==formAmenity.id){
+        accommodation.amenities.forEach((amenityId:number)=>{
+            this.amenities.forEach((formAmenityId:number)=>{
+              if(amenityId==formAmenityId){
                 const checkbox={checked:true};
-                this.onAmenityChange(checkbox,amenity);
+                this.onAmenityChange(checkbox,amenityId);
               }
             });
           }
@@ -99,13 +99,13 @@ export class AccommodationUpdateComponent implements OnInit{
   }
 
   // Add a method to handle the changes in the amenities checkboxes
-  onAmenityChange(event: any, amenity: Amenity): void {
+  onAmenityChange(event: any, amenity: number): void {
     // Handle the change in the checkbox state
     if (event.checked) {
       this.amenities.push(amenity);
     } else {
       // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a.id === amenity.id);
+      const index = this.amenities.findIndex(a => a === amenity);
       if (index !== -1) {
         this.amenities.splice(index, 1);
       }
@@ -135,7 +135,6 @@ export class AccommodationUpdateComponent implements OnInit{
 
 
       const updatedAccommodation = new Accommodation(
-        this.accommodation.id,
         this.accommodation.ownerEmail,
         this.accommodationForm.value.accommodationType as AccommodationType,
         this.accommodationForm.value.description,
