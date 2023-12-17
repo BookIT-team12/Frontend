@@ -51,7 +51,6 @@
 
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
-         Display selected images
         <div class="image-container">
         <div *ngFor="let image of accommodationForm.images">
           <img [src]="getUrl(image)" alt="Uploaded Image" />
@@ -69,7 +68,7 @@
 
 
     <div class="right-part">
-
+      <h2>Accommodation amenities: </h2>
       <div class="amenities-container">
 
         <!-- Amenities Checkboxes -->
@@ -103,7 +102,7 @@
       </div>
 
 
-      <!-- Datepicker for "From" Date -->
+      <h2>Add first availability period</h2>
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>

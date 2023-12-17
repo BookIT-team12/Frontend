@@ -113,6 +113,15 @@
 
       <button mat-raised-button class="global-dangerBtn save-changes-btn">Delete period</button>
 
+      <div style="margin-top: 2%">
+        <input type="file" (change)="onFileSelected($event)" multiple />
+        <div class="image-container">
+          <div>
+            <img/>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
   <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Update Accommodation</button>
