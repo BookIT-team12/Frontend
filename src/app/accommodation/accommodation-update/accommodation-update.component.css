@@ -118,3 +118,12 @@
   color: rgba(24, 18, 140, 0.9); /* Set text color */
 }
 
+h2{
+  color: rgba(24, 18, 140, 0.9);
+  font-weight: bold;
+  margin: 2%;
+}
+.periods-list{
+  background-color: #fff;
+  margin-bottom: 2%;
+}
