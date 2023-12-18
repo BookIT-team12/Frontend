@@ -12,15 +12,15 @@
 
       <!-- Number of Guests -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of guests" name="guests" formControlName="guests" required>
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Min number of Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of guests" name="guests" formControlName="minGuests" required>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Max number of Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of guests" name="guests" formControlName="maxGuests" required>
       </mat-form-field>
 
-      <!-- Price per Night -->
-      <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
-        <input matInput type="number" placeholder="Enter price per night" name="price" formControlName="price" required>
-      </mat-form-field>
+
 
 
       <!-- Detailed Description -->
@@ -54,31 +54,31 @@
 
     <div class="right-part">
       <h2>Accommodation amenities: </h2>
-      <div class="amenities-container">
+      <div class="amenities-container" >
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 2)">
+          <mat-checkbox class="global-icon-color" formControlName="parking" (change)="onAmenityChange($event, 1)">
             <mat-icon class="material-icons">local_parking</mat-icon>Parking
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 3)">
+          <mat-checkbox class="global-icon-color" formControlName="wifi"  (change)="onAmenityChange($event, 2)">
             <mat-icon class="material-icons">wifi</mat-icon>Wifi
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 3)">
+          <mat-checkbox class="global-icon-color" formControlName="airConditioning"  (change)="onAmenityChange($event, 3)">
             <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 4)">
+          <mat-checkbox class="global-icon-color" formControlName="kitchen"  (change)="onAmenityChange($event, 4)">
             <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 5)">
+          <mat-checkbox class="global-icon-color" formControlName="bathroom"  (change)="onAmenityChange($event, 5)">
             <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 6)">
+          <mat-checkbox class="global-icon-color" formControlName="pool" (change)="onAmenityChange($event, 6)">
             <mat-icon class="material-icons">pool</mat-icon>Pool
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, 7)">
+          <mat-checkbox class="global-icon-color" formControlName="balcony" (change)="onAmenityChange($event, 7)">
             <mat-icon class="material-icons">balcony</mat-icon>Balcony
           </mat-checkbox>
         </div>
@@ -87,31 +87,40 @@
 
       <h2>Add availability period</h2>
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>
+        <input matInput [matDatepicker]="fromDatePicker" formControlName="startDate" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
 
       <!-- Datepicker for "To" Date -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>
+        <input matInput [matDatepicker]="toDatePicker" formControlName="endDate" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
+      <!-- Price per Night -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
+        <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
+      </mat-form-field>
 
-      <button mat-raised-button class="global-darkBtn save-changes-btn">Add period</button>
-      <button mat-raised-button class="global-darkBtn save-changes-btn">Change period</button>
+      <button mat-raised-button [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn">Add period</button>
+      <button mat-raised-button [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn">Change period</button>
 
       <h2>Existing availability periods: </h2>
       <mat-form-field>
         <mat-label>Select....</mat-label>
-        <mat-select>
-          <mat-option value="option1">Option 1</mat-option>
-          <mat-option value="option3">Option 2</mat-option>
+        <mat-select (selectionChange)="onSelectedPeriodChange($event)">
+          <mat-option value="none">None</mat-option>
+          <mat-option *ngFor="let period of accommodation.availabilityPeriods" [value]="period" >
+            {{ period.startDate | date }} - {{ period.endDate | date }} : price = {{ period.price | number }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button class="global-dangerBtn save-changes-btn">Delete period</button>
+      <button mat-raised-button [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn">Delete period</button>
 
       <div style="margin-top: 2%">
         <input type="file" (change)="onFileSelected($event)" multiple />

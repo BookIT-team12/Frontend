@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
 import {FormGroup} from "@angular/forms";
+import {AccommodationDtoModel} from "../model/accommodation.dto.model";
 
 @Injectable({
   providedIn:'root',
@@ -14,9 +15,9 @@ export class AccommodationService{
   private apiUrl = 'http://localhost:8080/api/accommodations';
   constructor(private http: HttpClient, private router:Router) {}
 
-  getAccommodationById(id: number): Observable<Accommodation> {
+  getAccommodationById(id: number): Observable<AccommodationDtoModel> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Accommodation>(url);
+    return this.http.get<AccommodationDtoModel>(url);
   }
 
   openUpdatePage(accommodationId:number){

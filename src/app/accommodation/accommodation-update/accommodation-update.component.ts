@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
-import {Amenity} from "../../model/amenity.model";
 import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
-import {DomEvent} from "leaflet";
 import {ActivatedRoute} from "@angular/router";
+import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
+import {AvailabilityPeriod} from "../../model/availability-period.model";
+import {startWith} from "rxjs";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
 // DODATI LOKACIJU I SLIKE
@@ -17,61 +18,67 @@ import {ActivatedRoute} from "@angular/router";
 export class AccommodationUpdateComponent implements OnInit{
 
   accommodationForm: FormGroup;
-  amenities: number[] = [];
+  checkedAmenities: number[] = []
   accommodation!: Accommodation;
   images: File[]=[]; //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
-  accommodationId!: number; // Accommodation ID retrieved from route parameters
+  accommodationId!: number; // Accommodation ID retrieved from route parameter
+    addingNewPeriod: boolean //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
+
+    constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
+                private cdr:ChangeDetectorRef) {
+        this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
+            0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
+            Status.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
+            //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
+        this.accommodationForm = this.fb.group({
+            name: ['', [Validators.required]],
+            maxGuests: ['', [Validators.required]],
+            minGuests: ['', [Validators.required]],
+            description: ['', [Validators.required]],
+            accommodationType: ['', [Validators.required]],
+            bookingConfirmationType: ['', [Validators.required]],
+            endDate: ['', [Validators.required]],
+            startDate: ['', [Validators.required]],
+            price: ['', [Validators.required]],
+            parking: false,
+            wifi: false,
+            airConditioning: false,
+            kitchen: false,
+            bathroom: false,
+            pool: false,
+            balcony: false
+        });
+        this.addingNewPeriod = true;
+    }
 
   ngOnInit(): void {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
 
-    this.accommodationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      guests: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      accommodationType: ['', [Validators.required]],
-      bookingConfirmationType: ['', [Validators.required]],
-      fromDatePicker: ['', [Validators.required]],
-      toDatePicker: ['', [Validators.required]]
-    });
-
-
-
     // Fetch accommodation data by ID and populate the form
     this.accommodationService.getAccommodationById(this.accommodationId).subscribe(
 
-      (accommodation: Accommodation) => {
+      (pair: AccommodationDtoModel) => {
 
-        this.accommodation = accommodation;
+        this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
+            pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
+            pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status)
 
-        console.log(accommodation)
-        // Populate the form with the retrieved accommodation data
+
         this.accommodationForm.patchValue({
-
-          name: accommodation.name,
-          guests: accommodation.maxGuests,
-//          price: accommodation.availabilityPeriods[0].price, //TODO: IZMENITI DA IZ LISTE AVAILIBILITY PERIODS BIRA ONAJ KOJI ZELI DA IZMENI I CIJU CE CENU MENJATI
-          description: accommodation.description,
-          accommodationType: accommodation.accommodationType,
-          bookingConfirmationType: accommodation.bookingConfirmationType,
-
-//          fromDatePicker:new Date(accommodation.availabilityPeriods[0].startDate),
-//          toDatePicker:new Date(accommodation.availabilityPeriods[0].endDate)
-
+            name: this.accommodation.name,
+            minGuests: this.accommodation.minGuests,
+            maxGuests: this.accommodation.maxGuests,
+            description: this.accommodation.description,
+            accommodationType: this.accommodation.accommodationType,
+            bookingConfirmationType: this.accommodation.bookingConfirmationType,
+            parking: this.accommodation.containsAmenity(1),
+            wifi: this.accommodation.containsAmenity(2),
+            airConditioning: this.accommodation.containsAmenity(3),
+            kitchen: this.accommodation.containsAmenity(4),
+            bathroom: this.accommodation.containsAmenity(5),
+            pool: this.accommodation.containsAmenity(6),
+            balcony: this.accommodation.containsAmenity(7)
         });
-
-        accommodation.amenities.forEach((amenityId:number)=>{
-            this.amenities.forEach((formAmenityId:number)=>{
-              if(amenityId==formAmenityId){
-                const checkbox={checked:true};
-                this.onAmenityChange(checkbox,amenityId);
-              }
-            });
-          }
-        );
-
-
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -79,35 +86,49 @@ export class AccommodationUpdateComponent implements OnInit{
     );
   }
 
-  constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute) {
+  onSelectingPeriod(newSelectedPeriod : AvailabilityPeriod){
+      this.accommodationForm.patchValue({
+          endDate: newSelectedPeriod.endDate,
+          startDate: newSelectedPeriod.startDate,
+          price: newSelectedPeriod.price
+      })
+  }
+  onSelectingNone(){
+      this.accommodationForm.patchValue({
+          endDate: '',
+          startDate: '',
+          price: ''
+      })
+  }
 
-    this.accommodationForm = this.fb.group({
-      name: ['', [Validators.required]],
-      guests: ['', [Validators.required]],
-      price: ['', [Validators.required]],
-      description: ['', [Validators.required]],
-      accommodationType: ['', [Validators.required]],
-      bookingConfirmationType: ['', [Validators.required]],
-      fromDatePicker:['', [Validators.required]],
-      toDatePicker: ['', [Validators.required]],
-    });
-
-
-
-
-
+  onSelectedPeriodChange(event: any){
+      console.log("usla dobra funkcija")
+      let newSelectedPeriod = event.value;
+      console.log(newSelectedPeriod)
+      if (newSelectedPeriod === 'none'){  //znaci dodajemo nov period
+          this.addingNewPeriod = true;
+          console.log("dodajemo novi period")
+          this.onSelectingNone()
+      } else {  //menjamo postojeci
+          this.addingNewPeriod = false;
+          this.onSelectingPeriod(newSelectedPeriod);
+      }
+  }
+  onAddingPeriod(){
+    //todo: mora dda se implementira, ali je ovo sastavni deo na kraju da bi se updatovao view
+    this.cdr.detectChanges();
   }
 
   // Add a method to handle the changes in the amenities checkboxes
   onAmenityChange(event: any, amenity: number): void {
     // Handle the change in the checkbox state
     if (event.checked) {
-      this.amenities.push(amenity);
+      this.checkedAmenities.push(amenity);
     } else {
       // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a === amenity);
+      const index = this.checkedAmenities.findIndex(a => a === amenity);
       if (index !== -1) {
-        this.amenities.splice(index, 1);
+        this.checkedAmenities.splice(index, 1);
       }
     }
   }
@@ -141,7 +162,7 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodationForm.value.name,
         this.accommodationForm.value.guests, // minGuests - You need to set this based on your requirement
         this.accommodationForm.value.guests,
-        this.amenities,
+        this.checkedAmenities,
         this.accommodation.reviews, // reviews - You need to set this based on your requirement
         this.accommodation.reservations, // reservations - You need to set this based on your requirement
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
@@ -152,8 +173,6 @@ export class AccommodationUpdateComponent implements OnInit{
           price: this.accommodationForm.value.price,
         }], // Assuming you don't want to change availability periods
         Status.PENDING
-
-
       );
 
       this.accommodationService.updateAccommodation(updatedAccommodation.id, updatedAccommodation).subscribe(
@@ -166,4 +185,5 @@ export class AccommodationUpdateComponent implements OnInit{
       );
     }
 
+    protected readonly startWith = startWith;
 }

@@ -1,8 +1,6 @@
-import { Amenity } from './amenity.model';
 import { AvailabilityPeriod } from './availability-period.model';
 import { Review } from './review.model';
 import { Reservation } from './reservation.model';
-import { User } from './user.model';
 
 export enum BookingConfirmationType {
   AUTOMATIC = 'AUTOMATIC',
@@ -65,6 +63,19 @@ export class Accommodation {
     this.bookingConfirmationType = bookingConfirmationType;
     this.availabilityPeriods = availabilityPeriods;
     this.status=status;
+  }
+
+  containsAmenity(id:number){
+    return this.amenities.includes(id);
+  }
+
+  getAvailabilityPeriodById(id:number){
+      for (let i = 0; i < this.availabilityPeriods.length; i++) {
+          if (this.availabilityPeriods[i].id === id){
+            return this.availabilityPeriods[i];
+          }
+      }
+      return null;
   }
 }
 

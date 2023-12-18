@@ -127,3 +127,7 @@ h2{
   background-color: #fff;
   margin-bottom: 2%;
 }
+
+button:disabled {
+  opacity: 0.6; /* Example value */
+}
