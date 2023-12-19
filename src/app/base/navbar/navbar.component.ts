@@ -8,8 +8,16 @@ import {Role} from "../../model/user.model";
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent {
-  constructor(private router: Router) {}
+export class NavbarComponent implements OnInit {
+
+  userRole: string = Role.GUEST;
+  constructor(private router: Router, private authService:AuthService) {}
+  ngOnInit() {
+    this.authService.getRoleObservable().subscribe(role=>{
+      this.userRole=role;
+      console.log(this.userRole);
+    })
+  }
 
   menuItemClicked(option: string) {
     console.log(`Selected option: ${option}`);
