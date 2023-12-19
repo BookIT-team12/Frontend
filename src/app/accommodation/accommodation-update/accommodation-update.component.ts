@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
 import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
@@ -8,6 +8,8 @@ import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {MatSelect} from "@angular/material/select";
+import {MatDatepicker} from "@angular/material/datepicker";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
 // DODATI LOKACIJU I SLIKE
@@ -21,12 +23,12 @@ import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 export class AccommodationUpdateComponent implements OnInit{
 
   accommodationForm: FormGroup;
-  checkedAmenities: number[] = []
   accommodation!: Accommodation;
   accommodationId!: number; // Accommodation ID retrieved from route parameter
   addingNewPeriod: boolean; //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
   imagesFiles: File[];
   imageStrings: string[];
+  @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
 
     constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
                 private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private sanitizer: DomSanitizer) {
@@ -45,9 +47,9 @@ export class AccommodationUpdateComponent implements OnInit{
             description: ['', [Validators.required]],
             accommodationType: ['', [Validators.required]],
             bookingConfirmationType: ['', [Validators.required]],
-            endDate: ['', [Validators.required]],
-            startDate: ['', [Validators.required]],
-            price: ['', [Validators.required]],
+            endDate: [''],
+            startDate: [''],
+            price: [''],
             images: this.imagesFiles,
             parking: false,
             wifi: false,
@@ -126,6 +128,7 @@ export class AccommodationUpdateComponent implements OnInit{
                                   this.accommodationForm.get('endDate')?.value, this.accommodationForm.get('price')?.value)
     if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
       this.accommodation.availabilityPeriods.push(newPeriod)
+      this.resetPeriodsGUI();
       this.cdr.detectChanges();
     } else {
       alert("Vec postoji period koji pokriva ovo vreme!!")
@@ -145,12 +148,14 @@ export class AccommodationUpdateComponent implements OnInit{
       changed ? changed.startDate = this.accommodationForm.get('startDate')?.value : null;
       changed ? changed.endDate = this.accommodationForm.get('endDate')?.value : null;
       changed ? changed.price = this.accommodationForm.get('price')?.value : null;
+      this.resetPeriodsGUI();
     }
     this.cdr.detectChanges()
   }
 
   onDeletingPeriod(selectedPeriod:any){
       this.accommodation.availabilityPeriods = this.accommodation.availabilityPeriods.filter(period => period !== selectedPeriod);
+      this.resetPeriodsGUI()
       this.cdr.detectChanges()
   }
 
@@ -182,7 +187,7 @@ export class AccommodationUpdateComponent implements OnInit{
     if (index !== -1) {
       this.accommodationForm.get('images')?.value.splice(index, 1);
     }
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 
 
@@ -210,6 +215,14 @@ export class AccommodationUpdateComponent implements OnInit{
     return URL.createObjectURL(file);
   }
 
+  resetPeriodsGUI(){
+      this.addingNewPeriod = true;
+      this.selectedPeriod.value = 'none'
+      this.accommodationForm.get('endDate')?.reset();
+      this.accommodationForm.get('startDate')?.reset();
+      this.accommodationForm.get('price')?.reset();
+      this.cdr.detectChanges();
+    }
 
   onFileSelected(event: any): void {
     const files: FileList | null = event.target.files;

@@ -103,7 +103,7 @@
       <!-- Price per Night -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
-        <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
+        <input matInput type="number" placeholder="Enter price per night" formControlName="price">
       </mat-form-field>
 
       <button mat-raised-button (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn">Add period</button>
