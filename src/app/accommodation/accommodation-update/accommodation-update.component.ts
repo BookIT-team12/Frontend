@@ -177,6 +177,14 @@ export class AccommodationUpdateComponent implements OnInit{
     return buffer;
   }
 
+  deleteImage(toDelete: File){
+    let index = this.accommodationForm.get('images')?.value.findIndex((image: File) => image === toDelete);
+    if (index !== -1) {
+      this.accommodationForm.get('images')?.value.splice(index, 1);
+    }
+    this.cdr.detectChanges()
+  }
+
 
   convertStringListToImages(){
     // Convert List<string> to List<Uint8Array>
