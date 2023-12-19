@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-user-account-management',
@@ -15,7 +16,7 @@ export class UserAccountManagementComponent implements OnInit {
   user: User | undefined;
   form!:FormGroup
 
-  constructor(private userService:UserService, private fb:FormBuilder) {}
+  constructor(private userService:UserService, private fb:FormBuilder, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     // You can initialize form controls and call fetchUserData here
@@ -59,11 +60,25 @@ export class UserAccountManagementComponent implements OnInit {
     this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
       (response) => {
         console.log('User deleted successfully', response);
+        this.showSnackBar('User deleted successfully!');
+
+
       },
       (error) => {
         console.error('Error deleting user', error);
+        this.showSnackBar('Error! The user cannot be deleted!');
+
       }
     );
+  }
+
+
+  private showSnackBar(message:string){
+    this.snackBar.open(message, 'Close', {
+      duration: 3000, // Adjust the duration as needed
+      verticalPosition: 'bottom', // You can also use 'bottom'
+      panelClass: 'snackbar-success' // Add a custom CSS class for styling
+    });
   }
 
 
@@ -87,9 +102,13 @@ export class UserAccountManagementComponent implements OnInit {
       this.userService.updateUser(updatedUser).subscribe(
         (response) => {
           console.log('User updated successfully', response);
+          this.showSnackBar('User updated successfully!');
+
         },
         (error) => {
           console.error('Error updating user', error);
+          this.showSnackBar('Error! User update failed!');
+
         }
       );
     }

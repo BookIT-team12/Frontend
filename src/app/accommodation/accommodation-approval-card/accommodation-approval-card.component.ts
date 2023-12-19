@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Accommodation, AccommodationStatus} from "../../model/accommodation.model";
 import {AccommodationService} from "../../service/accommodation.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-accommodation-approval-card',
@@ -13,9 +14,12 @@ export class AccommodationApprovalCardComponent {
 
 
 
+
+
   approveAccommodations(accommodation:Accommodation):void{
     this.accommodationService.approveAccommodation(accommodation.id).subscribe(()=>{
       accommodation.status=AccommodationStatus.APPROVED;
+
     });
   }
 
