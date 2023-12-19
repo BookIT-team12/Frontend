@@ -1,7 +1,7 @@
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
+  z-index: 3; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   background-color:#CDDBFF;
@@ -48,6 +48,7 @@
   margin-right: 20px;
   background: rgba(0,0,0,0);
   overflow: hidden;
+  z-index: 1;
 }
 .mat-drawer-container{
   background: rgba(0,0,0,0);
@@ -109,6 +110,7 @@ mat-toolbar {
   background-color:rgba(0,0,0,0);
   display: flex;
   align-items: center;
+  z-index: 2;
 }
 .rectangle37 {
   position: absolute;
