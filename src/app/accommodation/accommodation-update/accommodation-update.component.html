@@ -122,24 +122,28 @@
 
       <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn">Delete period</button>
 
-<!--      <div style="margin-top: 2%">-->
-<!--        <input type="file" (change)="onFileSelected($event)" multiple />-->
-<!--        <div class="image-container">-->
-<!--          <div>-->
-<!--            <img/>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <div class="image-container">
           <div *ngFor="let image of imagesFormArray.value">
-            <img [src]="getUrl(image)" alt="Uploaded Image" />
-          </div>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
+                  <button mat-icon-button matIconSuffix style="margin-top: 13%">
+                    <mat-icon >
+                      <span class="material-symbols-outlined">close</span>
+                    </mat-icon>
+                  </button>
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
         </div>
       </div>
-
     </div>
   </div>
+  </div>
+
   <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Update Accommodation</button>
+
 </form>

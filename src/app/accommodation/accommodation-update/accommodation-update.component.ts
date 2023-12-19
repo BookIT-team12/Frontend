@@ -27,7 +27,6 @@ export class AccommodationUpdateComponent implements OnInit{
   addingNewPeriod: boolean; //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
   imagesFiles: File[];
   imageStrings: string[];
-  blobUrls: SafeUrl[] = []; // Array to store blob URLs
 
     constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
                 private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private sanitizer: DomSanitizer) {
@@ -90,7 +89,7 @@ export class AccommodationUpdateComponent implements OnInit{
             balcony: this.accommodation.containsAmenity(7),
             images: this.convertStringListToImages()
         });
-        console.log(this.accommodation)
+        // console.log(this.accommodation)
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -113,12 +112,9 @@ export class AccommodationUpdateComponent implements OnInit{
       })
   }
   onSelectedPeriodChange(event: any){
-      console.log("usla dobra funkcija")
       let newSelectedPeriod = event.value;
-      console.log(newSelectedPeriod)
       if (newSelectedPeriod === 'none'){  //znaci dodajemo nov period
           this.addingNewPeriod = true;
-          console.log("dodajemo novi period")
           this.onSelectingNone()
       } else {  //menjamo postojeci
           this.addingNewPeriod = false;
@@ -128,33 +124,40 @@ export class AccommodationUpdateComponent implements OnInit{
   onAddingPeriod(){
     let newPeriod: AvailabilityPeriod = new AvailabilityPeriod(null, this.accommodationForm.get('startDate')?.value,
                                   this.accommodationForm.get('endDate')?.value, this.accommodationForm.get('price')?.value)
-    console.log(this.accommodation.availabilityPeriods)
     if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
       this.accommodation.availabilityPeriods.push(newPeriod)
       this.cdr.detectChanges();
     } else {
-      console.log("Preklapaju se!!! NE MOZE")
+      alert("Vec postoji period koji pokriva ovo vreme!!")
     }
   }
   onChangingPeriod(selectedPeriod: any){
-    let isOverlaping:boolean = this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, //will new period be overlaping (before officially changing it
-      new AvailabilityPeriod(undefined, this.accommodationForm.get('startDate')?.value,
+    let existingPeriods = this.accommodation.availabilityPeriods.slice();
+    console.log(existingPeriods);
+    existingPeriods = existingPeriods.filter(item => item !== selectedPeriod);
+    let isOverlaping:boolean = this.periodService.doesNewPeriodOverlap(existingPeriods, //will new period be overlaping (before officially changing it)
+      new AvailabilityPeriod(selectedPeriod.id, this.accommodationForm.get('startDate')?.value,
       this.accommodationForm.get('endDate')?.value, this.accommodationForm.get('price')?.value));
     if(isOverlaping){
-      console.log("NE MOZE PREKLAPACE SE")
+      alert("Vec postoji period koji pokriva ovo vreme!!!")
     } else {
       let changed: AvailabilityPeriod | null = this.accommodation.findAvailabilityPeriod(selectedPeriod.id);  //find one to change
       changed ? changed.startDate = this.accommodationForm.get('startDate')?.value : null;
       changed ? changed.endDate = this.accommodationForm.get('endDate')?.value : null;
       changed ? changed.price = this.accommodationForm.get('price')?.value : null;
     }
-    console.log(this.accommodation.availabilityPeriods)
     this.cdr.detectChanges()
+  }
+  clearCopyList(existingPeriods : AvailabilityPeriod[], changingOne: AvailabilityPeriod){
+        for(let i=0; i!= existingPeriods.length; i++){
+            if(existingPeriods[i] === changingOne){
+                existingPeriods = existingPeriods.filter(item => item !== existingPeriods[i]);
+            }
+        }
   }
   onDeletingPeriod(selectedPeriod:any){
       this.accommodation.availabilityPeriods = this.accommodation.availabilityPeriods.filter(period => period !== selectedPeriod);
       this.cdr.detectChanges()
-      console.log(this.accommodation.availabilityPeriods);
   }
 
 
@@ -162,12 +165,12 @@ export class AccommodationUpdateComponent implements OnInit{
   onAmenityChange(event: any, amenity: number): void {
     // Handle the change in the checkbox state
     if (event.checked) {
-      this.checkedAmenities.push(amenity);
+      this.accommodation.amenities.push(amenity);
     } else {
       // Remove the amenity if unchecked
-      const index = this.checkedAmenities.findIndex(a => a === amenity);
+      const index = this.accommodation.amenities.findIndex(a => a === amenity);
       if (index !== -1) {
-        this.checkedAmenities.splice(index, 1);
+        this.accommodation.amenities.splice(index, 1);
       }
     }
   }
@@ -196,38 +199,30 @@ export class AccommodationUpdateComponent implements OnInit{
     return filesToReturn;
   }
 
-  get imagesFormArray() {
+  get imagesFormArray() { //just for transfering to html
     return this.accommodationForm.get('images') as FormArray;
   }
 
 
   getUrl(file: File): string {
-      console.log(URL.createObjectURL(file));
     return URL.createObjectURL(file);
   }
 
-  getSafeUrl(image: Blob): SafeUrl { //drugacija fja od ovog natasinog..nesto za safeda bi moglo da radi pored nekog securitya
-    return this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(image));
-  }
 
   onFileSelected(event: any): void {
     const files: FileList | null = event.target.files;
 
     if (files) {
       for (let i = 0; i < files.length; i++) {
-        this.imagesFiles.push(files.item(i) as File);
+        this.accommodationForm.get('images')?.value.push(files.item(i) as File);
       }
     }
+    // console.log(this.accommodationForm.get('images'));
+    this.cdr.detectChanges();
   }
 
-  onSubmit(): void {
-
-/*
-    if (this.accommodationForm.valid) {
-*/
-
-
-
+  onSubmit(): void
+  {
       const updatedAccommodation = new Accommodation(
         this.accommodation.ownerEmail,
         this.accommodationForm.value.accommodationType as AccommodationType,
@@ -235,27 +230,24 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodationForm.value.name,
         this.accommodationForm.value.guests, // minGuests - You need to set this based on your requirement
         this.accommodationForm.value.guests,
-        this.checkedAmenities,
+        this.accommodation.amenities,
         this.accommodation.reviews, // reviews - You need to set this based on your requirement
         this.accommodation.reservations, // reservations - You need to set this based on your requirement
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
-        [{
-          id: 1, // You need to set this based on your requirement
-          startDate: this.accommodationForm.value.fromDatePicker,
-          endDate: this.accommodationForm.value.toDatePicker,
-          price: this.accommodationForm.value.price,
-        }], // Assuming you don't want to change availability periods
+        this.accommodation.availabilityPeriods,
         Status.PENDING
       );
 
-      this.accommodationService.updateAccommodation(updatedAccommodation.id, updatedAccommodation).subscribe(
-        (result) => {
-          console.log('Accommodation updated successfully', result);
-        },
-        (error) => {
-          console.error('Error updating accommodation', error);
-        }
-      );
+      console.log(updatedAccommodation);
+
+      // this.accommodationService.updateAccommodation(updatedAccommodation.id, updatedAccommodation).subscribe(
+      //   (result) => {
+      //     console.log('Accommodation updated successfully', result);
+      //   },
+      //   (error) => {
+      //     console.error('Error updating accommodation', error);
+      //   }
+      // );
     }
     protected readonly startWith = startWith;
 }

@@ -10,9 +10,9 @@ export class AvailabilityPeriodService {
 
   doesNewPeriodOverlap(existingPeriods: AvailabilityPeriod[], newPeriod: AvailabilityPeriod){
       for (let i = 0; i < existingPeriods.length; i++){
-        if(newPeriod.startDate < existingPeriods[i].endDate && newPeriod.endDate > existingPeriods[i].startDate){
-          return true;
-        }
+          if(newPeriod.startDate < existingPeriods[i].endDate && newPeriod.endDate > existingPeriods[i].startDate){
+              return true;
+          }
       }
       return false;
   }

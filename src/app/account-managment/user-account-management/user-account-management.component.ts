@@ -15,7 +15,6 @@ export class UserAccountManagementComponent implements OnInit {
   user: User | undefined;
   form!:FormGroup
 
-  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
   constructor(private userService:UserService, private fb:FormBuilder) {}
 
   ngOnInit(): void {

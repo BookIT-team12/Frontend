@@ -123,3 +123,9 @@ h2{
   font-weight: bold;
   margin: 2%;
 }
+
+mat-card{
+  background-color: rgba(2, 19, 72, 0.42); /* Set the card background color to #080067 */
+  border-radius: 20px;
+  margin: 2%;
+}

@@ -52,9 +52,20 @@
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <div class="image-container">
-        <div *ngFor="let image of accommodationForm.images">
-          <img [src]="getUrl(image)" alt="Uploaded Image" />
-        </div>
+          <div *ngFor="let image of accommodationForm.images">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
+                  <button mat-icon-button matIconSuffix style="margin-top: 13%">
+                    <mat-icon >
+                      <span class="material-symbols-outlined">close</span>
+                    </mat-icon>
+                  </button>
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
         </div>
       </div>
 

@@ -60,7 +60,6 @@ export class AccommodationManagementComponent{
       }*/
   }
 
-//fixme: OVDE SE NE POSTAVLJA STATUS NA PENDING KADA TREBA DA SE ODOBRI AKOMODACIJA(PRVO JE OWNER KREIRA I TREBA DA ODE NA PENDING PA ONDA DA JE ADMIN ODOBRI!!!!)
 
   onFileSelected(event: any): void {
     const files: FileList | null = event.target.files;
@@ -72,6 +71,7 @@ export class AccommodationManagementComponent{
     }
   }
 
+  //fixme: add deleting images!!!
   getUrl(file: File): string {
     //console.log(URL.createObjectURL(file))
     return URL.createObjectURL(file);
