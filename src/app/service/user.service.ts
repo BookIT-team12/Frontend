@@ -48,6 +48,7 @@ export class UserService {
 
   getUser(email: string): Observable<User> {
     const url = `${this.apiUrl}/${email}`;
+    //{withCredentials:true}
     return this.http.get<User>(url).pipe(
       catchError((error) => {
         console.error('Error getting user:', error);
@@ -58,6 +59,7 @@ export class UserService {
 
   getAllUsers(): Observable<User[]> {
     const url = `${this.apiUrl}`;
+    //, {withCredentials:true}
     return this.http.get<User[]>(url).pipe(
       catchError((error) => {
         console.error('Error getting all users:', error);

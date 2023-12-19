@@ -19,14 +19,14 @@ const routes: Routes=[
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
   {path: "accommodation_details", component: DetailsComponent},
-  {path: "manage", component: UserAccountManagementComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'GUEST']}},
+  {path: "manage", component: UserAccountManagementComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'OWNER', 'GUEST']}},
   {path: "main", component: AccommodationsMainComponent},
   {path: "guest-active-res", component: GuestActiveComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'GUEST']}},
-  {path: "add_accommodation", component: AccommodationManagementComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'OWNER']}},
+  {path: "add_accommodation", component: AccommodationManagementComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path: "accommodation-approval", component: AccommodationApprovalComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR']}},
-  {path: "owner-approval-res", component: OwnerApprovalComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR']}},
-  {path: "accommodation-update/:id", component: AccommodationUpdateComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'OWNER']}},
-  {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'OWNER']}}
+  {path: "owner-approval-res", component: OwnerApprovalComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
+  {path: "accommodation-update/:id", component: AccommodationUpdateComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
+  {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
 import {FormBuilder, FormGroup, Validators, AbstractControl} from "@angular/forms";
-
+import { Router } from '@angular/router';  // Import the Router service
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -22,7 +22,7 @@ export class RegisterComponent {
   phone: string = '';
   confirmPassword: string = '';
 
-  constructor(private userService: UserService, private fb:FormBuilder) {
+  constructor(private userService: UserService, private fb:FormBuilder, private router:Router) {
     this.form=this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -77,6 +77,7 @@ export class RegisterComponent {
         (result) => {
           // Handle success, if needed
           console.log('User registered successfully', result);
+          this.router.navigate(['/main']);
         },
         (error) => {
           // Handle error, if needed
@@ -88,4 +89,6 @@ export class RegisterComponent {
   }
 */
 }
+
+  protected readonly Role = Role;
 }

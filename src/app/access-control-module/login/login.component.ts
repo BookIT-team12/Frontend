@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {AuthResponse, AuthService} from "../auth.service";
 import {Login} from "../../model/login.model";
+import {Role} from "../../model/user.model";
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,10 @@ import {Login} from "../../model/login.model";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+
+  userRole: string = Role.UNKNOWN;
+
 
   constructor(private authService: AuthService,
               private router: Router) {
@@ -28,13 +33,20 @@ export class LoginComponent {
         password: this.loginForm.value.password || "test"
       }
       alert(login.email)
+
+      this.userRole = this.authService.getRole();
+      console.log("USER ROLE:", this.userRole);
+
+
       this.authService.login(login).subscribe({
+
         next: (response: AuthResponse) => {
           console.log(response)
           console.log(response.accessToken)
           alert(response.accessToken)
           localStorage.setItem('user', response.accessToken);
           this.authService.setUser()
+          this.authService.setUserDetails()
           this.router.navigate(['main'])
         }
       })
@@ -48,4 +60,5 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
 
+  protected readonly Role = Role;
 }

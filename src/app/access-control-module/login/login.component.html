@@ -1,5 +1,24 @@
 <form [formGroup]='loginForm' (ngSubmit)="login()">
-<app-navbar></app-navbar>
+
+  <div *ngIf="userRole === Role.GUEST">
+    <!-- Guest Navbar Links -->
+    <app-navbar></app-navbar>
+  </div>
+
+  <div *ngIf="userRole === Role.OWNER">
+    <!-- Owner Navbar Links -->
+    <app-navbar-owner></app-navbar-owner>
+  </div>
+
+  <div *ngIf="userRole === Role.ADMINISTRATOR">
+    <!-- Admin Navbar Links -->
+    <app-navbar-admin></app-navbar-admin>
+  </div>
+
+  <div *ngIf="userRole === Role.UNKNOWN">
+    <!-- Admin Navbar Links -->
+    <app-navbar-non-registered></app-navbar-non-registered>
+  </div>
 <div class="form-container">
   <h1 class="login-header">Log in</h1>
   <mat-form-field class="global-icon-color">
