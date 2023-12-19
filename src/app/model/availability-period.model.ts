@@ -1,7 +1,7 @@
 import {Accommodation} from "./accommodation.model";
 
 export class AvailabilityPeriod {
-  id?: number;
+  id?: number | null;
   startDate: Date; // Use string or Date based on your needs
   endDate: Date;   // Use string or Date based on your needs
   price: number;
@@ -9,10 +9,10 @@ export class AvailabilityPeriod {
   accommodation: Accommodation;
 */
 
-  constructor(id: number, startDate: Date, endDate: Date, price: number) {
+  constructor(id: number | null | undefined, startDate: Date, endDate: Date, price: number) {
     this.id = id;
-    this.startDate = startDate;
-    this.endDate = endDate;
+    this.startDate = new Date(startDate);
+    this.endDate = new Date(endDate);
     this.price = price;
 /*
     this.accommodation = accommodation;

@@ -106,13 +106,13 @@
         <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
       </mat-form-field>
 
-      <button mat-raised-button [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn">Add period</button>
-      <button mat-raised-button [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn">Change period</button>
+      <button mat-raised-button (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn">Add period</button>
+      <button mat-raised-button (click)="onChangingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn">Change period</button>
 
       <h2>Existing availability periods: </h2>
       <mat-form-field>
         <mat-label>Select....</mat-label>
-        <mat-select (selectionChange)="onSelectedPeriodChange($event)">
+        <mat-select #selectedPeriod (selectionChange)="onSelectedPeriodChange($event)">
           <mat-option value="none">None</mat-option>
           <mat-option *ngFor="let period of accommodation.availabilityPeriods" [value]="period" >
             {{ period.startDate | date }} - {{ period.endDate | date }} : price = {{ period.price | number }}
@@ -120,13 +120,21 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn">Delete period</button>
+      <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn">Delete period</button>
 
-      <div style="margin-top: 2%">
+<!--      <div style="margin-top: 2%">-->
+<!--        <input type="file" (change)="onFileSelected($event)" multiple />-->
+<!--        <div class="image-container">-->
+<!--          <div>-->
+<!--            <img/>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <div class="image-container">
-          <div>
-            <img/>
+          <div *ngFor="let image of imagesFormArray.value">
+            <img [src]="getUrl(image)" alt="Uploaded Image" />
           </div>
         </div>
       </div>

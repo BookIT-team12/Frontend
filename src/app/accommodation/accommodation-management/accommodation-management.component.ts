@@ -73,6 +73,7 @@ export class AccommodationManagementComponent{
   }
 
   getUrl(file: File): string {
+    //console.log(URL.createObjectURL(file))
     return URL.createObjectURL(file);
   }
 
