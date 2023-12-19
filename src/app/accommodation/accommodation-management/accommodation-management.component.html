@@ -57,7 +57,7 @@
               <mat-card-header>
                 <mat-card-title-group>
                   <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
-                  <button mat-icon-button matIconSuffix style="margin-top: 13%">
+                  <button mat-icon-button (click)="deleteImage(image)" matIconSuffix style="margin-top: 13%">
                     <mat-icon >
                       <span class="material-symbols-outlined">close</span>
                     </mat-icon>

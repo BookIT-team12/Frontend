@@ -148,13 +148,7 @@ export class AccommodationUpdateComponent implements OnInit{
     }
     this.cdr.detectChanges()
   }
-  clearCopyList(existingPeriods : AvailabilityPeriod[], changingOne: AvailabilityPeriod){
-        for(let i=0; i!= existingPeriods.length; i++){
-            if(existingPeriods[i] === changingOne){
-                existingPeriods = existingPeriods.filter(item => item !== existingPeriods[i]);
-            }
-        }
-  }
+
   onDeletingPeriod(selectedPeriod:any){
       this.accommodation.availabilityPeriods = this.accommodation.availabilityPeriods.filter(period => period !== selectedPeriod);
       this.cdr.detectChanges()

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
 import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
@@ -40,7 +40,8 @@ export class AccommodationManagementComponent{
   };
 
   //TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
-  constructor(private http: HttpClient, private accommodationService:AccommodationService, private userService:UserService) {
+  constructor(private http: HttpClient, private accommodationService:AccommodationService,
+              private userService:UserService, private cdr: ChangeDetectorRef) {
 
     /*    this.userService.getUser('pera').subscribe(
           (response) => {
@@ -70,8 +71,14 @@ export class AccommodationManagementComponent{
       }
     }
   }
+  deleteImage(toDelete: File){
+    let index = this.accommodationForm.images.findIndex(image => image === toDelete);
+    if (index !== -1) {
+      this.accommodationForm.images.splice(index, 1);
+    }
+    this.cdr.detectChanges()
+  }
 
-  //fixme: add deleting images!!!
   getUrl(file: File): string {
     //console.log(URL.createObjectURL(file))
     return URL.createObjectURL(file);
