@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
 import {FormBuilder, FormGroup, Validators, AbstractControl} from "@angular/forms";
+import { Router } from '@angular/router';  // Import the Router service
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class RegisterComponent {
   phone: string = '';
   confirmPassword: string = '';
 
-  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar) {
+  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, private router:Router) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -34,20 +35,17 @@ export class RegisterComponent {
     }, {validators: this.passwordMatchValidator});
 
   }
-
   get emailControl() {
     return this.form.get('email');
   }
-
   get passwordControl() {
     return this.form.get('password');
   }
 
-  get confirmPasswordControl() {
+  get confirmPasswordControl(){
     return this.form.get('confirmPassword');
 
   }
-
   passwordMatchValidator(control: AbstractControl) {
     // @ts-ignore
     const password = control.get('password').value;
@@ -61,42 +59,50 @@ export class RegisterComponent {
   onSubmit() {
     // Create a new User object
     console.log(this.password)
-    /*
-        if (this.form.valid) {
-    */
+/*
+    if (this.form.valid) {
+*/
     const newUser = new User(
-      this.name,
-      this.lastName,
-      this.email,
-      this.password,
-      this.address,
-      this.phone,
+        this.name,
+        this.lastName,
+        this.email,
+        this.password,
+        this.address,
+        this.phone,
       this.selectedRole as Role,  // Set the selected role
       this.confirmPassword
     );
     console.log('User: ', newUser)
 
     this.userService.registerUser(newUser).subscribe(
-      (result) => {
-        // Handle success, if needed
-        console.log('User registered successfully', result);
-        this.showSnackBar('Registration successful');
-      },
-      (error) => {
-        // Handle error, if needed
-        console.error('Error registering user', error);
-        this.showSnackBar('Error registering user');
-      }
+        (result) => {
+          // Handle success, if needed
+          console.log('User registered successfully', result);
+  //        this.showSnackBar('Registration successful');
+          this.router.navigate(['/main']);
+        },
+        (error) => {
+          // Handle error, if needed
+ //         this.showSnackBar('Error registering user');
+          console.error('Error registering user', error);
+        }
     );
+
+/*
+  }
+*/
+}
+
+  protected readonly Role = Role;
     /*
       }
     */
   }
-  private showSnackBar(message:string){
-    this.snackBar.open(message, 'Close', {
-      duration: 3000, // Adjust the duration as needed
-      verticalPosition: 'bottom', // You can also use 'bottom'
-      panelClass: 'snackbar-success' // Add a custom CSS class for styling
-    });
-  }
-}
+  // private showSnackBar(message:string){
+  //   this.snackBar.open(message, 'Close', {
+  //     duration: 3000, // Adjust the duration as needed
+  //     verticalPosition: 'bottom', // You can also use 'bottom'
+  //     panelClass: 'snackbar-success' // Add a custom CSS class for styling
+  //   });
+
+

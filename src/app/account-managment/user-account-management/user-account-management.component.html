@@ -1,4 +1,17 @@
-<app-navbar></app-navbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
 <form class="form-container" [formGroup]="form" (ngSubmit)="updateAccount()">
   <h1 class="acc-management-header">Manage account details</h1>
   <div>

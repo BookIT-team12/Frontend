@@ -64,12 +64,12 @@ export class MapComponent implements AfterViewInit {
       const address = res.display_name;
       console.log(address);
 
-    // Display address in a popup on the marker
-    this.marker = new L.Marker([lat, lng])
-      .bindPopup(address)
-      .addTo(this.map)
-      .openPopup();
-  });
+      // Display address in a popup on the marker
+      this.marker = new L.Marker([lat, lng])
+        .bindPopup(address)
+        .addTo(this.map)
+        .openPopup();
+    });
   }
 
 

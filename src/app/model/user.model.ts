@@ -1,7 +1,8 @@
 export enum Role {
   ADMINISTRATOR = 'ADMINISTRATOR',
   GUEST = 'GUEST',
-  OWNER= 'OWNER'
+  OWNER= 'OWNER',
+  UNKNOWN='UNKNOWN'
 }
 
 export class User {

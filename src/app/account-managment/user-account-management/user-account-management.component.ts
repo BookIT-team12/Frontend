@@ -4,6 +4,8 @@ import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
+import {AuthService} from "../../access-control-module/auth.service";
+import * as bcrypt from 'bcryptjs';
 @Component({
   selector: 'app-user-account-management',
   templateUrl: './user-account-management.component.html',
@@ -15,10 +17,14 @@ export class UserAccountManagementComponent implements OnInit {
   hideConfirmation: boolean = true;
   user: User | undefined;
   form!:FormGroup
+  userRole!: Role;
 
-  constructor(private userService:UserService, private fb:FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(private authService:AuthService,private userService:UserService, private fb:FormBuilder, private snackBar:MatSnackBar) {}
+
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole();
+
     // You can initialize form controls and call fetchUserData here
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -28,8 +34,13 @@ export class UserAccountManagementComponent implements OnInit {
       phone: ['', Validators.required],
       address: ['', Validators.required],
     });
-
-    this.fetchUserData('pera@gmail.com');    //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.user = user;
+        this.fetchUserData(user.email);
+      }
+    })
+      //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
 
   }
 
@@ -56,29 +67,28 @@ export class UserAccountManagementComponent implements OnInit {
     );
   }
   deleteAccount():void{
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.user = user;
+        this.userService.deleteUser(user.email).subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+          (response) => {
+            console.log('User deleted successfully', response);
+          },
+          (error) => {
+            console.error('Error deleting user', error);
+          });
+      }
+    })
+
 /*    if (this.user?.email) {*/
     this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
       (response) => {
         console.log('User deleted successfully', response);
-        this.showSnackBar('User deleted successfully!');
-
-
       },
       (error) => {
         console.error('Error deleting user', error);
-        this.showSnackBar('Error! The user cannot be deleted!');
-
       }
     );
-  }
-
-
-  private showSnackBar(message:string){
-    this.snackBar.open(message, 'Close', {
-      duration: 3000, // Adjust the duration as needed
-      verticalPosition: 'bottom', // You can also use 'bottom'
-      panelClass: 'snackbar-success' // Add a custom CSS class for styling
-    });
   }
 
 
@@ -102,16 +112,14 @@ export class UserAccountManagementComponent implements OnInit {
       this.userService.updateUser(updatedUser).subscribe(
         (response) => {
           console.log('User updated successfully', response);
-          this.showSnackBar('User updated successfully!');
-
         },
         (error) => {
           console.error('Error updating user', error);
-          this.showSnackBar('Error! User update failed!');
-
         }
       );
     }
   }
+
+  protected readonly Role = Role;
 }
 
