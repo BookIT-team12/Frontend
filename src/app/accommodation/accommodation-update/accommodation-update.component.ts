@@ -10,6 +10,8 @@ import {AvailabilityPeriodService} from "../../service/availability-period.servi
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {MatSelect} from "@angular/material/select";
 import {MatDatepicker} from "@angular/material/datepicker";
+import {error} from "@angular/compiler-cli/src/transformers/util";
+import {getUrl} from "@ionic/angular/common/directives/navigation/stack-utils";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
 // DODATI LOKACIJU I SLIKE
@@ -26,8 +28,9 @@ export class AccommodationUpdateComponent implements OnInit{
   accommodation!: Accommodation;
   accommodationId!: number; // Accommodation ID retrieved from route parameter
   addingNewPeriod: boolean; //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
-  imagesFiles: File[];
-  imageStrings: string[];
+  imageStrings :string[];
+  imageFiles: File[];
+
   @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
 
     constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
@@ -37,9 +40,8 @@ export class AccommodationUpdateComponent implements OnInit{
             Status.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
             //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
       this.addingNewPeriod = true;
-      this.imagesFiles = [];
       this.imageStrings = [];
-
+        this.imageFiles = [];
       this.accommodationForm = this.fb.group({
             name: ['', [Validators.required]],
             maxGuests: ['', [Validators.required]],
@@ -50,7 +52,7 @@ export class AccommodationUpdateComponent implements OnInit{
             endDate: [''],
             startDate: [''],
             price: [''],
-            images: this.imagesFiles,
+            images: [],
             parking: false,
             wifi: false,
             airConditioning: false,
@@ -73,7 +75,7 @@ export class AccommodationUpdateComponent implements OnInit{
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
             pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status)
 
-        this.imageStrings = pair.second;
+
 
         this.accommodationForm.patchValue({
             name: this.accommodation.name,
@@ -88,10 +90,11 @@ export class AccommodationUpdateComponent implements OnInit{
             kitchen: this.accommodation.containsAmenity(4),
             bathroom: this.accommodation.containsAmenity(5),
             pool: this.accommodation.containsAmenity(6),
-            balcony: this.accommodation.containsAmenity(7),
-            images: this.convertStringListToImages()
+            balcony: this.accommodation.containsAmenity(7)
         });
-        // console.log(this.accommodation)
+        this.imageStrings = pair.second;
+        this.addFileTypeToImages();
+        this.turnStringsToImages();
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -174,41 +177,85 @@ export class AccommodationUpdateComponent implements OnInit{
     }
   }
 
-  stringToUint8Array(str: string) {
-    const buffer = new Uint8Array(str.length);
-    for (let i = 0; i < str.length; i++) {
-      buffer[i] = str.charCodeAt(i);
-    }
-    return buffer;
-  }
-
-  deleteImage(toDelete: File){
-    let index = this.accommodationForm.get('images')?.value.findIndex((image: File) => image === toDelete);
+  deleteImage(toDelete: File){  //fixme: to work with current uploading strategy
+    let index = this.imageFiles.findIndex((image: File) => image === toDelete);
     if (index !== -1) {
-      this.accommodationForm.get('images')?.value.splice(index, 1);
+      this.imageFiles.splice(index, 1);
     }
     this.cdr.detectChanges();
   }
 
-
-  convertStringListToImages(){
-    // Convert List<string> to List<Uint8Array>
-    let byteArraysList = this.imageStrings.map((str: string) => {
-      return this.stringToUint8Array(str);
-    });
-
-    let filesToReturn : File[] = [];
-    byteArraysList.forEach((byteArray: Uint8Array, index: number) => {
-      const blob = new Blob([byteArray], { type: 'image/jpg' });
-      const file = new File([blob], `image_${index}.jpg`, { type: 'image/jpg' });
-      filesToReturn.push(file);
-    });
-    return filesToReturn;
+  addFileTypeToImages(){
+    let typeImage:string = "data:image/png;base64,"
+    for (let i = 0; i!= this.imageStrings.length; i++){
+      this.imageStrings[i] = typeImage + this.imageStrings[i];
+    }
   }
 
-  get imagesFormArray() { //just for transfering to html
-    return this.accommodationForm.get('images') as FormArray;
+  base64StringToFile(base64String: string, fileName: string): File {
+      // Remove the data:image/png;base64, prefix from the Base64 string
+      const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+
+      // Convert the Base64 string to a Blob
+      const byteCharacters = atob(base64WithoutPrefix);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
+
+      // Create a File object from the Blob
+      const file = new File([blob], fileName, { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
+
+      return file;
   }
+
+  turnStringsToImages(){
+      for(let i = 0; i!= this.imageStrings.length; i++){
+        this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "filename"+i))
+      }
+  }
+
+  onFileSelected(event: any): void {
+      const files: FileList | null = event.target.files;
+
+      if (files) {
+          for (let i = 0; i < files.length; i++) {
+              this.imageFiles.push(files.item(i) as File);
+          }
+      }
+
+  }
+
+  // stringToUint8Array(str: string) {
+  //   let typeImage:string = "data:image/png;base64,"
+  //   const buffer = new Uint8Array(str.length);
+  //   for (let i = 0; i < str.length; i++) {
+  //     buffer[i] = str.charCodeAt(i);
+  //   }
+  //   return buffer;
+
+  // }
+
+  // convertStringListToImages(){
+  //   // Convert List<string> to List<Uint8Array>
+  //   let byteArraysList = this.imageStrings.map((str: string) => {
+  //     return this.stringToUint8Array(str);
+  //   });
+  //
+  //   let filesToReturn : File[] = [];
+  //   byteArraysList.forEach((byteArray: Uint8Array, index: number) => {
+  //     const blob = new Blob([byteArray], { type: 'image/jpg' });
+  //     const file = new File([blob], `image_${index}.jpg`, { type: 'image/jpg' });
+  //     filesToReturn.push(file);
+  //   });
+  //   return filesToReturn;
+  // }
+
+  // get imagesFormArray() { //just for transfering to html
+  //   return this.imagesFiles as FormArray;
+  // }
 
 
   getUrl(file: File): string {
@@ -224,20 +271,9 @@ export class AccommodationUpdateComponent implements OnInit{
       this.cdr.detectChanges();
     }
 
-  onFileSelected(event: any): void {
-    const files: FileList | null = event.target.files;
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        this.accommodationForm.get('images')?.value.push(files.item(i) as File);
-      }
-    }
-    // console.log(this.accommodationForm.get('images'));
-    this.cdr.detectChanges();
-  }
 
-  onSubmit(): void
-  {
+  onSubmit(): void {
       const updatedAccommodation = new Accommodation(
         this.accommodation.ownerEmail,
         this.accommodationForm.value.accommodationType as AccommodationType,
