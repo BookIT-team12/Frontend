@@ -11,7 +11,7 @@
     <mat-label>
       Enter your email
     </mat-label>
-    <input matInput>
+    <input matInput formControlName="email" required>
   </mat-form-field>
   <mat-form-field class="global-icon-color">
     <span matTextPrefix>
@@ -20,8 +20,8 @@
       </mat-icon>
     </span>
     <mat-label>Enter your password here</mat-label>
-    <input matInput [type]=" hide ? 'password' : 'text'" required>
-    <button  mat-icon-button matSuffix (click)="hide = !hide"
+    <input matInput [type]=" hide ? 'password' : 'text'" formControlName="password" required>
+    <button  mat-icon-button matSuffix (click)="login()"
              [attr.aria-pressed]="hide">
       <mat-icon >
         <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>

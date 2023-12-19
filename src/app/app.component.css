@@ -7,4 +7,5 @@
   background-repeat: no-repeat;
   /*!* Set other styles as needed *!*/
   height: 100vh;
+  overflow-y: auto;
 }
