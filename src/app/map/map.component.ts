@@ -1,5 +1,5 @@
 // map.component.ts
-import {AfterViewInit, Component, ElementRef} from '@angular/core';
+import { AfterViewInit, Component, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 
@@ -12,7 +12,7 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private marker: any;
 
-  constructor(private mapService: MapService, private elementRef:ElementRef) {}
+  constructor(private mapService: MapService, private elementRef: ElementRef) {}
 
   private initMap(): void {
     console.log('Initializing map...');
@@ -43,8 +43,6 @@ export class MapComponent implements AfterViewInit {
     console.log('Map initialized successfully.');
   }
 
-
-
   onMapClick(e: L.LeafletMouseEvent): void {
     const coord = e.latlng;
     const lat = coord.lat;
@@ -65,15 +63,14 @@ export class MapComponent implements AfterViewInit {
       console.log(address);
 
       // Display address in a popup on the marker
-      this.marker = new L.Marker([lat, lng])
-        .bindPopup(address)
-        .addTo(this.map)
-        .openPopup();
+      this.marker.bindPopup(address).openPopup();
     });
   }
 
-
   searchLocation(address: string): void {
+    if (this.marker) {
+      this.map.removeLayer(this.marker);
+    }
     this.mapService.search(address).subscribe({
       next: (result) => {
         if (result && result.length > 0) {
@@ -82,11 +79,6 @@ export class MapComponent implements AfterViewInit {
 
           // Center the map to the searched location
           this.map.panTo(new L.LatLng(lat, lon));
-
-          // Remove the previous marker if exists
-          if (this.marker) {
-            this.map.removeLayer(this.marker);
-          }
 
           // Add a new marker at the searched location
           this.marker = new L.Marker([lat, lon]).addTo(this.map);
@@ -97,7 +89,6 @@ export class MapComponent implements AfterViewInit {
       },
     });
   }
-
 
   ngAfterViewInit(): void {
     console.log('ngAfterViewInit called.');
