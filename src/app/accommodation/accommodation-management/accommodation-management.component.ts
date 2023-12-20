@@ -13,6 +13,7 @@ import {Reservation} from "../../model/reservation.model";
 import {UserService} from "../../service/user.service";
 import {ConsoleLogger} from "@angular/compiler-cli";
 import {FormBuilder} from "@angular/forms";
+import {AuthService} from "../../access-control-module/auth.service";
 
 //TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
 
@@ -38,6 +39,7 @@ export class AccommodationManagementComponent{
 
 //TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
   accommodationForm ={
+    owner: '',
     name: '',
     minGuests: 0,
     maxGuests: 0,
@@ -54,9 +56,15 @@ export class AccommodationManagementComponent{
   };
 
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
-              private userService:UserService, private cdr: ChangeDetectorRef) {
+              private userService:UserService, private cdr: ChangeDetectorRef, private authService: AuthService) {
     this.availableUntil = new Date();
     this.availableFrom = new Date();
+
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.accommodationForm.owner = user.email;
+      }
+    })
   }
 
 
@@ -100,7 +108,7 @@ export class AccommodationManagementComponent{
     this.availableUntil.setHours(this.availableUntil.getHours() + 1);
     this.availableFrom.setHours(this.availableFrom.getHours() + 1)
     const accommodationData = {
-      ownerEmail: 'dusan@gmail.com',
+      ownerEmail: this.accommodationForm.owner,
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
       description: this.accommodationForm.description,
       name: this.accommodationForm.name,

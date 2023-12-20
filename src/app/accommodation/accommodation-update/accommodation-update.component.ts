@@ -1,17 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
-import {Amenity} from "../../model/amenity.model";
-import {Accommodation, AccommodationType, BookingConfirmationType, AccommodationStatus} from "../../model/accommodation.model";
+import {
+  Accommodation,
+  AccommodationStatus,
+  AccommodationType,
+  BookingConfirmationType
+} from "../../model/accommodation.model";
 import {ActivatedRoute} from "@angular/router";
 import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
 import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {MatSelect} from "@angular/material/select";
 
-//TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
+
 // DODATI LOKACIJU I SLIKE
 
 @Component({
@@ -78,7 +81,7 @@ export class AccommodationUpdateComponent implements OnInit{
             minGuests: this.accommodation.minGuests,
             maxGuests: this.accommodation.maxGuests,
             description: this.accommodation.description,
-            accommodationType: this.accommodation.accommodationType,
+            accommodationType: this.accommodation.accommodationType.toString(),
             bookingConfirmationType: this.accommodation.bookingConfirmationType,
             parking: this.accommodation.containsAmenity(1),
             wifi: this.accommodation.containsAmenity(2),
@@ -182,7 +185,7 @@ export class AccommodationUpdateComponent implements OnInit{
       }
     }
   }
-
+  //todo: change not to be fixed OWNER
   addFileTypeToImages(){
     let typeImage:string = "data:image/png;base64,"
     for (let i = 0; i!= this.imageStrings.length; i++){
@@ -242,9 +245,21 @@ export class AccommodationUpdateComponent implements OnInit{
       }
   }
   onSubmit(): void {
-      const updatedAccommodation = new Accommodation(
+    // let valToAdd: AccommodationType= AccommodationType.ROOM;
+    // if (this.accommodationForm.value.accommodationType == "HOTEL"){
+    //   valToAdd = AccommodationType.HOTEL
+    // } else if (this.accommodationForm.value.accommodationType == "STUDIO"){
+    //   valToAdd = AccommodationType.STUDIO
+    // } if (this.accommodationForm.value.accommodationType == "APARTMENT"){
+    //   valToAdd = AccommodationType.APARTMENT
+    // } if (this.accommodationForm.value.accommodationType == "ROOM"){
+    //   valToAdd = AccommodationType.ROOM
+    // }
+    // console.log('valToAdd:', typeof valToAdd)
+    // console.log(valToAdd === AccommodationType.STUDIO)
+    const updatedAccommodation = new Accommodation(
         this.accommodation.ownerEmail,
-        this.accommodationForm.value.accommodationType as AccommodationType,
+        this.accommodationForm.value.accommodationType,
         this.accommodationForm.value.description,
         this.accommodationForm.value.name,
         this.accommodationForm.get('minGuests')?.value, // minGuests - You need to set this based on your requirement
@@ -257,7 +272,6 @@ export class AccommodationUpdateComponent implements OnInit{
         AccommodationStatus.PENDING
       );
       this.patchTimeUp(updatedAccommodation.availabilityPeriods);
-
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
           console.log('Accommodation updated successfully', result);
