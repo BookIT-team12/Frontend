@@ -1,22 +1,11 @@
-<mat-toolbar>
-  <span class="spacer"></span>
-
-  <mat-icon class="icon">
-    <span class="material-icons-outlined">menu</span>
-  </mat-icon>
-  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
-  <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-    <button mat-menu-item class="text"><span class="material-icons">home</span>
-      Home</button>
-    <button mat-menu-item>
-      <span class="material-icons">edit</span>Manage account</button>
-    <button mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
-    <button mat-menu-item><span class="material-icons">star</span>Reviews</button>
-    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>
-    <button mat-menu-item><span class="material-icons">logout</span>Logout</button>
-  </mat-menu>
-  <div class="rectangle37"></div>
-</mat-toolbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar-main></app-navbar-main>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered-main></app-navbar-non-registered-main>
+</div>
 <mat-drawer-container>
   <mat-drawer opened mode="side" class="sidenav">
     <h1 class="logo-header">
@@ -73,10 +62,20 @@
       <div class="aaa">
         <span class="material-icons">paid</span>
         <h3 class="filters-txt">Price range: </h3>
-        <mat-slider min="10" max="1000" [displayWith]="displayFn">
-          <input matSliderStartThumb>
-          <input matSliderEndThumb>
+
+        <!-- Display Min and Max Values Above Slider Ends -->
+        <div class="aaaa">
+        <div class="slider-labels">
+          <div class="slider-label" *ngIf="minSliderValue !== undefined">{{ minSliderValue }}</div>
+          <div class="slider-label" *ngIf="maxSliderValue !== undefined">{{ maxSliderValue }}</div>
+        </div>
+
+        <!-- MatSlider with Display Function -->
+        <mat-slider min="10" max="1000" [displayWith]="displayFn" [(ngModel)]="sliderValues">
+          <input matSliderStartThumb [(ngModel)]="minSliderValue">
+          <input matSliderEndThumb [(ngModel)]="maxSliderValue">
         </mat-slider>
+        </div>
       </div>
 
       <h1></h1>
@@ -90,11 +89,12 @@
       <div *ngIf="accommodations.length > 0; else noAccommodations">
         <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
           <div class="grid-container">
-            <h2>Name: {{ accommodation.name }}</h2>
-            <p>Description: {{ accommodation.description }}</p>
-            <p>Type: {{ accommodation.accommodationType }}</p>
-            <p>Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
+            <h2 class="acc-name">Name: {{ accommodation.name }}</h2>
+            <p class="acc-desc">• Description: {{ accommodation.description}}</p>
+            <p class="acc-desc">• Type: {{ accommodation.accommodationType }}</p>
+            <p class="acc-desc">• Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
                 <!-- Add more details as needed -->
+            <button mat-raised-button (click)="bookITClicked(accommodation.id)" class="global-darkBtn login-btn"> Book IT </button>
           </div>
         </ng-container>
       </div>

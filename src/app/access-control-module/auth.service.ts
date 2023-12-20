@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {catchError} from "rxjs/operators";
-import {User} from "../model/user.model";
+import {Role, User} from "../model/user.model";
 import {UserService} from "../service/user.service";
 export const environment = {
   apiHost: 'http://localhost:8080/'
@@ -88,7 +88,7 @@ export class AuthService {
         return null;
       }
     }
-    return null;
+    else{return Role.UNKNOWN;}
   }
 
   isLoggedIn(): boolean {

@@ -32,7 +32,6 @@ export class LoginComponent {
         email: this.loginForm.value.email || "test",
         password: this.loginForm.value.password || "test"
       }
-      alert(login.email)
 
       this.userRole = this.authService.getRole();
       console.log("USER ROLE:", this.userRole);
@@ -43,7 +42,6 @@ export class LoginComponent {
         next: (response: AuthResponse) => {
           console.log(response)
           console.log(response.accessToken)
-          alert(response.accessToken)
           localStorage.setItem('user', response.accessToken);
           this.authService.setUser()
           this.authService.setUserDetails()

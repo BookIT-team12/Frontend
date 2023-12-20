@@ -9,6 +9,8 @@ import { NavbarOwnerComponent } from './navbar-owner/navbar-owner.component';
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { NavbarNonRegisteredComponent } from './navbar-non-registered/navbar-non-registered.component';
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import { NavbarMainComponent } from './navbar-main/navbar-main.component';
+import { NavbarNonRegisteredMainComponent } from './navbar-non-registered-main/navbar-non-registered-main.component';
 
 
 
@@ -17,7 +19,9 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     NavbarComponent,
     NavbarOwnerComponent,
     NavbarAdminComponent,
-    NavbarNonRegisteredComponent
+    NavbarNonRegisteredComponent,
+    NavbarMainComponent,
+    NavbarNonRegisteredMainComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,9 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     NavbarComponent,
     NavbarOwnerComponent,
     NavbarAdminComponent,
-    NavbarNonRegisteredComponent
+    NavbarNonRegisteredComponent,
+    NavbarMainComponent,
+    NavbarNonRegisteredMainComponent
   ]
 })
 export class BaseModule { }

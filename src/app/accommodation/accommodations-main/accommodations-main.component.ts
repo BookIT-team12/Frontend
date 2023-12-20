@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AccommodationService} from "../../service/accommodation.service";
 import {AuthService} from "../../access-control-module/auth.service";
 import {Accommodation} from "../../model/accommodation.model";
+import {Role} from "../../model/user.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-accommodations-main',
@@ -14,23 +16,28 @@ export class AccommodationsMainComponent implements OnInit {
   parking= false;
   ac_unit= false;
   accommodations!: Accommodation[];
-  constructor(private accommodationService: AccommodationService, private authService:AuthService) {
+  userRole!: Role;
+  constructor(private router: Router, private accommodationService: AccommodationService, private authService:AuthService) {
+  }
+  minSliderValue = 10;
+  maxSliderValue = 1000;
+
+  // Display function for formatting values
+  displayFn(value: number) {
+    return value.toFixed(0); // Customize this based on your needs
   }
 
+  // Variable to store both slider values
+  sliderValues: number[] = [this.minSliderValue, this.maxSliderValue];
   ngOnInit():void{
+    this.userRole = this.authService.getRole();
     this.authService.userAccount$.subscribe(user => {
-      if (user) {
-        this.loadAccommodations(user.email);
-      }
+      this.loadAccommodations();
     });
   }
 
-  displayFn(value: number | null): string {
-    // You can format the value as needed
-    return value ? `$${value}` : '';
-  }
-  loadAccommodations(ownerId:string){
-    this.accommodationService.getOwnerAccommodations(ownerId).subscribe(
+  loadAccommodations(){
+    this.accommodationService.getAllAccommodations().subscribe(
       (data)=>
       {
         this.accommodations=data;
@@ -39,5 +46,12 @@ export class AccommodationsMainComponent implements OnInit {
         console.error('Error loading accommodations: ', error)
       }
     )
+  }
+
+  protected readonly Role = Role;
+
+  bookITClicked(id: number) {
+    console.log('ACCOMMODATION ID: '+id.toString());
+    this.router.navigate(['/accommodation_details/'+id.toString()]);
   }
 }
