@@ -25,6 +25,11 @@ export class AccommodationManagementComponent{
 
   availableFrom: Date;
   availableUntil: Date;
+  //fixme: form should be form not like this, and these two dates should be inside form
+  //fixme: you need to make timezones the same. TIMEZONE PROBLEM IS DESCRIBED BELLOW:
+//   TIMEZONE PROBLEM: THING ABOUT THIS PROBLEM IS THAT ON THE FRONT I HAVE 25. DEC AT MIDNIGHT (00:00) AND WHEN I SEND IT
+//   TO BACKEND I GET 24. DEC AT (23:00). I GUESS ITS ABOUT SOME TIMEZONES AND I NEED TO FIX THIS LATER, FOR NOW ITS
+//   PATCHED UP JUST BY ADDING ONE HOUR TO VALUE BEFORE SUBMITTING FORM
 
 //TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
   accommodationForm ={

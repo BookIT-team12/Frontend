@@ -232,7 +232,14 @@ export class AccommodationUpdateComponent implements OnInit{
         this.cdr.detectChanges();
     }
 
-
+    //fixme: go through the file structure one more time to see if you can refactor anything here to make your life easier for later
+    //fixme: same thing for timezones as in the accommodation managment component!!!! this just adds 1 hour doesnt really fix the issue. I think its about timezones!
+  patchTimeUp(periods : AvailabilityPeriod[]){
+      for (let i =0; i!=periods.length; i++){
+        periods[i].startDate.setHours(periods[i].startDate.getHours() + 1);
+        periods[i].endDate.setHours(periods[i].endDate.getHours() + 1);
+      }
+  }
   onSubmit(): void {
       const updatedAccommodation = new Accommodation(
         this.accommodation.ownerEmail,
@@ -248,11 +255,7 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodation.availabilityPeriods,
         Status.PENDING
       );
-    console.log('u konstruktoru za updated: ', this.accommodation.availabilityPeriods);
-    console.log('u konstruktoru za updated: ', updatedAccommodation.availabilityPeriods);
-
-      console.log('new accommodation: ', updatedAccommodation);
-      console.log('Images of accommodation: ', this.imageFiles);
+      this.patchTimeUp(updatedAccommodation.availabilityPeriods);
 
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
