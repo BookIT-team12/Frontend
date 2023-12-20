@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable, tap, throwError} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
+import {catchError} from "rxjs/operators";
 
 @Injectable({
   providedIn:'root',
@@ -15,7 +16,15 @@ export class AccommodationService{
 
   getAccommodationById(id: number): Observable<Accommodation> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Accommodation>(url);
+    return this.http.get<Accommodation>(url).pipe(
+        tap(data => console.log('Response data:', data)), // Log successful responses
+        catchError(this.handleError) // Log and handle errors
+    );
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    console.error('An error occurred:', error);
+    return throwError('Something went wrong; please try again later.');
   }
 
   openUpdatePage(accommodationId:number){

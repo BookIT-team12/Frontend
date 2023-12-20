@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AccommodationService} from "../../service/accommodation.service";
+import {AuthService} from "../../access-control-module/auth.service";
 
 @Component({
   selector: 'app-owners-accommodations',
@@ -9,7 +10,7 @@ import {AccommodationService} from "../../service/accommodation.service";
 export class OwnersAccommodationsComponent implements OnInit {
   accommodations: any[]=[];
 
-  constructor(private accommodationService: AccommodationService) {
+  constructor(private accommodationService: AccommodationService, private authService:AuthService) {
   }
 
   openAccommodationUpdate(accommodationId:number):void{
@@ -17,7 +18,11 @@ export class OwnersAccommodationsComponent implements OnInit {
     this.accommodationService.openUpdatePage(accommodationId);}
 
   ngOnInit():void{
-    this.loadAccommodations('pera@gmail.com'); //TODO: IZMENITI DA USER ID NIJE 'ZAKUCAN', VEC DA SE PROSLEDI ID LOGGED IN USER-A
+    this.authService.userAccount$.subscribe(user => {
+      if (user) {
+        this.loadAccommodations(user.email);
+      }
+    });
   }
 
   loadAccommodations(ownerId:string){
