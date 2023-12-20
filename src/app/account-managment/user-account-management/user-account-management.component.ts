@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
+import {AuthService} from "../../access-control-module/auth.service";
 @Component({
   selector: 'app-user-account-management',
   templateUrl: './user-account-management.component.html',
@@ -14,10 +16,14 @@ export class UserAccountManagementComponent implements OnInit {
   hideConfirmation: boolean = true;
   user: User | undefined;
   form!:FormGroup
+  userRole!: Role;
 
-  constructor(private userService:UserService, private fb:FormBuilder) {}
+  constructor(private authService:AuthService,private userService:UserService, private fb:FormBuilder, private snackBar:MatSnackBar) {}
+
 
   ngOnInit(): void {
+    this.userRole = this.authService.getRole();
+
     // You can initialize form controls and call fetchUserData here
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -27,8 +33,14 @@ export class UserAccountManagementComponent implements OnInit {
       phone: ['', Validators.required],
       address: ['', Validators.required],
     });
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.user = user;
+        this.fetchUserData(user.email);
+      }
+    })
+      //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
 
-    this.fetchUserData('pera');
   }
 
   fetchUserData(email: string): void {
@@ -53,6 +65,31 @@ export class UserAccountManagementComponent implements OnInit {
       }
     );
   }
+  deleteAccount():void{
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.user = user;
+        this.userService.deleteUser(user.email).subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+          (response) => {
+            console.log('User deleted successfully', response);
+          },
+          (error) => {
+            console.error('Error deleting user', error);
+          });
+      }
+    })
+
+/*    if (this.user?.email) {*/
+    this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+      (response) => {
+        console.log('User deleted successfully', response);
+      },
+      (error) => {
+        console.error('Error deleting user', error);
+      }
+    );
+  }
+
 
 
   updateAccount(): void {
@@ -81,5 +118,7 @@ export class UserAccountManagementComponent implements OnInit {
       );
     }
   }
+
+  protected readonly Role = Role;
 }
 

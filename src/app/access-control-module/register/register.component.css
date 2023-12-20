@@ -46,3 +46,11 @@
   margin-left: 25%;
   margin-right: 25%;
 }
+
+
+/* Add these styles to your component's CSS file */
+.snackbar-success {
+  background-color: rgba(142, 182, 245, 0.66); /* Green */
+  color: white;
+}
+

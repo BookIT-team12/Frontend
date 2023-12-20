@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {map, Observable, throwError} from "rxjs";
 import { catchError } from "rxjs/operators";
 import { User } from "../model/user.model";
 
@@ -32,18 +32,23 @@ export class UserService {
     );
   }
 
-  deleteUser(email: string): Observable<User> {
+  deleteUser(email: string): Observable<any> {
     const url = `${this.apiUrl}/${email}`;
-    return this.http.delete<User>(url).pipe(
-      catchError((error) => {
-        console.error('Error deleting user:', error);
-        return throwError(error);
-      })
+
+    return this.http.delete(url, { observe: 'response' }).pipe(
+      map(response => response.body),
+      catchError(error => this.handleError(error))
     );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error:', error);
+    return throwError('An error occurred. Please try again later.');
   }
 
   getUser(email: string): Observable<User> {
     const url = `${this.apiUrl}/${email}`;
+    //{withCredentials:true}
     return this.http.get<User>(url).pipe(
       catchError((error) => {
         console.error('Error getting user:', error);
@@ -54,6 +59,7 @@ export class UserService {
 
   getAllUsers(): Observable<User[]> {
     const url = `${this.apiUrl}`;
+    //, {withCredentials:true}
     return this.http.get<User[]>(url).pipe(
       catchError((error) => {
         console.error('Error getting all users:', error);

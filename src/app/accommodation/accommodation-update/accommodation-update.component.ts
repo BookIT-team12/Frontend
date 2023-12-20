@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
-import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
+import {Amenity} from "../../model/amenity.model";
+import {Accommodation, AccommodationType, BookingConfirmationType, AccommodationStatus} from "../../model/accommodation.model";
 import {ActivatedRoute} from "@angular/router";
 import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
 import {AvailabilityPeriod} from "../../model/availability-period.model";
@@ -34,7 +35,7 @@ export class AccommodationUpdateComponent implements OnInit{
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService) {
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-          Status.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
+          AccommodationStatus.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
           //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
     this.addingNewPeriod = true;
     this.imageStrings = [];
@@ -253,7 +254,7 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodation.reservations, // reservations - You need to set this based on your requirement
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
         this.accommodation.availabilityPeriods,
-        Status.PENDING
+        AccommodationStatus.PENDING
       );
       this.patchTimeUp(updatedAccommodation.availabilityPeriods);
 

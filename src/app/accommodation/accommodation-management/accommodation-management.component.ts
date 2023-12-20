@@ -1,7 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
-import {Accommodation, AccommodationType, BookingConfirmationType, Status} from "../../model/accommodation.model";
+import {
+  Accommodation,
+  AccommodationStatus,
+  AccommodationType,
+  BookingConfirmationType
+} from "../../model/accommodation.model";
 import {Amenity} from "../../model/amenity.model";
 import {Review} from "../../model/review.model";
 import {Reservation} from "../../model/reservation.model";
@@ -128,8 +133,9 @@ export class AccommodationManagementComponent{
         accommodationData.reservations,
         accommodationData.bookingConfirmationType,
         accommodationData.availabilityPeriods,
-        Status.PENDING
+      AccommodationStatus.PENDING
     );
+    console.log('New accommodation: ', newAccommodation)
 
     console.log(newAccommodation);
 

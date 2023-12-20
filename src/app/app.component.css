@@ -8,3 +8,10 @@
   /*!* Set other styles as needed *!*/
   height: 100vh;
 }
+
+
+/* Add these styles to your component's CSS file */
+.snackbar-success {
+  background-color: rgba(142, 182, 245, 0.66); /* Green */
+  color: white;
+}

@@ -1,14 +1,25 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
+import {Role} from "../../model/user.model";
+import {AuthService} from "../../access-control-module/auth.service";
 
 @Component({
   selector: 'app-navbar-owner',
   templateUrl: './navbar-owner.component.html',
   styleUrls: ['./navbar-owner.component.css']
 })
-export class NavbarOwnerComponent {
+export class NavbarOwnerComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  userRole: string = Role.OWNER;
+
+  constructor(private router: Router, private authService:AuthService) {}
+
+  ngOnInit() {
+    this.authService.getRoleObservable().subscribe(role=>{
+      this.userRole=role;
+      console.log(this.userRole);
+    })
+  }
 
   menuItemClicked(option: string) {
     console.log(`Selected option: ${option}`);
@@ -28,9 +39,32 @@ export class NavbarOwnerComponent {
       case 'owner-approval-res':
         this.router.navigate(['/owner-approval-res']);
         break;
+      case 'owner-logout':
+          this.authService.logout().subscribe(() => {
+              // Clear user-related data and navigate to the login page
+              this.router.navigate(['/login']);
+              console.log("Logged out successfully!");
+          });
+          break;
       default:
-        break;
-    }
+          break;
   }
+  }
+
+  // logout() {
+  //   // Call the logout method from the AuthService
+  //   this.authService.logOut().subscribe(
+  //     () => {
+  //
+  //       localStorage.removeItem('user');
+  //       this.router.navigate(['/login']);
+  //
+  //       console.log("Logged out successfully!")
+  //     },
+  //     (error) => {
+  //       console.error('Error logging out:', error);
+  //     }
+  //   );
+  // }
 
 }

@@ -16,7 +16,7 @@ export enum AccommodationType {
 
 }
 
-export enum Status{
+export enum AccommodationStatus{
   APPROVED='APPROVED',
   DENIED='DENIED',
   PENDING='PENDING'
@@ -36,7 +36,7 @@ export class Accommodation {
   reservations: Reservation[];
   bookingConfirmationType: BookingConfirmationType;
   availabilityPeriods: AvailabilityPeriod[];
-  status:Status;
+  status:AccommodationStatus;
 
   constructor(
     ownerEmail: string,
@@ -50,7 +50,7 @@ export class Accommodation {
     reservations: Reservation[],
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
-    status:Status
+    status:AccommodationStatus
   ) {
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;

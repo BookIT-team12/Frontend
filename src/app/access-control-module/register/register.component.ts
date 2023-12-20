@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
 import {FormBuilder, FormGroup, Validators, AbstractControl} from "@angular/forms";
-
+import { Router } from '@angular/router';  // Import the Router service
+import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -22,8 +23,8 @@ export class RegisterComponent {
   phone: string = '';
   confirmPassword: string = '';
 
-  constructor(private userService: UserService, private fb:FormBuilder) {
-    this.form=this.fb.group({
+  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, private router:Router) {
+    this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', [Validators.required]],
@@ -31,7 +32,7 @@ export class RegisterComponent {
       lastName: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       address: ['', [Validators.required]],
-    },{ validators: this.passwordMatchValidator });
+    }, {validators: this.passwordMatchValidator});
 
   }
   get emailControl() {
@@ -51,7 +52,7 @@ export class RegisterComponent {
     // @ts-ignore
     const confirmPassword = control.get('confirmPassword').value;
 
-    return password === confirmPassword ? null : { passwordMismatch: true };
+    return password === confirmPassword ? null : {passwordMismatch: true};
   }
 
 
@@ -68,8 +69,9 @@ export class RegisterComponent {
         this.password,
         this.address,
         this.phone,
-      this.selectedRole as Role,  // Set the selected role
-      this.confirmPassword
+        this.selectedRole as Role,  // Set the selected role
+//      this.Role.ADMINISTRATOR, //
+        this.confirmPassword
     );
     console.log('User: ', newUser)
 
@@ -77,9 +79,12 @@ export class RegisterComponent {
         (result) => {
           // Handle success, if needed
           console.log('User registered successfully', result);
+  //        this.showSnackBar('Registration successful');
+          this.router.navigate(['/main']);
         },
         (error) => {
           // Handle error, if needed
+ //         this.showSnackBar('Error registering user');
           console.error('Error registering user', error);
         }
     );
@@ -88,4 +93,17 @@ export class RegisterComponent {
   }
 */
 }
-}
+
+  protected readonly Role = Role;
+    /*
+      }
+    */
+  }
+  // private showSnackBar(message:string){
+  //   this.snackBar.open(message, 'Close', {
+  //     duration: 3000, // Adjust the duration as needed
+  //     verticalPosition: 'bottom', // You can also use 'bottom'
+  //     panelClass: 'snackbar-success' // Add a custom CSS class for styling
+  //   });
+
+

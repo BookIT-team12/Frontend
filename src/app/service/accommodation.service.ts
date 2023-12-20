@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {Observable, tap, throwError} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
+import {catchError} from "rxjs/operators";
 import {FormGroup} from "@angular/forms";
 import {AccommodationDtoModel} from "../model/accommodation.dto.model";
 
@@ -56,6 +57,18 @@ export class AccommodationService{
   deleteAccommodation(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<void>(url);
+  }
+
+  getPendingAccommodations(): Observable<Accommodation[]> {
+    return this.http.get<Accommodation[]>(`${this.apiUrl}/pending`);
+  }
+
+  approveAccommodation(accommodationId: number | undefined): Observable<any> {
+    return this.http.post(`${this.apiUrl}/approve/${accommodationId}`, {});
+  }
+
+  denyAccommodation(accommodationId: number | undefined): Observable<any> {
+    return this.http.post(`${this.apiUrl}/deny/${accommodationId}`, {});
   }
 
 }
