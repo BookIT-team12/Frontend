@@ -41,9 +41,16 @@ export class AccommodationService{
     return this.http.post<Accommodation>(this.apiUrl, formData);
   }
 
-  updateAccommodation(id: number | undefined, accommodation: Accommodation): Observable<Accommodation> {
+  updateAccommodation(accommodation: Accommodation, images: File[], id: number | undefined): Observable<AccommodationDtoModel> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.put<Accommodation>(url, accommodation);
+
+    const formData: FormData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append('accommodation_images', images[i]);
+    }
+    formData.append("accommodationDTO", new Blob([JSON.stringify(accommodation)], {type: "application/json"}))
+
+    return this.http.put<AccommodationDtoModel>(url, formData);
   }
 
   deleteAccommodation(id: number): Observable<void> {

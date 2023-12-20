@@ -6,6 +6,7 @@ import {Amenity} from "../../model/amenity.model";
 import {Review} from "../../model/review.model";
 import {Reservation} from "../../model/reservation.model";
 import {UserService} from "../../service/user.service";
+import {ConsoleLogger} from "@angular/compiler-cli";
 
 //TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
 
@@ -107,6 +108,7 @@ export class AccommodationManagementComponent{
         }
       ],
     };
+    //fixme: stavlja isti broj za max i min guests iakone kreiram tako!!!
 
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(
@@ -123,9 +125,8 @@ export class AccommodationManagementComponent{
         accommodationData.availabilityPeriods,
         Status.PENDING
     );
-    console.log('New accommodation: ', newAccommodation)
 
-
+    console.log(newAccommodation);
 
     this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.images).subscribe(
         (result) => {

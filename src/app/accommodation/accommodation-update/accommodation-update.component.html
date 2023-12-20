@@ -106,8 +106,8 @@
         <input matInput type="number" placeholder="Enter price per night" formControlName="price">
       </mat-form-field>
 
-      <button mat-raised-button (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn">Add period</button>
-      <button mat-raised-button (click)="onChangingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn">Change period</button>
+      <button mat-raised-button (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn" type="button">Add period</button>
+      <button mat-raised-button (click)="onChangingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn" type="button">Change period</button>
 
       <h2>Existing availability periods: </h2>
       <mat-form-field>
@@ -120,7 +120,7 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn">Delete period</button>
+      <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn" type="button">Delete period</button>
 
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
@@ -131,7 +131,7 @@
               <mat-card-header>
                 <mat-card-title-group>
                   <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
-                  <button mat-icon-button (click)="deleteImage(image)" matIconSuffix style="margin-top: 13%">
+                  <button mat-icon-button (click)="deleteImage(image)" matIconSuffix style="margin-top: 13%" type="button">
                     <mat-icon >
                       <span class="material-symbols-outlined">close</span>
                     </mat-icon>

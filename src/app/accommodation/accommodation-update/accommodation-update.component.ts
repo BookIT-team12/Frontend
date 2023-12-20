@@ -9,9 +9,6 @@ import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {MatSelect} from "@angular/material/select";
-import {MatDatepicker} from "@angular/material/datepicker";
-import {error} from "@angular/compiler-cli/src/transformers/util";
-import {getUrl} from "@ionic/angular/common/directives/navigation/stack-utils";
 
 //TODO: IZMENI DA BIRA AVAILIBILITY PERIOD, A NE DA IMA ZAKUCAN!!!
 // DODATI LOKACIJU I SLIKE
@@ -33,35 +30,35 @@ export class AccommodationUpdateComponent implements OnInit{
 
   @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
 
-    constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
-                private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private sanitizer: DomSanitizer) {
-        this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
-            0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-            Status.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
-            //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
-      this.addingNewPeriod = true;
-      this.imageStrings = [];
-        this.imageFiles = [];
-      this.accommodationForm = this.fb.group({
-            name: ['', [Validators.required]],
-            maxGuests: ['', [Validators.required]],
-            minGuests: ['', [Validators.required]],
-            description: ['', [Validators.required]],
-            accommodationType: ['', [Validators.required]],
-            bookingConfirmationType: ['', [Validators.required]],
-            endDate: [''],
-            startDate: [''],
-            price: [''],
-            images: [],
-            parking: false,
-            wifi: false,
-            airConditioning: false,
-            kitchen: false,
-            bathroom: false,
-            pool: false,
-            balcony: false
-        });
-    }
+  constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
+              private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService) {
+      this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
+          0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
+          Status.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
+          //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
+    this.addingNewPeriod = true;
+    this.imageStrings = [];
+      this.imageFiles = [];
+    this.accommodationForm = this.fb.group({
+          name: ['', [Validators.required]],
+          maxGuests: ['', [Validators.required]],
+          minGuests: ['', [Validators.required]],
+          description: ['', [Validators.required]],
+          accommodationType: ['', [Validators.required]],
+          bookingConfirmationType: ['', [Validators.required]],
+          endDate: [''],
+          startDate: [''],
+          price: [''],
+          images: [],
+          parking: false,
+          wifi: false,
+          airConditioning: false,
+          kitchen: false,
+          bathroom: false,
+          pool: false,
+          balcony: false
+      });
+  }
 
   ngOnInit(): void {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
@@ -74,8 +71,6 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
             pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status)
-
-
 
         this.accommodationForm.patchValue({
             name: this.accommodation.name,
@@ -92,6 +87,7 @@ export class AccommodationUpdateComponent implements OnInit{
             pool: this.accommodation.containsAmenity(6),
             balcony: this.accommodation.containsAmenity(7)
         });
+
         this.imageStrings = pair.second;
         this.addFileTypeToImages();
         this.turnStringsToImages();
@@ -101,7 +97,7 @@ export class AccommodationUpdateComponent implements OnInit{
       }
     );
   }
-
+//fixme: ime slike i tip stavlja lose onaj deo 'filename'
   onSelectingPeriod(newSelectedPeriod : AvailabilityPeriod){
       this.accommodationForm.patchValue({
           endDate: newSelectedPeriod.endDate,
@@ -127,7 +123,7 @@ export class AccommodationUpdateComponent implements OnInit{
       }
   }
   onAddingPeriod(){
-    let newPeriod: AvailabilityPeriod = new AvailabilityPeriod(null, this.accommodationForm.get('startDate')?.value,
+    let newPeriod: AvailabilityPeriod = new AvailabilityPeriod(undefined, this.accommodationForm.get('startDate')?.value,
                                   this.accommodationForm.get('endDate')?.value, this.accommodationForm.get('price')?.value)
     if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
       this.accommodation.availabilityPeriods.push(newPeriod)
@@ -155,13 +151,19 @@ export class AccommodationUpdateComponent implements OnInit{
     }
     this.cdr.detectChanges()
   }
-
   onDeletingPeriod(selectedPeriod:any){
       this.accommodation.availabilityPeriods = this.accommodation.availabilityPeriods.filter(period => period !== selectedPeriod);
       this.resetPeriodsGUI()
       this.cdr.detectChanges()
   }
-
+  resetPeriodsGUI(){
+      this.addingNewPeriod = true;
+      this.selectedPeriod.value = 'none'
+      this.accommodationForm.get('endDate')?.reset();
+      this.accommodationForm.get('startDate')?.reset();
+      this.accommodationForm.get('price')?.reset();
+      this.cdr.detectChanges();
+  }
 
   // Add a method to handle the changes in the amenities checkboxes
   onAmenityChange(event: any, amenity: number): void {
@@ -177,100 +179,55 @@ export class AccommodationUpdateComponent implements OnInit{
     }
   }
 
-  deleteImage(toDelete: File){  //fixme: to work with current uploading strategy
-    let index = this.imageFiles.findIndex((image: File) => image === toDelete);
-    if (index !== -1) {
-      this.imageFiles.splice(index, 1);
-    }
-    this.cdr.detectChanges();
-  }
-
   addFileTypeToImages(){
-    let typeImage:string = "data:image/png;base64,"
-    for (let i = 0; i!= this.imageStrings.length; i++){
-      this.imageStrings[i] = typeImage + this.imageStrings[i];
-    }
-  }
-
+let typeImage:string = "data:image/png;base64,"
+for (let i = 0; i!= this.imageStrings.length; i++){
+  this.imageStrings[i] = typeImage + this.imageStrings[i];
+}
+}
   base64StringToFile(base64String: string, fileName: string): File {
-      // Remove the data:image/png;base64, prefix from the Base64 string
-      const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+  // Remove the data:image/png;base64, prefix from the Base64 string
+  const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
 
-      // Convert the Base64 string to a Blob
-      const byteCharacters = atob(base64WithoutPrefix);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
-
-      // Create a File object from the Blob
-      const file = new File([blob], fileName, { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
-
-      return file;
+  // Convert the Base64 string to a Blob
+  const byteCharacters = atob(base64WithoutPrefix);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
 
+  // Create a File object from the Blob
+  const file = new File([blob], fileName, { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
+
+  return file;
+}
   turnStringsToImages(){
-      for(let i = 0; i!= this.imageStrings.length; i++){
-        this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "filename"+i))
-      }
+  for(let i = 0; i!= this.imageStrings.length; i++){
+    this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "filename"+i))
   }
-
+}
   onFileSelected(event: any): void {
-      const files: FileList | null = event.target.files;
+  const files: FileList | null = event.target.files;
 
-      if (files) {
-          for (let i = 0; i < files.length; i++) {
-              this.imageFiles.push(files.item(i) as File);
-          }
+  if (files) {
+      for (let i = 0; i < files.length; i++) {
+          this.imageFiles.push(files.item(i) as File);
       }
-
   }
 
-  // stringToUint8Array(str: string) {
-  //   let typeImage:string = "data:image/png;base64,"
-  //   const buffer = new Uint8Array(str.length);
-  //   for (let i = 0; i < str.length; i++) {
-  //     buffer[i] = str.charCodeAt(i);
-  //   }
-  //   return buffer;
-
-  // }
-
-  // convertStringListToImages(){
-  //   // Convert List<string> to List<Uint8Array>
-  //   let byteArraysList = this.imageStrings.map((str: string) => {
-  //     return this.stringToUint8Array(str);
-  //   });
-  //
-  //   let filesToReturn : File[] = [];
-  //   byteArraysList.forEach((byteArray: Uint8Array, index: number) => {
-  //     const blob = new Blob([byteArray], { type: 'image/jpg' });
-  //     const file = new File([blob], `image_${index}.jpg`, { type: 'image/jpg' });
-  //     filesToReturn.push(file);
-  //   });
-  //   return filesToReturn;
-  // }
-
-  // get imagesFormArray() { //just for transfering to html
-  //   return this.imagesFiles as FormArray;
-  // }
-
-
+}
   getUrl(file: File): string {
-    return URL.createObjectURL(file);
-  }
-
-  resetPeriodsGUI(){
-      this.addingNewPeriod = true;
-      this.selectedPeriod.value = 'none'
-      this.accommodationForm.get('endDate')?.reset();
-      this.accommodationForm.get('startDate')?.reset();
-      this.accommodationForm.get('price')?.reset();
-      this.cdr.detectChanges();
+return URL.createObjectURL(file);
+}
+  deleteImage(toDelete: File){
+        let index = this.imageFiles.findIndex((image: File) => image === toDelete);
+        if (index !== -1) {
+            this.imageFiles.splice(index, 1);
+        }
+        this.cdr.detectChanges();
     }
-
 
 
   onSubmit(): void {
@@ -279,8 +236,8 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodationForm.value.accommodationType as AccommodationType,
         this.accommodationForm.value.description,
         this.accommodationForm.value.name,
-        this.accommodationForm.value.guests, // minGuests - You need to set this based on your requirement
-        this.accommodationForm.value.guests,
+        this.accommodationForm.get('minGuests')?.value, // minGuests - You need to set this based on your requirement
+        this.accommodationForm.get('maxGuests')?.value,
         this.accommodation.amenities,
         this.accommodation.reviews, // reviews - You need to set this based on your requirement
         this.accommodation.reservations, // reservations - You need to set this based on your requirement
@@ -289,16 +246,17 @@ export class AccommodationUpdateComponent implements OnInit{
         Status.PENDING
       );
 
-      console.log(updatedAccommodation);
+      console.log('new accommodation: ', updatedAccommodation);
+      console.log('Images of accommodation: ', this.imageFiles);
 
-      // this.accommodationService.updateAccommodation(updatedAccommodation.id, updatedAccommodation).subscribe(
-      //   (result) => {
-      //     console.log('Accommodation updated successfully', result);
-      //   },
-      //   (error) => {
-      //     console.error('Error updating accommodation', error);
-      //   }
-      // );
+      this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
+        (result) => {
+          console.log('Accommodation updated successfully', result);
+        },
+        (error) => {
+          console.error('Error updating accommodation', error);
+        }
+      );
     }
     protected readonly startWith = startWith;
 }
