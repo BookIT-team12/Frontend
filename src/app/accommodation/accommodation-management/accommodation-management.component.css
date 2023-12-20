@@ -118,3 +118,14 @@
   color: rgba(24, 18, 140, 0.9); /* Set text color */
 }
 
+h2{
+  color: rgba(8, 0, 103, 1);
+  font-weight: bold;
+  margin: 2%;
+}
+
+mat-card{
+  background-color: rgba(2, 19, 72, 0.42); /* Set the card background color to #080067 */
+  border-radius: 20px;
+  margin: 2%;
+}
