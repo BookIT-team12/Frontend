@@ -97,7 +97,7 @@ export class AccommodationUpdateComponent implements OnInit{
       }
     );
   }
-//fixme: ime slike i tip stavlja lose onaj deo 'filename'
+
   onSelectingPeriod(newSelectedPeriod : AvailabilityPeriod){
       this.accommodationForm.patchValue({
           endDate: newSelectedPeriod.endDate,
@@ -180,11 +180,11 @@ export class AccommodationUpdateComponent implements OnInit{
   }
 
   addFileTypeToImages(){
-let typeImage:string = "data:image/png;base64,"
-for (let i = 0; i!= this.imageStrings.length; i++){
-  this.imageStrings[i] = typeImage + this.imageStrings[i];
-}
-}
+    let typeImage:string = "data:image/png;base64,"
+    for (let i = 0; i!= this.imageStrings.length; i++){
+      this.imageStrings[i] = typeImage + this.imageStrings[i];
+    }
+  }
   base64StringToFile(base64String: string, fileName: string): File {
   // Remove the data:image/png;base64, prefix from the Base64 string
   const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
@@ -205,7 +205,7 @@ for (let i = 0; i!= this.imageStrings.length; i++){
 }
   turnStringsToImages(){
   for(let i = 0; i!= this.imageStrings.length; i++){
-    this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "filename"+i))
+    this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "accommodation_picture"+i+".jpg"))
   }
 }
   onFileSelected(event: any): void {
@@ -219,8 +219,8 @@ for (let i = 0; i!= this.imageStrings.length; i++){
 
 }
   getUrl(file: File): string {
-return URL.createObjectURL(file);
-}
+    return URL.createObjectURL(file);
+  }
   deleteImage(toDelete: File){
         let index = this.imageFiles.findIndex((image: File) => image === toDelete);
         if (index !== -1) {
