@@ -39,9 +39,32 @@ export class NavbarOwnerComponent implements OnInit {
       case 'owner-approval-res':
         this.router.navigate(['/owner-approval-res']);
         break;
+      case 'owner-logout':
+          this.authService.logout().subscribe(() => {
+              // Clear user-related data and navigate to the login page
+              this.router.navigate(['/login']);
+              console.log("Logged out successfully!");
+          });
+          break;
       default:
-        break;
-    }
+          break;
   }
+  }
+
+  // logout() {
+  //   // Call the logout method from the AuthService
+  //   this.authService.logOut().subscribe(
+  //     () => {
+  //
+  //       localStorage.removeItem('user');
+  //       this.router.navigate(['/login']);
+  //
+  //       console.log("Logged out successfully!")
+  //     },
+  //     (error) => {
+  //       console.error('Error logging out:', error);
+  //     }
+  //   );
+  // }
 
 }

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {BehaviorSubject, map, Observable, of} from "rxjs";
+import {BehaviorSubject, map, Observable, of, tap} from "rxjs";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {catchError} from "rxjs/operators";
 import {User} from "../model/user.model";
@@ -46,11 +46,32 @@ export class AuthService {
     return this.http.post<AuthResponse>(environment.apiHost + 'users/login', auth);
   }
 
-  logout(): Observable<string> {
-    return this.http.get(environment.apiHost + 'users/login', {
-      responseType: 'text',
-    });
-  }
+  logout(): Observable<void|null> {
+
+    localStorage.removeItem('user');
+    this.user$.next('');
+    this.userAccount$.next(null);
+    console.log("You have logged out successfully!");
+    return of(null);
+    // return this.http.get(environment.apiHost + 'users/login', {
+    //   responseType: 'text',
+    }
+
+
+
+  // logOut(): Observable<any> {
+  //   return this.http.post(environment.apiHost + 'users/logout', {}).pipe(
+  //     tap(() => {
+  //       console.log("You have loggedOut successfully!")
+  //       // Clear user-related data on logout
+  //       localStorage.removeItem('user');
+  //       this.user$.next('');
+  //       this.userAccount$.next(null);
+  //     })
+  //   );
+  // }
+
+
 
   getRole(): any {
     if (this.isLoggedIn()) {

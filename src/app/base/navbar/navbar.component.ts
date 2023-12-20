@@ -30,6 +30,13 @@ export class NavbarComponent implements OnInit {
       case 'manage':
         this.router.navigate(['/manage']);
         break;
+      case 'logout':
+        this.authService.logout().subscribe(() => {
+          // Clear user-related data and navigate to the login page
+          this.router.navigate(['/login']);
+          console.log("Logged out successfully!");
+        });
+        break;
       // Add other cases for different options
       default:
         break;

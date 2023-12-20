@@ -69,8 +69,9 @@ export class RegisterComponent {
         this.password,
         this.address,
         this.phone,
-      this.selectedRole as Role,  // Set the selected role
-      this.confirmPassword
+        this.selectedRole as Role,  // Set the selected role
+//      this.Role.ADMINISTRATOR, //
+        this.confirmPassword
     );
     console.log('User: ', newUser)
 
