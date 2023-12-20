@@ -25,7 +25,8 @@ export class AccommodationManagementComponent{
 
   accommodationForm = {
     name: '',
-    guests: 0,
+    minGuests: 0,
+    maxGuests: 0,
     price: 0,
     description: '',
     images: [] as File[], //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
@@ -44,22 +45,6 @@ export class AccommodationManagementComponent{
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private userService:UserService, private cdr: ChangeDetectorRef) {
 
-    /*    this.userService.getUser('pera').subscribe(
-          (response) => {
-            // Check if the user is available in the response body
-            const user = response.body;
-            if (user) {
-              this.user = user;
-              console.log('User Pera info: ', this.user);
-            } else {
-              console.error('User not found');
-            }
-          },
-          (error) => {
-            console.error('Error getting user', error);
-          }
-        );
-      }*/
   }
 
 
@@ -81,7 +66,6 @@ export class AccommodationManagementComponent{
   }
 
   getUrl(file: File): string {
-    //console.log(URL.createObjectURL(file))
     return URL.createObjectURL(file);
   }
 
@@ -93,8 +77,8 @@ export class AccommodationManagementComponent{
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
       description: this.accommodationForm.description,
       name: this.accommodationForm.name,
-      minGuests: this.accommodationForm.guests,
-      maxGuests: this.accommodationForm.guests,
+      minGuests: this.accommodationForm.minGuests,
+      maxGuests: this.accommodationForm.maxGuests,
       amenities: this.amenities, // Add amenities based on your form input
       reviews: this.reviews, // You can add reviews if needed
       reservations: this.reservations, // You can add reservations if needed
@@ -108,7 +92,6 @@ export class AccommodationManagementComponent{
         }
       ],
     };
-    //fixme: stavlja isti broj za max i min guests iakone kreiram tako!!!
 
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(

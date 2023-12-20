@@ -10,10 +10,16 @@
         <input matInput placeholder="Enter accommodation name" name="name" [(ngModel)]="accommodationForm.name" required>
       </mat-form-field>
 
-      <!-- Number of Guests -->
+      <!-- Number of MIN Guests -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of guests" name="guests" [(ngModel)]="accommodationForm.guests" required>
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Min Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of min guests" name="minGuests" [(ngModel)]="accommodationForm.minGuests" required>
+      </mat-form-field>
+
+      <!-- Number of MAX Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Max Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of max guests" name="maxGuests" [(ngModel)]="accommodationForm.maxGuests" required>
       </mat-form-field>
 
       <!-- Price per Night -->
