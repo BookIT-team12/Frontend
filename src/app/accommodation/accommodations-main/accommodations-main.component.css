@@ -57,6 +57,7 @@
 .grid-container{
   background: rgba(125, 155, 232,0.85);
   margin: 3%;
+  padding: 3%;
   border-radius: 25px;
   min-height: 80%;
   min-width: 70%;
@@ -70,6 +71,10 @@
 .filters-container{
   display: flex;
   flex-direction: column;
+  padding: 10px;
+}
+.custom-input {
+  font-size: 16px; /* Adjust the font size as needed */
 }
 .mat-grid-list{
   overflow: hidden;
@@ -155,7 +160,7 @@ button.mat-button.mat-accent:hover {
 
 
 .example{
-  width: 80px;
+  width: 160px;
   margin-left: 10px;
 }
 .example-cb{

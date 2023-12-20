@@ -28,10 +28,10 @@
       <h1>  </h1>
       <div class="aaa">
         <span class="material-icons">person</span>
-        <h3 class="filters-txt">Num. of guests: </h3>
+        <h3 class="filters-txt">Guests: </h3>
         <mat-form-field class="example">
-          <mat-label></mat-label>
-          <input matInput [(ngModel)]="value">
+          <mat-label>Enter a Number</mat-label>
+          <input matInput type="number" [(ngModel)]="value" class="custom-input">
         </mat-form-field>
       </div>
       <div class="aaa">
@@ -73,7 +73,7 @@
       <div class="aaa">
         <span class="material-icons">paid</span>
         <h3 class="filters-txt">Price range: </h3>
-        <mat-slider min="10" max="1000">
+        <mat-slider min="10" max="1000" [displayWith]="displayFn">
           <input matSliderStartThumb>
           <input matSliderEndThumb>
         </mat-slider>
@@ -86,18 +86,21 @@
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-grid-list cols="3" rowHeight="3:4">
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+    <mat-grid-list cols="3" rowHeight="2:4">
+      <div *ngIf="accommodations.length > 0; else noAccommodations">
+        <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
+          <div class="grid-container">
+            <h2>Name: {{ accommodation.name }}</h2>
+            <p>Description: {{ accommodation.description }}</p>
+            <p>Type: {{ accommodation.accommodationType }}</p>
+            <p>Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
+                <!-- Add more details as needed -->
+          </div>
+        </ng-container>
+      </div>
     </mat-grid-list>
   </mat-drawer-content>
 </mat-drawer-container>
+<ng-template #noAccommodations>
+  <p>No accommodations found.</p>
+</ng-template>
