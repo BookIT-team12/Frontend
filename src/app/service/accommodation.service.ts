@@ -4,6 +4,8 @@ import {Observable, tap, throwError} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
 import {catchError} from "rxjs/operators";
+import {FormGroup} from "@angular/forms";
+import {AccommodationDtoModel} from "../model/accommodation.dto.model";
 
 @Injectable({
   providedIn:'root',
@@ -14,17 +16,9 @@ export class AccommodationService{
   private apiUrl = 'http://localhost:8080/api/accommodations';
   constructor(private http: HttpClient, private router:Router) {}
 
-  getAccommodationById(id: number): Observable<Accommodation> {
+  getAccommodationById(id: number): Observable<AccommodationDtoModel> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<Accommodation>(url).pipe(
-        tap(data => console.log('Response data:', data)), // Log successful responses
-        catchError(this.handleError) // Log and handle errors
-    );
-  }
-
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    console.error('An error occurred:', error);
-    return throwError('Something went wrong; please try again later.');
+    return this.http.get<AccommodationDtoModel>(url);
   }
 
   openUpdatePage(accommodationId:number){
@@ -39,13 +33,25 @@ export class AccommodationService{
     return this.http.get<Accommodation[]>(this.apiUrl);
   }
 
-  createAccommodation(accommodation: Accommodation): Observable<Accommodation> {
-    return this.http.post<Accommodation>(this.apiUrl, accommodation);
+  createAccommodation(accommodation: Accommodation, images: File[]): Observable<Accommodation> {
+    const formData: FormData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append('accommodation_images', images[i]);
+    }
+    formData.append("accommodationDTO", new Blob([JSON.stringify(accommodation)], {type: "application/json"}))
+    return this.http.post<Accommodation>(this.apiUrl, formData);
   }
 
-  updateAccommodation(id: number, accommodation: Accommodation): Observable<Accommodation> {
+  updateAccommodation(accommodation: Accommodation, images: File[], id: number | undefined): Observable<AccommodationDtoModel> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.put<Accommodation>(url, accommodation);
+
+    const formData: FormData = new FormData();
+    for (let i = 0; i < images.length; i++) {
+      formData.append('accommodation_images', images[i]);
+    }
+    formData.append("accommodationDTO", new Blob([JSON.stringify(accommodation)], {type: "application/json"}))
+
+    return this.http.put<AccommodationDtoModel>(url, formData);
   }
 
   deleteAccommodation(id: number): Observable<void> {
@@ -57,11 +63,11 @@ export class AccommodationService{
     return this.http.get<Accommodation[]>(`${this.apiUrl}/pending`);
   }
 
-  approveAccommodation(accommodationId: number): Observable<any> {
+  approveAccommodation(accommodationId: number | undefined): Observable<any> {
     return this.http.post(`${this.apiUrl}/approve/${accommodationId}`, {});
   }
 
-  denyAccommodation(accommodationId: number): Observable<any> {
+  denyAccommodation(accommodationId: number | undefined): Observable<any> {
     return this.http.post(`${this.apiUrl}/deny/${accommodationId}`, {});
   }
 

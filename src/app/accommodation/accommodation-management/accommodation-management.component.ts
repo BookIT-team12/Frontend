@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
 import {
@@ -11,31 +11,43 @@ import {Amenity} from "../../model/amenity.model";
 import {Review} from "../../model/review.model";
 import {Reservation} from "../../model/reservation.model";
 import {UserService} from "../../service/user.service";
+import {ConsoleLogger} from "@angular/compiler-cli";
+import {FormBuilder} from "@angular/forms";
+import {AuthService} from "../../access-control-module/auth.service";
 
 //TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
 
 @Component({
   selector: 'app-accommodation-management',
   templateUrl: './accommodation-management.component.html',
-  styleUrls: ['./accommodation-management.component.css']
+  styleUrls: ['./accommodation-management.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AccommodationManagementComponent{
  // user=new User('Pera', 'Peric', 'pera','test', 'Novi Sad', '1234567890', Role.OWNER, 'test') ; //NON-NULL VREDNOST USER-A
-  amenities: Amenity[]=[];
+  amenities: number[]=[];
   reviews:Review[]=[];
   reservations:Reservation[]=[];
 
+  availableFrom: Date;
+  availableUntil: Date;
+  //fixme: form should be form not like this, and these two dates should be inside form
+  //fixme: you need to make timezones the same. TIMEZONE PROBLEM IS DESCRIBED BELLOW:
+//   TIMEZONE PROBLEM: THING ABOUT THIS PROBLEM IS THAT ON THE FRONT I HAVE 25. DEC AT MIDNIGHT (00:00) AND WHEN I SEND IT
+//   TO BACKEND I GET 24. DEC AT (23:00). I GUESS ITS ABOUT SOME TIMEZONES AND I NEED TO FIX THIS LATER, FOR NOW ITS
+//   PATCHED UP JUST BY ADDING ONE HOUR TO VALUE BEFORE SUBMITTING FORM
 
-  accommodationForm = {
+//TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
+  accommodationForm ={
+    owner: '',
     name: '',
-    guests: 0,
+    minGuests: 0,
+    maxGuests: 0,
     price: 0,
     description: '',
     images: [] as File[], //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
     imageUrl: '',
     location:'',
-    availableFrom:new Date(),
-    availableUntil:new Date(),
     accommodationType: '',  // Add accommodation type field
     bookingConfirmationType: '',  // Add booking confirmation type field
     amenities: this.amenities,
@@ -43,26 +55,18 @@ export class AccommodationManagementComponent{
     reservations: this.reservations
   };
 
-  //TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
-  constructor(private http: HttpClient, private accommodationService:AccommodationService, private userService:UserService) {
+  constructor(private http: HttpClient, private accommodationService:AccommodationService,
+              private userService:UserService, private cdr: ChangeDetectorRef, private authService: AuthService) {
+    this.availableUntil = new Date();
+    this.availableFrom = new Date();
 
-    /*    this.userService.getUser('pera').subscribe(
-          (response) => {
-            // Check if the user is available in the response body
-            const user = response.body;
-            if (user) {
-              this.user = user;
-              console.log('User Pera info: ', this.user);
-            } else {
-              console.error('User not found');
-            }
-          },
-          (error) => {
-            console.error('Error getting user', error);
-          }
-        );
-      }*/
+    this.authService.getCurrentUser().subscribe(user=>{
+      if (user) {
+        this.accommodationForm.owner = user.email;
+      }
+    })
   }
+
 
 
 
@@ -75,22 +79,41 @@ export class AccommodationManagementComponent{
       }
     }
   }
-
+  deleteImage(toDelete: File){
+    let index = this.accommodationForm.images.findIndex(image => image === toDelete);
+    if (index !== -1) {
+      this.accommodationForm.images.splice(index, 1);
+    }
+    this.cdr.detectChanges()
+  }
   getUrl(file: File): string {
     return URL.createObjectURL(file);
   }
 
 
-  onSubmit(): void {
+  onAmenityChange(event: any, amenity: Amenity): void {
+    // Handle the change in the checkbox state
+    if (event.checked) {
+      this.amenities.push(amenity.id);
+    } else {
+      // Remove the amenity if unchecked
+      const index = this.amenities.findIndex(a => a === amenity.id);
+      if (index !== -1) {
+        this.amenities.splice(index, 1);
+      }
+    }
+  }
 
+  onSubmit(): void {
+    this.availableUntil.setHours(this.availableUntil.getHours() + 1);
+    this.availableFrom.setHours(this.availableFrom.getHours() + 1)
     const accommodationData = {
-      id:1, //TODO:HANDLING LOGIC FOR ID CREATION
-      ownerEmail: 'pera@gmail.com', // TODO:Replace with the actual user ID, retrieve it from your authentication service
+      ownerEmail: this.accommodationForm.owner,
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
       description: this.accommodationForm.description,
       name: this.accommodationForm.name,
-      minGuests: this.accommodationForm.guests,
-      maxGuests: this.accommodationForm.guests,
+      minGuests: this.accommodationForm.minGuests,
+      maxGuests: this.accommodationForm.maxGuests,
       amenities: this.amenities, // Add amenities based on your form input
       reviews: this.reviews, // You can add reviews if needed
       reservations: this.reservations, // You can add reservations if needed
@@ -98,9 +121,8 @@ export class AccommodationManagementComponent{
 
       availabilityPeriods: [
         {
-          id:1, //TODO: HANDLE ID CREATION
-          startDate: this.accommodationForm.availableFrom,
-          endDate: this.accommodationForm.availableUntil,
+          startDate: this.availableFrom,
+          endDate: this.availableUntil,
           price: this.accommodationForm.price
         }
       ],
@@ -108,7 +130,6 @@ export class AccommodationManagementComponent{
 
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(
-        accommodationData.id,
         accommodationData.ownerEmail,
         accommodationData.accommodationType,
         accommodationData.description,
@@ -124,9 +145,9 @@ export class AccommodationManagementComponent{
     );
     console.log('New accommodation: ', newAccommodation)
 
+    console.log(newAccommodation);
 
-
-    this.accommodationService.createAccommodation(newAccommodation).subscribe(
+    this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.images).subscribe(
         (result) => {
           // Handle success, if needed
           console.log('Accommodation created successfully', result);
@@ -136,19 +157,6 @@ export class AccommodationManagementComponent{
           console.error('Error creating accommodation', error);
         }
     );
-  }
-
-  onAmenityChange(event: any, amenity: Amenity): void {
-    // Handle the change in the checkbox state
-    if (event.checked) {
-      this.amenities.push(amenity);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a.id === amenity.id);
-      if (index !== -1) {
-        this.amenities.splice(index, 1);
-      }
-    }
   }
 
 
