@@ -13,6 +13,9 @@ export class AvailabilityPeriod {
     this.id = id;
     this.startDate = new Date(startDate);
     this.endDate = new Date(endDate);
+    console.log("iz konstruktora perioda")
+    console.log(this.startDate)
+    console.log(this.endDate)
     this.price = price;
 /*
     this.accommodation = accommodation;

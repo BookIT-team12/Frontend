@@ -7,6 +7,7 @@ import {Review} from "../../model/review.model";
 import {Reservation} from "../../model/reservation.model";
 import {UserService} from "../../service/user.service";
 import {ConsoleLogger} from "@angular/compiler-cli";
+import {FormBuilder} from "@angular/forms";
 
 //TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
 
@@ -22,8 +23,11 @@ export class AccommodationManagementComponent{
   reviews:Review[]=[];
   reservations:Reservation[]=[];
 
+  availableFrom: Date;
+  availableUntil: Date;
 
-  accommodationForm = {
+//TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
+  accommodationForm ={
     name: '',
     minGuests: 0,
     maxGuests: 0,
@@ -32,8 +36,6 @@ export class AccommodationManagementComponent{
     images: [] as File[], //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
     imageUrl: '',
     location:'',
-    availableFrom:new Date(),
-    availableUntil:new Date(),
     accommodationType: '',  // Add accommodation type field
     bookingConfirmationType: '',  // Add booking confirmation type field
     amenities: this.amenities,
@@ -41,11 +43,13 @@ export class AccommodationManagementComponent{
     reservations: this.reservations
   };
 
-  //TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private userService:UserService, private cdr: ChangeDetectorRef) {
-
+    this.availableUntil = new Date();
+    this.availableFrom = new Date();
   }
+
+
 
 
   onFileSelected(event: any): void {
@@ -64,14 +68,27 @@ export class AccommodationManagementComponent{
     }
     this.cdr.detectChanges()
   }
-
   getUrl(file: File): string {
     return URL.createObjectURL(file);
   }
 
 
-  onSubmit(): void {
+  onAmenityChange(event: any, amenity: Amenity): void {
+    // Handle the change in the checkbox state
+    if (event.checked) {
+      this.amenities.push(amenity.id);
+    } else {
+      // Remove the amenity if unchecked
+      const index = this.amenities.findIndex(a => a === amenity.id);
+      if (index !== -1) {
+        this.amenities.splice(index, 1);
+      }
+    }
+  }
 
+  onSubmit(): void {
+    this.availableUntil.setHours(this.availableUntil.getHours() + 1);
+    this.availableFrom.setHours(this.availableFrom.getHours() + 1)
     const accommodationData = {
       ownerEmail: 'dusan@gmail.com',
       accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
@@ -86,8 +103,8 @@ export class AccommodationManagementComponent{
 
       availabilityPeriods: [
         {
-          startDate: this.accommodationForm.availableFrom,
-          endDate: this.accommodationForm.availableUntil,
+          startDate: this.availableFrom,
+          endDate: this.availableUntil,
           price: this.accommodationForm.price
         }
       ],
@@ -121,19 +138,6 @@ export class AccommodationManagementComponent{
           console.error('Error creating accommodation', error);
         }
     );
-  }
-
-  onAmenityChange(event: any, amenity: Amenity): void {
-    // Handle the change in the checkbox state
-    if (event.checked) {
-      this.amenities.push(amenity.id);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a === amenity.id);
-      if (index !== -1) {
-        this.amenities.splice(index, 1);
-      }
-    }
   }
 
 

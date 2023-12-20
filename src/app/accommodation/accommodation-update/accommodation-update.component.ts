@@ -126,9 +126,12 @@ export class AccommodationUpdateComponent implements OnInit{
     let newPeriod: AvailabilityPeriod = new AvailabilityPeriod(undefined, this.accommodationForm.get('startDate')?.value,
                                   this.accommodationForm.get('endDate')?.value, this.accommodationForm.get('price')?.value)
     if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
+      console.log('kreiran period', newPeriod)
       this.accommodation.availabilityPeriods.push(newPeriod)
+      console.log('lista sa novim periodom:', this.accommodation.availabilityPeriods);
       this.resetPeriodsGUI();
       this.cdr.detectChanges();
+      console.log('lista sa novim periodom:', this.accommodation.availabilityPeriods);
     } else {
       alert("Vec postoji period koji pokriva ovo vreme!!")
     }
@@ -245,6 +248,8 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodation.availabilityPeriods,
         Status.PENDING
       );
+    console.log('u konstruktoru za updated: ', this.accommodation.availabilityPeriods);
+    console.log('u konstruktoru za updated: ', updatedAccommodation.availabilityPeriods);
 
       console.log('new accommodation: ', updatedAccommodation);
       console.log('Images of accommodation: ', this.imageFiles);
