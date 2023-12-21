@@ -33,6 +33,7 @@ export class NavbarComponent implements OnInit {
       case 'logout':
         this.authService.logout().subscribe(() => {
           // Clear user-related data and navigate to the login page
+          localStorage.setItem('user',"");
           this.router.navigate(['/login']);
           console.log("Logged out successfully!");
         });

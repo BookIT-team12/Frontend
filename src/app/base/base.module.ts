@@ -11,6 +11,8 @@ import { NavbarNonRegisteredComponent } from './navbar-non-registered/navbar-non
 import {RouterLink, RouterLinkActive} from "@angular/router";
 import { NavbarMainComponent } from './navbar-main/navbar-main.component';
 import { NavbarNonRegisteredMainComponent } from './navbar-non-registered-main/navbar-non-registered-main.component';
+import { NavbarOwnerMainComponent } from './navbar-owner-main/navbar-owner-main.component';
+import { NavbarAdminMainComponent } from './navbar-admin-main/navbar-admin-main.component';
 
 
 
@@ -21,7 +23,9 @@ import { NavbarNonRegisteredMainComponent } from './navbar-non-registered-main/n
     NavbarAdminComponent,
     NavbarNonRegisteredComponent,
     NavbarMainComponent,
-    NavbarNonRegisteredMainComponent
+    NavbarNonRegisteredMainComponent,
+    NavbarOwnerMainComponent,
+    NavbarAdminMainComponent
   ],
   imports: [
     CommonModule,
@@ -32,12 +36,13 @@ import { NavbarNonRegisteredMainComponent } from './navbar-non-registered-main/n
     RouterLink,
     RouterLinkActive
   ], exports: [
-    NavbarComponent,
-    NavbarOwnerComponent,
-    NavbarAdminComponent,
-    NavbarNonRegisteredComponent,
-    NavbarMainComponent,
-    NavbarNonRegisteredMainComponent
-  ]
+        NavbarComponent,
+        NavbarOwnerComponent,
+        NavbarAdminComponent,
+        NavbarNonRegisteredComponent,
+        NavbarMainComponent,
+        NavbarNonRegisteredMainComponent,
+        NavbarOwnerMainComponent
+    ]
 })
 export class BaseModule { }

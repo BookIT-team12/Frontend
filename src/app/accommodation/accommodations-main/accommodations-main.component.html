@@ -6,6 +6,10 @@
   <!-- Non Reg Navbar Links -->
   <app-navbar-non-registered-main></app-navbar-non-registered-main>
 </div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner-main></app-navbar-owner-main>
+</div>
 <mat-drawer-container>
   <mat-drawer opened mode="side" class="sidenav">
     <h1 class="logo-header">
