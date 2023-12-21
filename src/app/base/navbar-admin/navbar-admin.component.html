@@ -9,18 +9,18 @@
 <span class="material-icons special-icon">account_circle</span>
 -->
 
-  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
+  <button mat-button color="primary" type="button" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
   <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-    <button routerLink="/main" mat-menu-item class="text"><span class="material-icons">home</span>
+    <button routerLink="/main" type="button" mat-menu-item class="text"><span class="material-icons">home</span>
       Home</button>
 
-    <button mat-menu-item routerLink="/manage">
+    <button mat-menu-item type="button" routerLink="/manage">
       <span class="material-icons">edit</span>Manage user account</button>
 
 
-    <button mat-menu-item routerLink="/accommodation-approval"><span class="material-icons">hotel</span>Accommodation approval</button>
+    <button mat-menu-item type="button" routerLink="/accommodation-approval"><span class="material-icons">hotel</span>Accommodation approval</button>
 
-    <button mat-menu-item  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
+    <button mat-menu-item type="button"  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
 
   </mat-menu>
 

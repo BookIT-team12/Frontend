@@ -36,7 +36,7 @@
           Password is required.
         </mat-error>
         <button  mat-icon-button matSuffix (click)="hide = !hide"
-                 [attr.aria-pressed]="hide">
+                 [attr.aria-pressed]="hide" type="button">
           <mat-icon >
             <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
             <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
@@ -64,7 +64,7 @@
           Passwords do not match.
         </mat-error>
         <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
-                 [attr.aria-pressed]="hideConfirmation">
+                 [attr.aria-pressed]="hideConfirmation" type="button">
           <mat-icon >
             <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
             <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>

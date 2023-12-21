@@ -4,22 +4,22 @@
     <mat-icon class="icon">
         <span class="material-icons-outlined">menu</span>
     </mat-icon>
-    <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
+    <button type="button" mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
     <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-        <button routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
+        <button type="button" routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
             <span class="material-icons">home</span> Home
         </button>
 
-        <button mat-menu-item routerLink="/manage" (click)="menuItemClicked('manage')">
+        <button type="button" mat-menu-item routerLink="/manage" (click)="menuItemClicked('manage')">
             <span class="material-icons">edit</span> Manage account
         </button>
 
-        <button mat-menu-item routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
+        <button type="button" mat-menu-item routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
 
-        <button mat-menu-item routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>
+        <button type="button" mat-menu-item routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>
 
         <!--    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>-->
-        <button mat-menu-item  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
+        <button type="button" mat-menu-item  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
 
     </mat-menu>
     <div class="rectangle37"></div>
