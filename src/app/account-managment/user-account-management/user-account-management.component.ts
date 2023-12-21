@@ -81,14 +81,14 @@ export class UserAccountManagementComponent implements OnInit {
     })
 
 /*    if (this.user?.email) {*/
-    this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
-      (response) => {
-        console.log('User deleted successfully', response);
-      },
-      (error) => {
-        console.error('Error deleting user', error);
-      }
-    );
+    // this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+    //   (response) => {
+    //     console.log('User deleted successfully', response);
+    //   },
+    //   (error) => {
+    //     console.error('Error deleting user', error);
+    //   }
+    // );
   }
 
 
