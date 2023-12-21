@@ -1,6 +1,6 @@
 <app-navbar-owner></app-navbar-owner>
 <router-outlet></router-outlet>
-<form class="form-container" (ngSubmit)="onSubmit()">
+<form class="form-container" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
   <h1 class="acc-management-header">Add new accommodation</h1>
   <div>
     <div class="left-part">
@@ -10,10 +10,16 @@
         <input matInput placeholder="Enter accommodation name" name="name" [(ngModel)]="accommodationForm.name" required>
       </mat-form-field>
 
-      <!-- Number of Guests -->
+      <!-- Number of MIN Guests -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of guests" name="guests" [(ngModel)]="accommodationForm.guests" required>
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Min Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of min guests" name="minGuests" [(ngModel)]="accommodationForm.minGuests" required>
+      </mat-form-field>
+
+      <!-- Number of MAX Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Max Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of max guests" name="maxGuests" [(ngModel)]="accommodationForm.maxGuests" required>
       </mat-form-field>
 
       <!-- Price per Night -->
@@ -51,11 +57,21 @@
 
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
-        <!-- Display selected images -->
         <div class="image-container">
-        <div *ngFor="let image of accommodationForm.images">
-          <img [src]="getUrl(image)" alt="Uploaded Image" />
-        </div>
+          <div *ngFor="let image of accommodationForm.images">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
+                  <button mat-icon-button (click)="deleteImage(image)" matIconSuffix style="margin-top: 13%">
+                    <mat-icon >
+                      <span class="material-symbols-outlined">close</span>
+                    </mat-icon>
+                  </button>
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
         </div>
       </div>
 
@@ -69,7 +85,7 @@
 
 
     <div class="right-part">
-
+      <h2>Accommodation amenities: </h2>
       <div class="amenities-container">
 
         <!-- Amenities Checkboxes -->
@@ -103,16 +119,18 @@
       </div>
 
 
-      <!-- Datepicker for "From" Date -->
+      <h2>Add first availability period</h2>
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>        <input matInput [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>
+        <input matInput name="dateFrom" [matDatepicker]="fromDatePicker" [(ngModel)]="availableFrom" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
 
       <!-- Datepicker for "To" Date -->
       <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>        <input matInput [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>
+        <input matInput name="dateTo" [matDatepicker]="toDatePicker" [(ngModel)]="availableUntil" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>

@@ -1,22 +1,15 @@
-<mat-toolbar>
-  <span class="spacer"></span>
-
-  <mat-icon class="icon">
-    <span class="material-icons-outlined">menu</span>
-  </mat-icon>
-  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
-  <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-    <button mat-menu-item class="text"><span class="material-icons">home</span>
-      Home</button>
-    <button mat-menu-item>
-      <span class="material-icons">edit</span>Manage account</button>
-    <button mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
-    <button mat-menu-item><span class="material-icons">star</span>Reviews</button>
-    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>
-    <button mat-menu-item><span class="material-icons">logout</span>Logout</button>
-  </mat-menu>
-  <div class="rectangle37"></div>
-</mat-toolbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar-main></app-navbar-main>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered-main></app-navbar-non-registered-main>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner-main></app-navbar-owner-main>
+</div>
 <mat-drawer-container>
   <mat-drawer opened mode="side" class="sidenav">
     <h1 class="logo-header">
@@ -28,10 +21,10 @@
       <h1>  </h1>
       <div class="aaa">
         <span class="material-icons">person</span>
-        <h3 class="filters-txt">Num. of guests: </h3>
+        <h3 class="filters-txt">Guests: </h3>
         <mat-form-field class="example">
-          <mat-label></mat-label>
-          <input matInput [(ngModel)]="value">
+          <mat-label>Enter a Number</mat-label>
+          <input matInput type="number" [(ngModel)]="value" class="custom-input" name="value">
         </mat-form-field>
       </div>
       <div class="aaa">
@@ -39,7 +32,7 @@
         <h3 class="filters-txt">Wi-Fi: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="wifi">
+          [(ngModel)]="wifi" name="wifi">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -47,7 +40,7 @@
         <h3 class="filters-txt">Parking: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="parking">
+          [(ngModel)]="parking" name="parking">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -55,7 +48,7 @@
         <h3 class="filters-txt">Air Condition: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="ac_unit">
+          [(ngModel)]="ac_unit" name="ac_unit">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -63,8 +56,8 @@
         <mat-form-field>
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="start">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="end">
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
@@ -73,31 +66,47 @@
       <div class="aaa">
         <span class="material-icons">paid</span>
         <h3 class="filters-txt">Price range: </h3>
-        <mat-slider min="10" max="1000">
-          <input matSliderStartThumb>
-          <input matSliderEndThumb>
+
+        <!-- Display Min and Max Values Above Slider Ends -->
+        <div class="aaaa">
+        <div class="slider-labels">
+          <div class="slider-label" *ngIf="minSliderValue !== undefined">{{ minSliderValue }}</div>
+          <div class="slider-label" *ngIf="maxSliderValue !== undefined">{{ maxSliderValue }}</div>
+        </div>
+
+        <!-- MatSlider with Display Function -->
+        <mat-slider min="10" max="200" [displayWith]="displayFn" [(ngModel)]="sliderValues">
+          <input matSliderStartThumb [(ngModel)]="minSliderValue" name="min">
+          <input matSliderEndThumb [(ngModel)]="maxSliderValue" name="max">
         </mat-slider>
+        </div>
       </div>
 
       <h1></h1>
       <div class="aaa1">
-        <button mat-raised-button class="global-darkBtn login-btn"> Apply filters </button>
+        <button mat-raised-button class="global-darkBtn login-btn" (click)="applyFilters()"> Apply filters </button>
       </div>
     </div>
   </mat-drawer>
   <mat-drawer-content>
     <mat-grid-list cols="3" rowHeight="3:4">
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
-      <mat-grid-tile><div class="grid-container"></div></mat-grid-tile>
+      <div *ngIf="accommodations.length > 0; else noAccommodations">
+        <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
+          <div class="grid-container">
+            <h2 class="acc-name">Name: {{ accommodation.name }}</h2>
+            <p class="acc-desc">• Description: {{ accommodation.description}}</p>
+            <p class="acc-desc">• Type: {{ accommodation.accommodationType }}</p>
+            <p class="acc-desc">• Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
+                <!-- Add more details as needed -->
+            <button mat-raised-button (click)="bookITClicked(accommodation.id)" class="global-darkBtn login-btn"> Book IT </button>
+          </div>
+        </ng-container>
+      </div>
     </mat-grid-list>
   </mat-drawer-content>
 </mat-drawer-container>
+<ng-template #noAccommodations>
+  <div class="grid-container">
+    <h2 class="acc-name">No accommodations found.</h2>
+  </div>
+</ng-template>

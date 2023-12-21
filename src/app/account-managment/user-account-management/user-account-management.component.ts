@@ -5,7 +5,6 @@ import {Role, User} from "../../model/user.model";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 import {AuthService} from "../../access-control-module/auth.service";
-import * as bcrypt from 'bcryptjs';
 @Component({
   selector: 'app-user-account-management',
   templateUrl: './user-account-management.component.html',

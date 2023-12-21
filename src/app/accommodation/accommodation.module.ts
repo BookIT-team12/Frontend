@@ -27,6 +27,7 @@ import { AccommodationApprovalCardComponent } from './accommodation-approval-car
 import {RouterOutlet} from "@angular/router";
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
 import { OwnersAccommodationsComponent } from './owners-accommodations/owners-accommodations.component';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
@@ -65,6 +66,7 @@ import { OwnersAccommodationsComponent } from './owners-accommodations/owners-ac
         MatCardModule,
         HttpClientModule,
         RouterOutlet,
+        MatListModule,
 
     ],
   exports: [
