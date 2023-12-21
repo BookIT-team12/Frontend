@@ -4,11 +4,11 @@ import {Router} from "@angular/router";
 import {AuthService} from "../../access-control-module/auth.service";
 
 @Component({
-  selector: 'app-navbar-admin',
-  templateUrl: './navbar-admin.component.html',
-  styleUrls: ['./navbar-admin.component.css']
+  selector: 'app-navbar-admin-main',
+  templateUrl: './navbar-admin-main.component.html',
+  styleUrls: ['./navbar-admin-main.component.css']
 })
-export class NavbarAdminComponent {
+export class NavbarAdminMainComponent {
 
   userRole: string = Role.ADMINISTRATOR;
 

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 import {Observable, tap, throwError} from "rxjs";
 import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
@@ -71,4 +71,7 @@ export class AccommodationService{
     return this.http.post(`${this.apiUrl}/deny/${accommodationId}`, {});
   }
 
+  getFilteredAccommodation(params:HttpParams):Observable<any>{
+    return this.http.get<Accommodation[]>(this.apiUrl + '/filter',{params});
+  }
 }

@@ -18,6 +18,7 @@ import {AccountManagmentModule} from "./account-managment/account-managment.modu
 import {MapModule} from "./map/map.module";
 import {ReservationModule} from "./reservation/reservation.module";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {Interceptor} from "./access-control-module/interceptor";
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,11 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ReservationModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true,
+    },
 ],
   bootstrap: [AppComponent]
 })

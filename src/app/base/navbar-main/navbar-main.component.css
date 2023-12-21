@@ -2,7 +2,7 @@
 mat-toolbar {
   position: sticky;
   top: 0;
-  background-color:#CDDBFF;
+  background-color:rgba(1,1,1,0);
   display: flex;
   align-items: center;
 }
@@ -33,7 +33,7 @@ mat-toolbar {
   position: absolute;
   right: 10px; /* Adjust the right position */
   top: 10px; /* Adjust the top position */
-  width: 112px;
+  width: 176px;
   height: 46px;
   border-radius: 8px;
   background-color: #6d8ecf33;
