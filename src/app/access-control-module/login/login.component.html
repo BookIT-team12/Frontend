@@ -40,7 +40,7 @@
     </span>
     <mat-label>Enter your password here</mat-label>
     <input matInput [type]=" hide ? 'password' : 'text'" formControlName="password" required>
-    <button  mat-icon-button matSuffix
+    <button  mat-icon-button matSuffix (click)="hide = !hide"
              [attr.aria-pressed]="hide" type="button">
       <mat-icon >
         <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
