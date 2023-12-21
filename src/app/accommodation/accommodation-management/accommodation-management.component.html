@@ -1,44 +1,44 @@
 <app-navbar-owner></app-navbar-owner>
 <router-outlet></router-outlet>
-<form class="form-container" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+<form class="form-container" [formGroup]="accommodationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
   <h1 class="acc-management-header">Add new accommodation</h1>
   <div>
     <div class="left-part">
       <!-- Accommodation Name -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
-        <input matInput placeholder="Enter accommodation name" name="name" [(ngModel)]="accommodationForm.name" required>
+        <input matInput placeholder="Enter accommodation name" formControlName="name" required>
       </mat-form-field>
 
       <!-- Number of MIN Guests -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Min Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of min guests" name="minGuests" [(ngModel)]="accommodationForm.minGuests" required>
+        <input matInput type="number" placeholder="Enter number of min guests" formControlName="minGuests" required>
       </mat-form-field>
 
       <!-- Number of MAX Guests -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Max Guests</mat-label>
-        <input matInput type="number" placeholder="Enter number of max guests" name="maxGuests" [(ngModel)]="accommodationForm.maxGuests" required>
+        <input matInput type="number" placeholder="Enter number of max guests" formControlName="maxGuests" required>
       </mat-form-field>
 
       <!-- Price per Night -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
-        <input matInput type="number" placeholder="Enter price per night" name="price" [(ngModel)]="accommodationForm.price" required>
+        <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
       </mat-form-field>
 
 
       <!-- Detailed Description -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
-        <textarea matInput placeholder="Enter detailed description" name="description" [(ngModel)]="accommodationForm.description"></textarea>
+        <textarea matInput placeholder="Enter detailed description" formControlName="description"></textarea>
       </mat-form-field>
 
       <!-- Accommodation Type Dropdown -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Type</mat-label>
-        <mat-select placeholder="Select accommodation type" name="accommodationType" [(ngModel)]="accommodationForm.accommodationType" required>
+        <mat-select placeholder="Select accommodation type" formControlName="accommodationType" required>
           <mat-option value="STUDIO">Studio</mat-option>
           <mat-option value="APARTMENT">Apartment</mat-option>
           <mat-option value="ROOM">Room</mat-option>
@@ -49,7 +49,7 @@
       <!-- Booking Confirmation Type Dropdown -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">check</mat-icon>Booking Confirmation Type</mat-label>
-        <mat-select placeholder="Select booking confirmation type" name="bookingConfirmationType"  [(ngModel)]="accommodationForm.bookingConfirmationType" required>
+        <mat-select placeholder="Select booking confirmation type" formControlName="bookingConfirmationType" required>
           <mat-option value="AUTOMATIC">Automatic</mat-option>
           <mat-option value="MANUAL">Manual</mat-option>
         </mat-select>
@@ -58,7 +58,7 @@
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <div class="image-container">
-          <div *ngFor="let image of accommodationForm.images">
+          <div *ngFor="let image of getAccommodationImages()">
             <mat-card>
               <mat-card-header>
                 <mat-card-title-group>
@@ -74,13 +74,6 @@
           </div>
         </div>
       </div>
-
-
-      <!--      &lt;!&ndash; Add Image &ndash;&gt;-->
-<!--      <mat-form-field class="global-icon-color">-->
-<!--        <mat-label>Add Image</mat-label>-->
-<!--        <input matInput type="file">-->
-<!--      </mat-form-field>-->
     </div>
 
 
@@ -122,7 +115,7 @@
       <h2>Add first availability period</h2>
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>
-        <input matInput name="dateFrom" [matDatepicker]="fromDatePicker" [(ngModel)]="availableFrom" placeholder="Choose a date">
+        <input matInput formControlName="startDate" [matDatepicker]="fromDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
       </mat-form-field>
@@ -130,42 +123,15 @@
       <!-- Datepicker for "To" Date -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>
-        <input matInput name="dateTo" [matDatepicker]="toDatePicker" [(ngModel)]="availableUntil" placeholder="Choose a date">
+        <input matInput formControlName="endDate" [matDatepicker]="toDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
 
 
-      <!-- Location -->
 
-<!--      TODO: UVEZATI LEAFLET MAPU!!!-->
-<!--      <div class="mat-form-field global-icon-color">
-        <input matInput placeholder="Enter location" [(ngModel)]="searchAddress" required>
-        <button mat-button (click)="searchLocation()">Search</button>
-      </div>
-      <app-map [searchAddress]="searchAddress"></app-map>-->
         <app-map></app-map>
-<!--      <mat-form-field class="global-icon-color">
-        <mat-label><mat-icon class="material-icons">location_on</mat-icon>Location</mat-label>
-        <input matInput placeholder="Enter location" required>
-      </mat-form-field>-->
-
-
-
     </div>
-
-
-
-<!--    <mat-card class="profile-picture-container">-->
-<!--      <img *ngIf="profilePicture != null" mat-card-lg-image alt="Profile picture" [src] = profilePicture>-->
-<!--      <img *ngIf="profilePicture == null" mat-card-lg-image alt="Profile picture" src = "assets/empty_profile_picture.png">-->
-<!--      <button mat-raised-button class="add-profile-picture-button">-->
-<!--        <mat-label class="global-icon-color">Add profile picture</mat-label>-->
-<!--        <mat-icon class="global-icon-color">-->
-<!--          <span class="material-symbols-outlined">add_photo_alternate</span>-->
-<!--        </mat-icon>-->
-<!--      </button>-->
-<!--    </mat-card>-->
 
   </div>
 

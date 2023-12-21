@@ -15,8 +15,8 @@ import {AvailabilityPeriodService} from "../../service/availability-period.servi
 import {MatSelect} from "@angular/material/select";
 
 
-// DODATI LOKACIJU I SLIKE
-
+// TODO: VALIDACIJE
+//TODO: LOKACIJA
 @Component({
   selector: 'app-accommodation-update',
   templateUrl: './accommodation-update.component.html',
@@ -162,9 +162,11 @@ export class AccommodationUpdateComponent implements OnInit{
   resetPeriodsGUI(){
       this.addingNewPeriod = true;
       this.selectedPeriod.value = 'none'
-      this.accommodationForm.value.startDate.reset();
-      this.accommodationForm.value.endDate.reset();
-      this.accommodationForm.value.price.reset();
+      this.accommodationForm.patchValue({
+          startDate: null,
+          endDate: null,
+          price: 0
+      })
       this.cdr.detectChanges();
   }
 
