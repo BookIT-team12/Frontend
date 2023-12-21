@@ -20,7 +20,7 @@
         <h3 class="filters-txt">Guests: </h3>
         <mat-form-field class="example">
           <mat-label>Enter a Number</mat-label>
-          <input matInput type="number" [(ngModel)]="value" class="custom-input">
+          <input matInput type="number" [(ngModel)]="value" class="custom-input" name="value">
         </mat-form-field>
       </div>
       <div class="aaa">
@@ -28,7 +28,7 @@
         <h3 class="filters-txt">Wi-Fi: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="wifi">
+          [(ngModel)]="wifi" name="wifi">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -36,7 +36,7 @@
         <h3 class="filters-txt">Parking: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="parking">
+          [(ngModel)]="parking" name="parking">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -44,7 +44,7 @@
         <h3 class="filters-txt">Air Condition: </h3>
         <mat-checkbox
           class="example-cb"
-          [(ngModel)]="ac_unit">
+          [(ngModel)]="ac_unit" name="ac_unit">
         </mat-checkbox>
       </div>
       <div class="aaa">
@@ -52,8 +52,8 @@
         <mat-form-field>
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="start">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="end">
           </mat-date-range-input>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
@@ -71,21 +71,21 @@
         </div>
 
         <!-- MatSlider with Display Function -->
-        <mat-slider min="10" max="1000" [displayWith]="displayFn" [(ngModel)]="sliderValues">
-          <input matSliderStartThumb [(ngModel)]="minSliderValue">
-          <input matSliderEndThumb [(ngModel)]="maxSliderValue">
+        <mat-slider min="10" max="200" [displayWith]="displayFn" [(ngModel)]="sliderValues">
+          <input matSliderStartThumb [(ngModel)]="minSliderValue" name="min">
+          <input matSliderEndThumb [(ngModel)]="maxSliderValue" name="max">
         </mat-slider>
         </div>
       </div>
 
       <h1></h1>
       <div class="aaa1">
-        <button mat-raised-button class="global-darkBtn login-btn"> Apply filters </button>
+        <button mat-raised-button class="global-darkBtn login-btn" (click)="applyFilters()"> Apply filters </button>
       </div>
     </div>
   </mat-drawer>
   <mat-drawer-content>
-    <mat-grid-list cols="3" rowHeight="2:4">
+    <mat-grid-list cols="3" rowHeight="3:4">
       <div *ngIf="accommodations.length > 0; else noAccommodations">
         <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
           <div class="grid-container">
@@ -102,5 +102,7 @@
   </mat-drawer-content>
 </mat-drawer-container>
 <ng-template #noAccommodations>
-  <p>No accommodations found.</p>
+  <div class="grid-container">
+    <h2 class="acc-name">No accommodations found.</h2>
+  </div>
 </ng-template>

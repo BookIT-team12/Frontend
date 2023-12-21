@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AccommodationService} from "../../service/accommodation.service";
 import {AuthService} from "../../access-control-module/auth.service";
 import {Amenity} from "../../model/amenity.model";
+import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
 
 @Component({
   selector: 'app-details',
@@ -27,33 +28,16 @@ export class DetailsComponent implements OnInit{
   }
 
   loadAccommodations(id:number){
+    console.log("aaa")
     this.accommodationService.getAccommodationById(id).subscribe(
-      (accommodation: Accommodation) => {
-        this.accommodation = accommodation;
-        console.log(accommodation);
-
-        accommodation.amenities.forEach((amenity: Amenity) => {
-            this.amenities.forEach((formAmenity: Amenity) => {
-              if (amenity.id == formAmenity.id) {
-                const checkbox = {checked: true};
-                this.onAmenityChange(checkbox, amenity);
-              }
-            });
-          }
-        );
-      })
-  }
-  onAmenityChange(event: any, amenity: Amenity): void {
-    // Handle the change in the checkbox state
-    if (event.checked) {
-      this.amenities.push(amenity);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a.id === amenity.id);
-      if (index !== -1) {
-        this.amenities.splice(index, 1);
+      (data)=>
+      {
+        this.accommodation=data.first;
+        console.log(this.accommodation)
+      },
+      (error)=>{
+        console.error('Error loading accommodations: ', error)
       }
-    }
+        );
   }
-
 }

@@ -4,6 +4,8 @@ import {AuthService} from "../../access-control-module/auth.service";
 import {Accommodation} from "../../model/accommodation.model";
 import {Role} from "../../model/user.model";
 import {Router} from "@angular/router";
+import { FormsModule } from '@angular/forms';
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-accommodations-main',
@@ -11,6 +13,8 @@ import {Router} from "@angular/router";
   styleUrls: ['./accommodations-main.component.css']
 })
 export class AccommodationsMainComponent implements OnInit {
+  startDate:Date = new Date(Date.now());
+  endDate:Date = new Date(Date.now());
   value = '';
   wifi= false;
   parking= false;
@@ -18,9 +22,10 @@ export class AccommodationsMainComponent implements OnInit {
   accommodations!: Accommodation[];
   userRole!: Role;
   constructor(private router: Router, private accommodationService: AccommodationService, private authService:AuthService) {
+  this.accommodations=[];
   }
   minSliderValue = 10;
-  maxSliderValue = 1000;
+  maxSliderValue = 200;
 
   // Display function for formatting values
   displayFn(value: number) {
@@ -47,11 +52,41 @@ export class AccommodationsMainComponent implements OnInit {
       }
     )
   }
+  applyFilters(){
+    let params = new HttpParams();
+      params = params.set('wifi', this.wifi);
+
+      params = params.set('parking', this.parking);
+
+      params = params.set('ac', this.ac_unit);
+
+    if(this.value!=''){
+      params = params.set('guests', this.value);
+    }
+    if (this.startDate.getDate() != this.endDate.getDate()){
+      params = params.set('startDate', this.startDate.toISOString());
+      params = params.set('endDate', this.endDate.toISOString());
+      params = params.set('maxVal', this.maxSliderValue);
+      params = params.set('minVal', this.minSliderValue);
+    }
+    this.accommodationService.getFilteredAccommodation(params).subscribe(
+        (data:Accommodation[])=>{
+          this.accommodations=data;
+          console.log("aaaaaaa")
+        },
+        (error)=>{
+          console.error('Error applying filters: ', error);
+        }
+    );
+  }
 
   protected readonly Role = Role;
 
-  bookITClicked(id: number) {
-    console.log('ACCOMMODATION ID: '+id.toString());
-    this.router.navigate(['/accommodation_details/'+id.toString()]);
+  bookITClicked(id: number|undefined) {
+    if(id){console.log('ACCOMMODATION ID: '+id.toString());
+      this.router.navigate(['/accommodation_details/'+id.toString()]);}
+    else{
+      alert("id error")
+    }
   }
 }
