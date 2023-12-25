@@ -35,9 +35,6 @@ import {MatListModule} from "@angular/material/list";
     DetailsComponent,
     AccommodationsMainComponent,
     AccommodationManagementComponent,
-/*
-    MapComponent
-*/
     AccommodationsMainComponent,
     AccommodationApprovalComponent,
     AccommodationApprovalCardComponent,

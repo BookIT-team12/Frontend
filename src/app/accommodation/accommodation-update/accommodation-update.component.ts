@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../../service/accommodation.service";
 import {
@@ -14,6 +14,8 @@ import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
 import {MatSelect} from "@angular/material/select";
 import {AccommodationLocation} from "../../model/location.model";
+import {MapService} from "../../service/map.service";
+import {ImagesService} from "../../service/images.service";
 
 
 // TODO: VALIDACIJE
@@ -24,7 +26,7 @@ import {AccommodationLocation} from "../../model/location.model";
   styleUrls: ['./accommodation-update.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccommodationUpdateComponent implements OnInit{
+export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
   accommodationForm: FormGroup;
   accommodation!: Accommodation;
@@ -36,26 +38,29 @@ export class AccommodationUpdateComponent implements OnInit{
   @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
 
   constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
-              private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService) {
+              private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private map: MapService,
+              private imageService: ImagesService) {
+
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-          AccommodationStatus.APPROVED,  new AccommodationLocation('Sample Address', 40.7128, -74.0060)); //this exists just so i dont get error when scanning ngFor for availability periods in html
-          //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
+          AccommodationStatus.APPROVED, map.undefinedBasicLocation);
+      //this exists just so i dont get error when scanning ngFor for availability periods in html
+      //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
+
       this.addingNewPeriod = true;
       this.imageStrings = [];
       this.imageFiles = [];
 
       this.accommodationForm = this.fb.group({
             name: ['', [Validators.required]],
-            maxGuests: ['', [Validators.required]],
-            minGuests: ['', [Validators.required]],
+            maxGuests: [0, [Validators.required]],
+            minGuests: [0, [Validators.required]],
             description: ['', [Validators.required]],
             accommodationType: ['', [Validators.required]],
             bookingConfirmationType: ['', [Validators.required]],
-            endDate: [''],
-            startDate: [''],
-            price: [''],
-            images: [],
+            endDate: undefined,
+            startDate: undefined,
+            price: 0,
             parking: false,
             wifi: false,
             airConditioning: false,
@@ -95,8 +100,9 @@ export class AccommodationUpdateComponent implements OnInit{
         });
 
         this.imageStrings = pair.second;
-        this.addFileTypeToImages();
-        this.turnStringsToImages();
+        this.imageService.setArrays(this.imageFiles, this.imageStrings);
+        this.imageService.addFileTypeToImages();
+        this.imageService.turnStringsToImages();
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -185,53 +191,17 @@ export class AccommodationUpdateComponent implements OnInit{
     }
   }
 
-  addFileTypeToImages(){
-    let typeImage:string = "data:image/png;base64,"
-    for (let i = 0; i!= this.imageStrings.length; i++){
-      this.imageStrings[i] = typeImage + this.imageStrings[i];
-    }
-  }
-  base64StringToFile(base64String: string, fileName: string): File {
-  // Remove the data:image/png;base64, prefix from the Base64 string
-  const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
-
-  // Convert the Base64 string to a Blob
-  const byteCharacters = atob(base64WithoutPrefix);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  const byteArray = new Uint8Array(byteNumbers);
-  const blob = new Blob([byteArray], { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
-
-  // Create a File object from the Blob
-  const file = new File([blob], fileName, { type: 'image/png' }); // Change the type based on your image type (png/jpeg)
-
-  return file;
-}
-  turnStringsToImages(){
-  for(let i = 0; i!= this.imageStrings.length; i++){
-    this.imageFiles.push(this.base64StringToFile(this.imageStrings[i], "accommodation_picture"+i+".jpg"))
-  }
-}
   onFileSelected(event: any): void {
-  const files: FileList | null = event.target.files;
-  if (files) {
-      for (let i = 0; i < files.length; i++) {
-          this.imageFiles.push(files.item(i) as File);
-      }
-  }
+      this.imageService.onFileSelected(event);
+      this.cdr.detectChanges();
 }
   getUrl(file: File): string {
-    return URL.createObjectURL(file);
+    return this.imageService.getUrl(file);
   }
   deleteImage(toDelete: File){
-        let index = this.imageFiles.findIndex((image: File) => image === toDelete);
-        if (index !== -1) {
-            this.imageFiles.splice(index, 1);
-        }
+        this.imageService.deleteImage(toDelete);
         this.cdr.detectChanges();
-    }
+  }
 
   patchTimeUp(periods : AvailabilityPeriod[]){
       for (let i =0; i!=periods.length; i++){
@@ -266,4 +236,8 @@ export class AccommodationUpdateComponent implements OnInit{
       );
     }
     protected readonly startWith = startWith;
+
+    ngAfterViewInit(): void {
+        this.map.InitAfterViewCreation()
+    }
 }
