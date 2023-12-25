@@ -8,7 +8,7 @@ import {
   BookingConfirmationType
 } from "../../model/accommodation.model";
 import {ActivatedRoute} from "@angular/router";
-import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
+import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
@@ -71,7 +71,7 @@ export class AccommodationUpdateComponent implements OnInit{
 
     // Fetch accommodation data by ID and populate the form
     this.accommodationService.getAccommodationById(this.accommodationId).subscribe(
-      (pair: AccommodationDtoModel) => {
+      (pair: AccommodationResponseModel) => {
 
         this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
@@ -129,8 +129,8 @@ export class AccommodationUpdateComponent implements OnInit{
       }
   }
   onAddingPeriod(){
-    let newPeriod: AvailabilityPeriod = new AvailabilityPeriod(undefined, this.accommodationForm.value.startDate,
-                                  this.accommodationForm.value.endDate, this.accommodationForm.value.price)
+    let newPeriod: AvailabilityPeriod = new AvailabilityPeriod( this.accommodationForm.value.startDate,
+                                  this.accommodationForm.value.endDate, this.accommodationForm.value.price, undefined)
     if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
       this.accommodation.availabilityPeriods.push(newPeriod)
       this.resetPeriodsGUI();

@@ -5,7 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AccommodationService} from "../../service/accommodation.service";
 import {AuthService} from "../../access-control-module/auth.service";
 import {Amenity} from "../../model/amenity.model";
-import {AccommodationDtoModel} from "../../model/accommodation.dto.model";
+import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 
 @Component({
   selector: 'app-details',

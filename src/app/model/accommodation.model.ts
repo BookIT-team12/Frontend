@@ -14,7 +14,6 @@ export enum AccommodationType {
   APARTMENT = 'APARTMENT',
   ROOM = 'ROOM',
   HOTEL = 'HOTEL'
-
 }
 
 export enum AccommodationStatus{
@@ -67,8 +66,8 @@ export class Accommodation {
     this.bookingConfirmationType = bookingConfirmationType;
     this.availabilityPeriods = [];
     for(let i = 0; i<availabilityPeriods.length; i++){
-      this.availabilityPeriods.push(new AvailabilityPeriod(availabilityPeriods[i].id, availabilityPeriods[i].startDate,
-                                    availabilityPeriods[i].endDate, availabilityPeriods[i].price))
+      this.availabilityPeriods.push(new AvailabilityPeriod(availabilityPeriods[i].startDate,
+                                    availabilityPeriods[i].endDate, availabilityPeriods[i].price, availabilityPeriods[i].id))
     }
     this.status=status;
     this.location = location;

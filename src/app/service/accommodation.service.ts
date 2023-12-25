@@ -5,7 +5,7 @@ import {Accommodation} from "../model/accommodation.model";
 import {Router} from "@angular/router";
 import {catchError} from "rxjs/operators";
 import {FormGroup} from "@angular/forms";
-import {AccommodationDtoModel} from "../model/accommodation.dto.model";
+import {AccommodationResponseModel} from "../model/accommodation.response.model";
 
 @Injectable({
   providedIn:'root',
@@ -16,9 +16,9 @@ export class AccommodationService{
   private apiUrl = 'http://localhost:8080/api/accommodations';
   constructor(private http: HttpClient, private router:Router) {}
 
-  getAccommodationById(id: number): Observable<AccommodationDtoModel> {
+  getAccommodationById(id: number): Observable<AccommodationResponseModel> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<AccommodationDtoModel>(url);
+    return this.http.get<AccommodationResponseModel>(url);
   }
 
   openUpdatePage(accommodationId:number){
@@ -42,7 +42,7 @@ export class AccommodationService{
     return this.http.post<Accommodation>(this.apiUrl, formData);
   }
 
-  updateAccommodation(accommodation: Accommodation, images: File[], id: number | undefined): Observable<AccommodationDtoModel> {
+  updateAccommodation(accommodation: Accommodation, images: File[], id: number | undefined): Observable<AccommodationResponseModel> {
     const url = `${this.apiUrl}/${id}`;
 
     const formData: FormData = new FormData();
@@ -51,7 +51,7 @@ export class AccommodationService{
     }
     formData.append("accommodationDTO", new Blob([JSON.stringify(accommodation)], {type: "application/json"}))
 
-    return this.http.put<AccommodationDtoModel>(url, formData);
+    return this.http.put<AccommodationResponseModel>(url, formData);
   }
 
   deleteAccommodation(id: number): Observable<void> {

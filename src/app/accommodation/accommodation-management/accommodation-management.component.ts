@@ -21,7 +21,6 @@ import {MapService} from "../../service/map.service";
 export class AccommodationManagementComponent implements AfterViewInit {
 
   accommodationForm: FormGroup;
-//  TODO: ODRADI LOKACIJU
     //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private cdr: ChangeDetectorRef, private authService: AuthService,
@@ -136,7 +135,6 @@ export class AccommodationManagementComponent implements AfterViewInit {
         AccommodationStatus.PENDING,
         this.map.getSelectedLocation()
     );
-    // console.log(newAccommodation);
 
     this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.value.images).subscribe(
         (result) => {
@@ -153,7 +151,6 @@ export class AccommodationManagementComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.map.InitAfterViewCreation()
   }
-
 
 }
 
