@@ -10,6 +10,12 @@
   <!-- Owner Navbar Links -->
   <app-navbar-owner-main></app-navbar-owner-main>
 </div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Owner Navbar Links -->
+  <app-navbar-admin-main></app-navbar-admin-main>
+</div>
+
 <mat-drawer-container>
   <mat-drawer opened mode="side" class="sidenav">
     <h1 class="logo-header">
