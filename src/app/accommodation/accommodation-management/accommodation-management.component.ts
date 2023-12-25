@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
 import {
@@ -8,12 +8,9 @@ import {
   BookingConfirmationType
 } from "../../model/accommodation.model";
 import {Amenity} from "../../model/amenity.model";
-import {Review} from "../../model/review.model";
-import {Reservation} from "../../model/reservation.model";
-import {UserService} from "../../service/user.service";
-import {ConsoleLogger} from "@angular/compiler-cli";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
+import {MapService} from "../../service/map.service";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -21,14 +18,14 @@ import {AuthService} from "../../access-control-module/auth.service";
   styleUrls: ['./accommodation-management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccommodationManagementComponent{
+export class AccommodationManagementComponent implements AfterViewInit {
 
   accommodationForm: FormGroup;
 //  TODO: ODRADI LOKACIJU
     //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
-              private userService:UserService, private cdr: ChangeDetectorRef, private authService: AuthService,
-              private fb: FormBuilder) {
+              private cdr: ChangeDetectorRef, private authService: AuthService,
+              private fb: FormBuilder, private map: MapService) {
 
     this.accommodationForm = this.fb.group({
       owner: '',
@@ -46,7 +43,8 @@ export class AccommodationManagementComponent{
       images: this.fb.array([]),
       amenities: this.fb.array([]),
       reviews: [],
-      reservations: []
+      reservations: [],
+      location: undefined
     })
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
@@ -150,6 +148,10 @@ export class AccommodationManagementComponent{
           console.error('Error creating accommodation', error);
         }
     );
+  }
+
+  ngAfterViewInit(): void {
+    this.map.ngAfterViewInit()
   }
 
 

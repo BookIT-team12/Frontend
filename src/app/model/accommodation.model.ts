@@ -2,6 +2,7 @@ import { AvailabilityPeriod } from './availability-period.model';
 import { Review } from './review.model';
 import { Reservation } from './reservation.model';
 import {AvailabilityPeriodService} from "../service/availability-period.service";
+import {Location} from "./location.model";
 
 export enum BookingConfirmationType {
   AUTOMATIC = 'AUTOMATIC',
@@ -37,6 +38,7 @@ export class Accommodation {
   bookingConfirmationType: BookingConfirmationType;
   availabilityPeriods: AvailabilityPeriod[];
   status:AccommodationStatus;
+  location: Location;
 
   constructor(
     ownerEmail: string,
@@ -50,7 +52,8 @@ export class Accommodation {
     reservations: Reservation[],
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
-    status:AccommodationStatus
+    status:AccommodationStatus,
+    location: Location
   ) {
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;
@@ -68,6 +71,7 @@ export class Accommodation {
                                     availabilityPeriods[i].endDate, availabilityPeriods[i].price))
     }
     this.status=status;
+    this.location = location;
   }
 
   containsAmenity(id:number){
