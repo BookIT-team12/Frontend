@@ -15,8 +15,6 @@ import {ConsoleLogger} from "@angular/compiler-cli";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
 
-//TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
-
 @Component({
   selector: 'app-accommodation-management',
   templateUrl: './accommodation-management.component.html',
@@ -26,10 +24,6 @@ import {AuthService} from "../../access-control-module/auth.service";
 export class AccommodationManagementComponent{
 
   accommodationForm: FormGroup;
-  //fixme: you need to make timezones the same. TIMEZONE PROBLEM IS DESCRIBED BELLOW:
-//   TIMEZONE PROBLEM: THING ABOUT THIS PROBLEM IS THAT ON THE FRONT I HAVE 25. DEC AT MIDNIGHT (00:00) AND WHEN I SEND IT
-//   TO BACKEND I GET 24. DEC AT (23:00). I GUESS ITS ABOUT SOME TIMEZONES AND I NEED TO FIX THIS LATER, FOR NOW ITS
-//   PATCHED UP JUST BY ADDING ONE HOUR TO VALUE BEFORE SUBMITTING FORM
 //  TODO: ODRADI LOKACIJU
     //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
@@ -103,9 +97,13 @@ export class AccommodationManagementComponent{
     }
   }
 
-  onSubmit(): void {
+  addHourToSelectedAvailabilityPeriod(){
     this.accommodationForm.value.startDate.setHours(this.accommodationForm.value.startDate.getHours() + 1);
     this.accommodationForm.value.endDate.setHours(this.accommodationForm.value.endDate.getHours() + 1)
+  }
+
+  onSubmit(): void {
+    this.addHourToSelectedAvailabilityPeriod()
     const accommodationData = {
       ownerEmail: this.accommodationForm.value.owner,
       accommodationType: AccommodationType[this.accommodationForm.value.accommodationType as keyof typeof AccommodationType],
@@ -141,7 +139,6 @@ export class AccommodationManagementComponent{
         accommodationData.availabilityPeriods,
       AccommodationStatus.PENDING
     );
-
 
     this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.value.images).subscribe(
         (result) => {

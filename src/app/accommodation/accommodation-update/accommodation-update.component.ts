@@ -231,7 +231,6 @@ export class AccommodationUpdateComponent implements OnInit{
         this.cdr.detectChanges();
     }
 
-    //fixme: same thing for timezones as in the accommodation managment component!!!! this just adds 1 hour doesnt really fix the issue. I think its about timezones!
   patchTimeUp(periods : AvailabilityPeriod[]){
       for (let i =0; i!=periods.length; i++){
         periods[i].startDate.setHours(periods[i].startDate.getHours() + 1);
