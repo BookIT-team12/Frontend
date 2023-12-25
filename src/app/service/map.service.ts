@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as L from "leaflet";
+import {AccommodationLocation} from "../model/location.model";
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +11,12 @@ export class MapService {
   private baseUrl = 'https://nominatim.openstreetmap.org';
   private map: any;
   private marker: any;
+  private selectedLocation: AccommodationLocation
 
-  constructor(private http: HttpClient) {}
+  undefinedBasicLocation = new AccommodationLocation( "Somewhere in middle of ocean", 38.556757147352215,  10.67667161616384)
+
+  constructor(private http: HttpClient) {this.selectedLocation=this.undefinedBasicLocation;
+  }
 
   private initMap(): void {
     console.log('Initializing map...');
@@ -74,10 +79,11 @@ export class MapService {
 
     this.reverseSearch(lat, lng).subscribe((res) => {
       const address = res.display_name;
-      console.log("adresa", address);
 
       // Display address in a popup on the marker
       this.marker.bindPopup(address).openPopup();
+      this.selectedLocation = new AccommodationLocation(address, lat, lng);
+      console.log("selektovana lokacija: ", this.selectedLocation)
     });
   }
 
@@ -104,7 +110,7 @@ export class MapService {
     });
   }
 
-  ngAfterViewInit(): void {
+  InitAfterViewCreation(): void {
     console.log('ngAfterViewInit called.');
 
     setTimeout(() => {
@@ -113,6 +119,10 @@ export class MapService {
       });
       this.initMap();
     }, 100); // You can adjust the delay (in milliseconds) if needed
+  }
+
+  getSelectedLocation(){
+    return this.selectedLocation;
   }
 
 }

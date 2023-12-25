@@ -43,8 +43,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
       images: this.fb.array([]),
       amenities: this.fb.array([]),
       reviews: [],
-      reservations: [],
-      location: undefined
+      reservations: []
     })
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
@@ -112,8 +111,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
       amenities: this.accommodationForm.value.amenities,
       reviews: this.accommodationForm.value.reviews,
       reservations: this.accommodationForm.value.reservations,
-      bookingConfirmationType: BookingConfirmationType[this.accommodationForm.value.bookingConfirmationType as keyof typeof BookingConfirmationType  ],
-
+      bookingConfirmationType: BookingConfirmationType[this.accommodationForm.value.bookingConfirmationType as keyof typeof BookingConfirmationType],
       availabilityPeriods: [
         {
           startDate: this.accommodationForm.value.startDate,
@@ -135,8 +133,10 @@ export class AccommodationManagementComponent implements AfterViewInit {
         accommodationData.reservations,
         accommodationData.bookingConfirmationType,
         accommodationData.availabilityPeriods,
-      AccommodationStatus.PENDING
+        AccommodationStatus.PENDING,
+        this.map.getSelectedLocation()
     );
+    // console.log(newAccommodation);
 
     this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.value.images).subscribe(
         (result) => {
@@ -151,7 +151,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.map.ngAfterViewInit()
+    this.map.InitAfterViewCreation()
   }
 
 

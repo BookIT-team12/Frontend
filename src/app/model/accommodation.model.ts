@@ -2,7 +2,7 @@ import { AvailabilityPeriod } from './availability-period.model';
 import { Review } from './review.model';
 import { Reservation } from './reservation.model';
 import {AvailabilityPeriodService} from "../service/availability-period.service";
-import {Location} from "./location.model";
+import {AccommodationLocation} from "./location.model";
 
 export enum BookingConfirmationType {
   AUTOMATIC = 'AUTOMATIC',
@@ -38,7 +38,7 @@ export class Accommodation {
   bookingConfirmationType: BookingConfirmationType;
   availabilityPeriods: AvailabilityPeriod[];
   status:AccommodationStatus;
-  location: Location;
+  location: AccommodationLocation;
 
   constructor(
     ownerEmail: string,
@@ -53,7 +53,7 @@ export class Accommodation {
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
     status:AccommodationStatus,
-    location: Location
+    location: AccommodationLocation
   ) {
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;

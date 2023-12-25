@@ -1,4 +1,4 @@
-export class Location{
+export class AccommodationLocation {
     address : string;
     latitude: number;
     longitude: number;

@@ -13,6 +13,7 @@ import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
 import {AvailabilityPeriodService} from "../../service/availability-period.service";
 import {MatSelect} from "@angular/material/select";
+import {AccommodationLocation} from "../../model/location.model";
 
 
 // TODO: VALIDACIJE
@@ -38,7 +39,7 @@ export class AccommodationUpdateComponent implements OnInit{
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService) {
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-          AccommodationStatus.APPROVED); //this exists just so i dont get error when scanning ngFor for availability periods in html
+          AccommodationStatus.APPROVED,  new AccommodationLocation('Sample Address', 40.7128, -74.0060)); //this exists just so i dont get error when scanning ngFor for availability periods in html
           //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
       this.addingNewPeriod = true;
       this.imageStrings = [];
@@ -74,7 +75,8 @@ export class AccommodationUpdateComponent implements OnInit{
 
         this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
-            pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status)
+            pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status,
+            pair.first.location)
 
         this.accommodationForm.patchValue({
             name: this.accommodation.name,
@@ -250,7 +252,8 @@ export class AccommodationUpdateComponent implements OnInit{
         this.accommodation.reservations,
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
         this.accommodation.availabilityPeriods,
-        AccommodationStatus.PENDING
+        AccommodationStatus.PENDING,
+        new AccommodationLocation('Sample Address', 40.7128, -74.0060)
       );
       this.patchTimeUp(updatedAccommodation.availabilityPeriods);
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
