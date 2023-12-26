@@ -12,6 +12,12 @@ export class AmenitiesService {
     this.checkedAmenities = newVal;
   }
 
+  loadExisitingAccommodationAmenities(existing: number[]){  //fixme: not used?? why???
+    for (let i = 0; i!= existing.length; i++){
+      this.checkedAmenities.push(existing[i]);
+    }
+  }
+
   onAmenityChange(event: any, amenity: Amenity): void {
     if (event.checked) {
       this.checkedAmenities.push(amenity.id);

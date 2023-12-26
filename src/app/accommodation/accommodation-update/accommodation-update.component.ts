@@ -16,6 +16,8 @@ import {MatSelect} from "@angular/material/select";
 import {AccommodationLocation} from "../../model/location.model";
 import {MapService} from "../../service/map.service";
 import {ImagesService} from "../../service/images.service";
+import {AmenitiesService} from "../../service/amenities.service";
+import {Amenity} from "../../model/amenity.model";
 
 
 // TODO: VALIDACIJE
@@ -33,13 +35,15 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
   accommodationId!: number; // Accommodation ID retrieved from route parameter
   imageStrings :string[];
   imageFiles: File[];
+  checkedAmenities: number[];
+  availabilityPeriods: AvailabilityPeriod[];
 
   addingNewPeriod: boolean; //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
   @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
 
   constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private map: MapService,
-              private imageService: ImagesService) {
+              private imageService: ImagesService, private amenitiesService: AmenitiesService) {
 
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
@@ -50,6 +54,8 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.addingNewPeriod = true;
       this.imageStrings = [];
       this.imageFiles = [];
+      this.checkedAmenities = [];
+      this.availabilityPeriods = [];
 
       this.accommodationForm = this.fb.group({
             name: ['', [Validators.required]],
@@ -103,6 +109,12 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.imageService.setArrays(this.imageFiles, this.imageStrings);
         this.imageService.addFileTypeToImages();
         this.imageService.turnStringsToImages();
+
+        this.checkedAmenities = this.accommodation.amenities;
+        this.amenitiesService.setCheckedAmenities(this.checkedAmenities);
+
+        this.availabilityPeriods = this.accommodation.availabilityPeriods;
+        this.periodService.setExistingPeriods(this.availabilityPeriods)
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -110,35 +122,34 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
     );
   }
 
-  onSelectingPeriod(newSelectedPeriod : AvailabilityPeriod){
+  onSelectingPeriodGUI(newSelectedPeriod : AvailabilityPeriod){
       this.accommodationForm.patchValue({
           endDate: newSelectedPeriod.endDate,
           startDate: newSelectedPeriod.startDate,
           price: newSelectedPeriod.price
       })
   }
-  onSelectingNone(){
+  onSelectingNoneGUI(){
       this.accommodationForm.patchValue({
-          endDate: '',
-          startDate: '',
-          price: ''
+          endDate: null,
+          startDate: null,
+          price: 0
       })
   }
-  onSelectedPeriodChange(event: any){
+  onSelectedPeriodChangeGUI(event: any){
       let newSelectedPeriod = event.value;
       if (newSelectedPeriod === 'none'){  //znaci dodajemo nov period
           this.addingNewPeriod = true;
-          this.onSelectingNone()
+          this.onSelectingNoneGUI()
       } else {  //menjamo postojeci
           this.addingNewPeriod = false;
-          this.onSelectingPeriod(newSelectedPeriod);
+          this.onSelectingPeriodGUI(newSelectedPeriod);
       }
   }
   onAddingPeriod(){
-    let newPeriod: AvailabilityPeriod = new AvailabilityPeriod( this.accommodationForm.value.startDate,
-                                  this.accommodationForm.value.endDate, this.accommodationForm.value.price, undefined)
-    if (!this.periodService.doesNewPeriodOverlap(this.accommodation.availabilityPeriods, newPeriod)){
-      this.accommodation.availabilityPeriods.push(newPeriod)
+    let isAdded = this.periodService.addPeriod(this.accommodationForm.value.startDate,
+      this.accommodationForm.value.endDate, this.accommodationForm.value.price)
+    if (isAdded){
       this.resetPeriodsGUI();
       this.cdr.detectChanges();
     } else {
@@ -146,26 +157,19 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
     }
   }
   onChangingPeriod(selectedPeriod: any){
-    let existingPeriods = this.accommodation.availabilityPeriods.slice();
-    existingPeriods = existingPeriods.filter(item => item !== selectedPeriod);
-    let isOverlaping:boolean = this.periodService.doesNewPeriodOverlap(existingPeriods, //will new period be overlaping (before officially changing it)
-      new AvailabilityPeriod(selectedPeriod.id, this.accommodationForm.value.startDate,
-      this.accommodationForm.value.endDate, this.accommodationForm.value.price));
-    if(isOverlaping){
-      alert("Vec postoji period koji pokriva ovo vreme!!!")
-    } else {
-      let changed: AvailabilityPeriod | null = this.accommodation.findAvailabilityPeriod(selectedPeriod.id);  //find one to change
-      changed ? changed.startDate = this.accommodationForm.value.startDate : null;
-      changed ? changed.endDate = this.accommodationForm.value.endDate : null;
-      changed ? changed.price = this.accommodationForm.value.price : null;
-      this.resetPeriodsGUI();
-    }
-    this.cdr.detectChanges()
-  }
-  onDeletingPeriod(selectedPeriod:any){
-      this.accommodation.availabilityPeriods = this.accommodation.availabilityPeriods.filter(period => period !== selectedPeriod);
+    let isChanged = this.periodService.changePeriod(selectedPeriod, this.accommodationForm.value.startDate,
+      this.accommodationForm.value.endDate, this.accommodationForm.value.price, selectedPeriod.id);
+    if (isChanged) {
       this.resetPeriodsGUI()
       this.cdr.detectChanges()
+    } else {
+      alert("Vec postoji period koji pokriva ovo vreme!!!")
+    }
+  }
+  onDeletingPeriod(selectedPeriod:any){
+      this.periodService.deletePeriod(selectedPeriod);
+      this.resetPeriodsGUI();
+      this.cdr.detectChanges();
   }
   resetPeriodsGUI(){
       this.addingNewPeriod = true;
@@ -178,17 +182,8 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.cdr.detectChanges();
   }
 
-  onAmenityChange(event: any, amenity: number): void {
-    // Handle the change in the checkbox state
-    if (event.checked) {
-      this.accommodation.amenities.push(amenity);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.accommodation.amenities.findIndex(a => a === amenity);
-      if (index !== -1) {
-        this.accommodation.amenities.splice(index, 1);
-      }
-    }
+  onAmenityChange(event: any, amenity: Amenity): void {
+    this.amenitiesService.onAmenityChange(event, amenity);
   }
 
   onFileSelected(event: any): void {
@@ -203,12 +198,6 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.cdr.detectChanges();
   }
 
-  patchTimeUp(periods : AvailabilityPeriod[]){
-      for (let i =0; i!=periods.length; i++){
-        periods[i].startDate.setHours(periods[i].startDate.getHours() + 1);
-        periods[i].endDate.setHours(periods[i].endDate.getHours() + 1);
-      }
-  }
   onSubmit(): void {
     const updatedAccommodation = new Accommodation(
         this.accommodation.ownerEmail,
@@ -217,15 +206,17 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodationForm.value.name,
         this.accommodationForm.value.minGuests,
         this.accommodationForm.value.maxGuests,
-        this.accommodation.amenities,
+        this.checkedAmenities,
         this.accommodation.reviews,
         this.accommodation.reservations,
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
-        this.accommodation.availabilityPeriods,
+        this.availabilityPeriods,
         AccommodationStatus.PENDING,
         new AccommodationLocation('Sample Address', 40.7128, -74.0060)
       );
-      this.patchTimeUp(updatedAccommodation.availabilityPeriods);
+
+      this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
+
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
           console.log('Accommodation updated successfully', result);
