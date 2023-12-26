@@ -16,4 +16,11 @@ export class AvailabilityPeriodService {
       }
       return false;
   }
+
+  patchUpHourTimezoneProblem(listToAdjust: AvailabilityPeriod[]){
+      for(let i = 0; i != listToAdjust.length; i++){
+        listToAdjust[i].startDate.setHours(listToAdjust[i].startDate.getHours() + 1)
+        listToAdjust[i].endDate.setHours(listToAdjust[i].endDate.getHours() + 1)
+      }
+  }
 }

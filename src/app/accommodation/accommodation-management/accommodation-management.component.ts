@@ -12,6 +12,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
 import {MapService} from "../../service/map.service";
 import {ImagesService} from "../../service/images.service";
+import {AvailabilityPeriod} from "../../model/availability-period.model";
+import {AvailabilityPeriodService} from "../../service/availability-period.service";
+import {AmenitiesService} from "../../service/amenities.service";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -23,11 +26,13 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
   accommodationForm: FormGroup;
   imageFiles: File[] = [];
+  amenities: number[] = [];
 
     //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private cdr: ChangeDetectorRef, private authService: AuthService,
-              private fb: FormBuilder, private map: MapService, private imageService: ImagesService) {
+              private fb: FormBuilder, private map: MapService, private imageService: ImagesService,
+              private periodService: AvailabilityPeriodService, private amenitiesService: AmenitiesService) {
 
     this.accommodationForm = this.fb.group({
       owner: '',
@@ -42,10 +47,11 @@ export class AccommodationManagementComponent implements AfterViewInit {
       availableFrom: undefined,
       availableUntil: undefined,
       price: 0,
-      amenities: this.fb.array([]),
       reviews: [],
       reservations: []
     })
+
+    this.amenitiesService.setCheckedAmenities(this.amenities)
 
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
@@ -72,25 +78,10 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
 
   onAmenityChange(event: any, amenity: Amenity): void {
-    if (event.checked) {
-      this.accommodationForm.value.amenities.push(amenity.id);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.accommodationForm.value.amenities.findIndex((a:number) => a === amenity.id);
-      if (index !== -1) {
-        this.accommodationForm.value.amenities.splice(index, 1);
-      }
-    }
-  }
-
-  addHourToSelectedAvailabilityPeriod(){
-    this.accommodationForm.value.startDate.setHours(this.accommodationForm.value.startDate.getHours() + 1);
-    this.accommodationForm.value.endDate.setHours(this.accommodationForm.value.endDate.getHours() + 1)
+    this.amenitiesService.onAmenityChange(event, amenity);
   }
 
   onSubmit(): void {
-    this.addHourToSelectedAvailabilityPeriod()
-
     const accommodationData = {
       ownerEmail: this.accommodationForm.value.owner,
       accommodationType: AccommodationType[this.accommodationForm.value.accommodationType as keyof typeof AccommodationType],
@@ -98,16 +89,13 @@ export class AccommodationManagementComponent implements AfterViewInit {
       name: this.accommodationForm.value.name,
       minGuests: this.accommodationForm.value.minGuests,
       maxGuests: this.accommodationForm.value.maxGuests,
-      amenities: this.accommodationForm.value.amenities,
+      amenities: this.amenities,
       reviews: this.accommodationForm.value.reviews,
       reservations: this.accommodationForm.value.reservations,
       bookingConfirmationType: BookingConfirmationType[this.accommodationForm.value.bookingConfirmationType as keyof typeof BookingConfirmationType],
       availabilityPeriods: [
-        {
-          startDate: this.accommodationForm.value.startDate,
-          endDate: this.accommodationForm.value.endDate,
-          price: this.accommodationForm.value.price
-        }
+        new AvailabilityPeriod(this.accommodationForm.value.startDate, this.accommodationForm.value.endDate,
+            this.accommodationForm.value.price)
       ],
     };
 
@@ -127,6 +115,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
         AccommodationStatus.PENDING,
         this.map.getSelectedLocation()
     );
+
+    this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
 
     this.accommodationService.createAccommodation(newAccommodation, this.imageFiles).subscribe(
         (result) => {
