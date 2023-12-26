@@ -58,7 +58,7 @@
       <div>
         <input type="file" (change)="onFileSelected($event)" multiple />
         <div class="image-container">
-          <div *ngFor="let image of getAccommodationImages()">
+          <div *ngFor="let image of imageFiles">
             <mat-card>
               <mat-card-header>
                 <mat-card-title-group>

@@ -7,8 +7,12 @@ export class ImagesService {
   imageStrings: string[] = [];
   imageFiles: File[] = [];
   constructor(){  }
-  setArrays(imagesFromPage: File[], dataFromPage:string[]) {
+  setArrays(imagesFromPage: File[], dataFromPage:string[]) {  //this one is for accommodation-update
     this.imageStrings = dataFromPage;
+    this.imageFiles = imagesFromPage;
+  }
+
+  setFileArray(imagesFromPage: File[]){ //this one is for accommodation creation.
     this.imageFiles = imagesFromPage;
   }
   addFileTypeToImages(){
@@ -56,6 +60,5 @@ export class ImagesService {
     if (index !== -1) {
       this.imageFiles.splice(index, 1);
     }
-    // this.cdr.detectChanges();
   }
 }

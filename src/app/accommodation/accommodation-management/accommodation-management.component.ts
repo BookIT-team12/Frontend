@@ -11,6 +11,7 @@ import {Amenity} from "../../model/amenity.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
 import {MapService} from "../../service/map.service";
+import {ImagesService} from "../../service/images.service";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -21,10 +22,12 @@ import {MapService} from "../../service/map.service";
 export class AccommodationManagementComponent implements AfterViewInit {
 
   accommodationForm: FormGroup;
+  imageFiles: File[] = [];
+
     //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private cdr: ChangeDetectorRef, private authService: AuthService,
-              private fb: FormBuilder, private map: MapService) {
+              private fb: FormBuilder, private map: MapService, private imageService: ImagesService) {
 
     this.accommodationForm = this.fb.group({
       owner: '',
@@ -39,11 +42,11 @@ export class AccommodationManagementComponent implements AfterViewInit {
       availableFrom: undefined,
       availableUntil: undefined,
       price: 0,
-      images: this.fb.array([]),
       amenities: this.fb.array([]),
       reviews: [],
       reservations: []
     })
+
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
         this.accommodationForm.patchValue({
@@ -51,33 +54,20 @@ export class AccommodationManagementComponent implements AfterViewInit {
         })
       }
     })
-  }
 
-  //i use this inside html. when it doesnt recognise something good or doesnt see it as good type, this is good way
-  //to solve it. basicly just send it as something you need there and it works.
-  getAccommodationImages(): File[]{
-    return this.accommodationForm.value.images;
+    this.imageService.setFileArray(this.imageFiles);
   }
 
   onFileSelected(event: any): void {
-    const files: FileList | null = event.target.files;
-
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        this.accommodationForm.value.images.push(files.item(i) as File);
-      }
-    }
+    this.imageService.onFileSelected(event);
     this.cdr.detectChanges();
   }
   deleteImage(toDelete: File){
-    let index = this.accommodationForm.value.images.findIndex((image: File) => image === toDelete);
-    if (index !== -1) {
-      this.accommodationForm.value.images.splice(index, 1);
-    }
+    this.imageService.deleteImage(toDelete);
     this.cdr.detectChanges()
   }
   getUrl(file: File): string {
-    return URL.createObjectURL(file);
+    return this.imageService.getUrl(file);
   }
 
 
@@ -100,6 +90,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
   onSubmit(): void {
     this.addHourToSelectedAvailabilityPeriod()
+
     const accommodationData = {
       ownerEmail: this.accommodationForm.value.owner,
       accommodationType: AccommodationType[this.accommodationForm.value.accommodationType as keyof typeof AccommodationType],
@@ -119,6 +110,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
         }
       ],
     };
+
     // Convert accommodationData to Accommodation
     const newAccommodation = new Accommodation(
         accommodationData.ownerEmail,
@@ -136,13 +128,11 @@ export class AccommodationManagementComponent implements AfterViewInit {
         this.map.getSelectedLocation()
     );
 
-    this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.value.images).subscribe(
+    this.accommodationService.createAccommodation(newAccommodation, this.imageFiles).subscribe(
         (result) => {
-          // Handle success, if needed
           console.log('Accommodation created successfully', result);
         },
         (error) => {
-          // Handle error, if needed
           console.error('Error creating accommodation', error);
         }
     );
@@ -153,5 +143,3 @@ export class AccommodationManagementComponent implements AfterViewInit {
   }
 
 }
-
-
