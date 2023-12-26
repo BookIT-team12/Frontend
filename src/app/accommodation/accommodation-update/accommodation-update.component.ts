@@ -32,7 +32,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
   accommodationForm: FormGroup;
   accommodation!: Accommodation;
-  accommodationId!: number; // Accommodation ID retrieved from route parameter
+  accommodationId!: number;
   imageStrings :string[];
   imageFiles: File[];
   checkedAmenities: number[];
@@ -80,7 +80,6 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
 
-    // Fetch accommodation data by ID and populate the form
     this.accommodationService.getAccommodationById(this.accommodationId).subscribe(
       (pair: AccommodationResponseModel) => {
 
@@ -115,6 +114,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
         this.availabilityPeriods = this.accommodation.availabilityPeriods;
         this.periodService.setExistingPeriods(this.availabilityPeriods)
+
+        this.map.setSelectedLocation(this.accommodation.location);
+        this.map.searchLocation(this.accommodation.location.address);
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -212,7 +214,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
         this.availabilityPeriods,
         AccommodationStatus.PENDING,
-        new AccommodationLocation('Sample Address', 40.7128, -74.0060)
+        this.accommodation.location
       );
 
       this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
@@ -228,7 +230,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
     }
     protected readonly startWith = startWith;
 
-    ngAfterViewInit(): void {
-        this.map.InitAfterViewCreation()
-    }
+  ngAfterViewInit(): void {
+      this.map.InitAfterViewCreation();
+  }
 }

@@ -35,7 +35,6 @@ export class AvailabilityPeriodService {
     let newPeriod = new AvailabilityPeriod(startDate, endDate, price, undefined);
     if(!this.doesNewPeriodOverlap(newPeriod)){
       this.existingPeriods.push(newPeriod);
-      console.log("from service", this.existingPeriods)
       return true;
     }
     return false;
@@ -45,7 +44,6 @@ export class AvailabilityPeriodService {
     const index = this.existingPeriods.indexOf(selectedToDelete);
     if (index !== -1) {
       this.existingPeriods.splice(index, 1);
-      console.log("from service", this.existingPeriods);
     }
   }
 
@@ -62,7 +60,6 @@ export class AvailabilityPeriodService {
       }
 
       this.existingPeriods.push(newPeriod);
-      console.log("from service", this.existingPeriods);
       return true;
     }
     return false; // Period not found

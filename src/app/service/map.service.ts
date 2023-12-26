@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as L from "leaflet";
 import {AccommodationLocation} from "../model/location.model";
+import {AccommodationUpdateComponent} from "../accommodation/accommodation-update/accommodation-update.component";
+import {marker} from "leaflet";
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +17,7 @@ export class MapService {
 
   undefinedBasicLocation = new AccommodationLocation( "Somewhere in middle of ocean", 38.556757147352215,  10.67667161616384)
 
-  constructor(private http: HttpClient) {this.selectedLocation=this.undefinedBasicLocation;
-  }
+  constructor(private http: HttpClient) {this.selectedLocation=this.undefinedBasicLocation;}
 
   private initMap(): void {
     console.log('Initializing map...');
@@ -57,11 +58,6 @@ export class MapService {
     return this.http.get(url);
   }
 
-
-
-
-
-
   onMapClick(e: L.LeafletMouseEvent): void {
     const coord = e.latlng;
     const lat = coord.lat;
@@ -83,7 +79,6 @@ export class MapService {
       // Display address in a popup on the marker
       this.marker.bindPopup(address).openPopup();
       this.selectedLocation = new AccommodationLocation(address, lat, lng);
-      console.log("selektovana lokacija: ", this.selectedLocation)
     });
   }
 
@@ -123,6 +118,10 @@ export class MapService {
 
   getSelectedLocation(){
     return this.selectedLocation;
+  }
+
+  setSelectedLocation(selectedLocation: AccommodationLocation){
+      this.selectedLocation = selectedLocation;
   }
 
 }
