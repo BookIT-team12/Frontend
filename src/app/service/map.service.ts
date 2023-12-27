@@ -124,4 +124,8 @@ export class MapService {
       this.selectedLocation = selectedLocation;
   }
 
+  updateLocation(previousLocationId: number|undefined){ //this is used only when updating location, when i want to preserve previous location id but want to change everything elses
+    this.selectedLocation.id = previousLocationId;
+    return this.selectedLocation;
+  }
 }

@@ -20,8 +20,7 @@ import {AmenitiesService} from "../../service/amenities.service";
 import {Amenity} from "../../model/amenity.model";
 
 
-// TODO: VALIDACIJE
-//TODO: LOKACIJA
+// TODO: VALIDACIJE(ZA OVO MI TREBA I REZERVACIJA!!!!)
 @Component({
   selector: 'app-accommodation-update',
   templateUrl: './accommodation-update.component.html',
@@ -37,6 +36,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
   imageFiles: File[];
   checkedAmenities: number[];
   availabilityPeriods: AvailabilityPeriod[];
+  accommodationLocation: AccommodationLocation;
 
   addingNewPeriod: boolean; //boolean that will determine enabled/disabled buttons for availability period changes and adding new one
   @ViewChild('selectedPeriod') selectedPeriod!: MatSelect;
@@ -56,6 +56,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.imageFiles = [];
       this.checkedAmenities = [];
       this.availabilityPeriods = [];
+      this.accommodationLocation = map.undefinedBasicLocation;
 
       this.accommodationForm = this.fb.group({
             name: ['', [Validators.required]],
@@ -115,8 +116,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.availabilityPeriods = this.accommodation.availabilityPeriods;
         this.periodService.setExistingPeriods(this.availabilityPeriods)
 
-        this.map.setSelectedLocation(this.accommodation.location);
-        this.map.searchLocation(this.accommodation.location.address);
+        this.accommodationLocation = this.accommodation.location;
+        this.map.setSelectedLocation(this.accommodationLocation);
+        this.map.searchLocation(this.accommodationLocation.address);
       },
       (error) => {
         console.error('Error fetching accommodation data', error);
@@ -214,11 +216,10 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
         this.availabilityPeriods,
         AccommodationStatus.PENDING,
-        this.accommodation.location
+        this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id)
       );
 
       this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
-
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
           console.log('Accommodation updated successfully', result);
@@ -227,8 +228,8 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
           console.error('Error updating accommodation', error);
         }
       );
-    }
-    protected readonly startWith = startWith;
+  }
+  protected readonly startWith = startWith;
 
   ngAfterViewInit(): void {
       this.map.InitAfterViewCreation();
