@@ -57,7 +57,9 @@ export class UserAccountManagementComponent implements OnInit {
           confirmPassword: user.confirmPassword,
           phone: user.phone,
           address: user.address,
-          role:user.role
+          role:user.role,
+          isBlocked:user.isBlocked,
+          isReported:user.isReported
         });
       },
       (error) => {
@@ -104,7 +106,9 @@ export class UserAccountManagementComponent implements OnInit {
         phone: this.form.value.phone,
         address: this.form.value.address,
         email: this.user?.email || '', // Ensure email is set
-        role:this.user!.role
+        role:this.user!.role,
+        isBlocked:false,
+        isReported:false
       };
 
       // Call the update user method

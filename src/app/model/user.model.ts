@@ -14,6 +14,8 @@ export class User {
   phone: string;
   role: Role;
   confirmPassword:string;
+  isReported:boolean;
+  isBlocked:boolean;
 
   constructor(
     name: string,
@@ -24,6 +26,8 @@ export class User {
     phone: string,
     role: Role,
     confirm:string,
+    isReported:boolean,
+    isBlocked:boolean
   ) {
     this.name = name;
     this.lastName = lastName;
@@ -33,5 +37,7 @@ export class User {
     this.phone = phone;
     this.role = role;
     this.confirmPassword=confirm;
+    this.isReported=isReported;
+    this.isBlocked=isBlocked;
   }
 }

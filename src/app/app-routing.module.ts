@@ -14,6 +14,7 @@ import {OwnerApprovalComponent} from "./reservation/owner-approval/owner-approva
 import {AccommodationUpdateComponent} from "./accommodation/accommodation-update/accommodation-update.component";
 import {OwnersAccommodationsComponent} from "./accommodation/owners-accommodations/owners-accommodations.component";
 import {AuthGuard} from "./access-control-module/guard/auth.guard";
+import {UserReportingComponent} from "./account-managment/user-reporting/user-reporting.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -26,7 +27,8 @@ const routes: Routes=[
   {path: "accommodation-approval", component: AccommodationApprovalComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR']}},
   {path: "owner-approval-res", component: OwnerApprovalComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path: "accommodation-update/:id", component: AccommodationUpdateComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
-  {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}}
+  {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
+  {path:"user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

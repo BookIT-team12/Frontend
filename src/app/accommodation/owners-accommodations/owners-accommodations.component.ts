@@ -14,7 +14,9 @@ export class OwnersAccommodationsComponent implements OnInit {
   }
 
   openAccommodationUpdate(accommodationId:number):void{
+/*
     console.log(accommodationId);
+*/
     this.accommodationService.openUpdatePage(accommodationId);}
 
   ngOnInit():void{
