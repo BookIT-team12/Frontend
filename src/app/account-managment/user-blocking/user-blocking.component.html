@@ -1,1 +1,36 @@
-<p>user-blocking works!</p>
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Guest Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
+
+
+
+<div *ngIf="users.length > 0; else noUsers">
+  <ng-container *ngFor="let user of users; let isFirst = first">
+    <div class="form-container">
+      <div class="acc-management-header" *ngIf="isFirst">Users</div>
+
+      <div class="left-part">
+
+        <div class="user-card">
+
+          <h3>Name: {{ user.name }}</h3>
+          <p>Last Name: {{ user.lastName }}</p>
+          <p>Email: {{ user.email }}</p>
+          <p>Address: {{ user.address }}</p>
+          <p>Phone: {{ user.phone }}</p>
+          <!--          <p> Report status: {{user.isReported.valueOf()}}</p>-->
+
+        </div>
+      </div>
+      <div class="right-part">
+        <button class="update-button" (click)="blockUser(user.email)">Block User</button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #noUsers>
+  <p>No users found.</p>
+</ng-template>
+

@@ -100,4 +100,26 @@ export class UserService {
       })
     );
   }
+
+  getUsersforBlocking(): Observable<User[]> {
+    const url = `${this.apiUrl}/block`;
+    return this.http.get<User[]>(url).pipe(
+      catchError((error) => {
+        console.error('Error getting blocking users:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+
+  blockUser(userID: string): Observable<any> {
+    const url = `${this.apiUrl}/blocked?userID=${userID}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, null, { headers, responseType: 'text' }).pipe(
+      map((response) => response),
+      catchError((error) => this.handleError(error))
+    );
+  }
+
 }
