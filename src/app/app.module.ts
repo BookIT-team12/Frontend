@@ -19,6 +19,7 @@ import {ReservationModule} from "./reservation/reservation.module";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {Interceptor} from "./access-control-module/interceptor";
 import { UserReportingComponent } from './account-managment/user-reporting/user-reporting.component';
+import {ReviewsModule} from "./reviews/reviews.module";
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { UserReportingComponent } from './account-managment/user-reporting/user-
     AccommodationModule,
     BaseModule,
     AccountManagmentModule,
-    ReservationModule
+    ReservationModule,
+    ReviewsModule
   ],
   providers: [
     {
