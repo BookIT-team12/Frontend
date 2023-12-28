@@ -8,12 +8,14 @@
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
         <input matInput placeholder="Enter accommodation name" formControlName="name" required>
+          <mat-error>You have to enter accommodation name</mat-error>
       </mat-form-field>
 
       <!-- Number of MIN Guests -->
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Min Guests</mat-label>
         <input matInput type="number" placeholder="Enter number of min guests" formControlName="minGuests" required>
+        <mat-error>Number of min guests must be greater than 0</mat-error>
       </mat-form-field>
 
       <!-- Number of MAX Guests -->
@@ -26,6 +28,7 @@
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
         <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
+        <mat-error>Minimal price is 1</mat-error>
       </mat-form-field>
 
 
@@ -33,6 +36,7 @@
       <mat-form-field class="global-icon-color">
         <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
         <textarea matInput placeholder="Enter detailed description" formControlName="description"></textarea>
+        <mat-error>Maximum number of characters is 200</mat-error>
       </mat-form-field>
 
       <!-- Accommodation Type Dropdown -->
@@ -44,6 +48,7 @@
           <mat-option value="ROOM">Room</mat-option>
           <mat-option value="HOTEL">Hotel</mat-option>
         </mat-select>
+        <mat-error>You have to select accommodation type</mat-error>
       </mat-form-field>
 
       <!-- Booking Confirmation Type Dropdown -->
@@ -53,6 +58,7 @@
           <mat-option value="AUTOMATIC">Automatic</mat-option>
           <mat-option value="MANUAL">Manual</mat-option>
         </mat-select>
+          <mat-error>You have to select booking confirmation type</mat-error>
       </mat-form-field>
 
       <div>
@@ -118,6 +124,11 @@
         <input matInput formControlName="startDate" [matDatepicker]="fromDatePicker" placeholder="Choose a date">
         <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #fromDatePicker></mat-datepicker>
+        <mat-error *ngIf="accommodationForm.get('startDate')">
+          <span *ngIf="accommodationForm.get('startDate')?.hasError('required')">You have to select start date<br></span>
+          <span *ngIf="accommodationForm.get('startDate')?.hasError('invalidStartDate')"> Start date cant be in the past</span>
+        </mat-error>
+
       </mat-form-field>
 
       <!-- Datepicker for "To" Date -->
@@ -129,8 +140,7 @@
       </mat-form-field>
 
 
-
-        <app-map></app-map>
+      <app-map></app-map>
     </div>
 
   </div>
