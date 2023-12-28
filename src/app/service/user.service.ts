@@ -2,13 +2,15 @@ import { Injectable } from "@angular/core";
 import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
 import {map, Observable, throwError} from "rxjs";
 import { catchError } from "rxjs/operators";
-import { User } from "../model/user.model";
+import {Role, User} from "../model/user.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
   private apiUrl = 'http://localhost:8080/users';
+
+
 
   constructor(private http: HttpClient) {}
 
@@ -67,4 +69,57 @@ export class UserService {
       })
     );
   }
+
+  getReportedUsers():Observable<User[]>{
+    const url = `${this.apiUrl}/reported`;
+    return this.http.get<User[]>(url).pipe(
+      catchError((error) => {
+        console.error('Error getting all users:', error);
+        return throwError(error);
+      })
+    );
+
+  }
+
+  reportUser(reportedID: string): Observable<any> {
+    const url = `${this.apiUrl}/report?reportedID=${reportedID}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, null, { headers, responseType: 'text' }).pipe(
+      map((response) => response),
+      catchError((error) => this.handleError(error))
+    );
+  }
+
+  getReportableUsers(userID: string): Observable<User[]> {
+    const url = `${this.apiUrl}/reportable?userID=${userID}`;
+    return this.http.get<User[]>(url).pipe(
+      catchError((error) => {
+        console.error('Error getting reportable users:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  getUsersforBlocking(): Observable<User[]> {
+    const url = `${this.apiUrl}/block`;
+    return this.http.get<User[]>(url).pipe(
+      catchError((error) => {
+        console.error('Error getting blocking users:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+
+  blockUser(userID: string): Observable<any> {
+    const url = `${this.apiUrl}/blocked?userID=${userID}`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    return this.http.post(url, null, { headers, responseType: 'text' }).pipe(
+      map((response) => response),
+      catchError((error) => this.handleError(error))
+    );
+  }
+
 }

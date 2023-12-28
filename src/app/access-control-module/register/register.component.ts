@@ -22,6 +22,8 @@ export class RegisterComponent {
   address: string = '';
   phone: string = '';
   confirmPassword: string = '';
+  isBlocked:boolean=false;
+  isReported:boolean=false;
 
   constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, private router:Router) {
     this.form = this.fb.group({
@@ -70,8 +72,10 @@ export class RegisterComponent {
         this.address,
         this.phone,
         this.selectedRole as Role,  // Set the selected role
-     // this.Role.ADMINISTRATOR, //
-        this.confirmPassword
+      //this.Role.ADMINISTRATOR, //
+        this.confirmPassword,
+        this.isReported,
+        this.isBlocked
     );
     console.log('User: ', newUser)
 

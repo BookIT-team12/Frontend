@@ -8,12 +8,16 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
+import { UserReportingComponent } from './user-reporting/user-reporting.component';
+import { UserBlockingComponent } from './user-blocking/user-blocking.component';
 
 
 
 @NgModule({
   declarations: [
-    UserAccountManagementComponent
+    UserAccountManagementComponent,
+    UserReportingComponent,
+    UserBlockingComponent
   ],
   imports: [
     CommonModule,

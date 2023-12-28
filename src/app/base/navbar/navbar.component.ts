@@ -38,7 +38,11 @@ export class NavbarComponent implements OnInit {
           console.log("Logged out successfully!");
         });
         break;
-      // Add other cases for different options
+
+      // Add other cases for different option
+      case 'owner-reporting':
+        this.router.navigate(['/user-reporting']);
+        break;
       default:
         break;
     }

@@ -47,10 +47,15 @@ export class NavbarOwnerComponent implements OnInit {
               console.log("Logged out successfully!");
           });
           break;
+      case 'guest-reporting':
+        this.router.navigate(['/user-reporting']);
+        break;
       default:
           break;
   }
   }
+
+  //guest-reporting
 
   // logout() {
   //   // Call the logout method from the AuthService

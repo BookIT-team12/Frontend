@@ -36,13 +36,14 @@ import { NavbarAdminMainComponent } from './navbar-admin-main/navbar-admin-main.
     RouterLink,
     RouterLinkActive
   ], exports: [
-        NavbarComponent,
-        NavbarOwnerComponent,
-        NavbarAdminComponent,
-        NavbarNonRegisteredComponent,
-        NavbarMainComponent,
-        NavbarNonRegisteredMainComponent,
-        NavbarOwnerMainComponent
-    ]
+    NavbarComponent,
+    NavbarOwnerComponent,
+    NavbarAdminComponent,
+    NavbarNonRegisteredComponent,
+    NavbarMainComponent,
+    NavbarNonRegisteredMainComponent,
+    NavbarOwnerMainComponent,
+    NavbarAdminMainComponent
+  ]
 })
 export class BaseModule { }
