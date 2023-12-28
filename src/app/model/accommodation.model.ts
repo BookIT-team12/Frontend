@@ -2,6 +2,7 @@ import { AvailabilityPeriod } from './availability-period.model';
 import { Review } from './review.model';
 import { Reservation } from './reservation.model';
 import {AvailabilityPeriodService} from "../service/availability-period.service";
+import {AccommodationLocation} from "./location.model";
 
 export enum BookingConfirmationType {
   AUTOMATIC = 'AUTOMATIC',
@@ -13,7 +14,6 @@ export enum AccommodationType {
   APARTMENT = 'APARTMENT',
   ROOM = 'ROOM',
   HOTEL = 'HOTEL'
-
 }
 
 export enum AccommodationStatus{
@@ -37,6 +37,7 @@ export class Accommodation {
   bookingConfirmationType: BookingConfirmationType;
   availabilityPeriods: AvailabilityPeriod[];
   status:AccommodationStatus;
+  location: AccommodationLocation;
 
   constructor(
     ownerEmail: string,
@@ -50,7 +51,8 @@ export class Accommodation {
     reservations: Reservation[],
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
-    status:AccommodationStatus
+    status:AccommodationStatus,
+    location: AccommodationLocation
   ) {
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;
@@ -64,10 +66,11 @@ export class Accommodation {
     this.bookingConfirmationType = bookingConfirmationType;
     this.availabilityPeriods = [];
     for(let i = 0; i<availabilityPeriods.length; i++){
-      this.availabilityPeriods.push(new AvailabilityPeriod(availabilityPeriods[i].id, availabilityPeriods[i].startDate,
-                                    availabilityPeriods[i].endDate, availabilityPeriods[i].price))
+      this.availabilityPeriods.push(new AvailabilityPeriod(availabilityPeriods[i].startDate,
+                                    availabilityPeriods[i].endDate, availabilityPeriods[i].price, availabilityPeriods[i].id))
     }
     this.status=status;
+    this.location = location;
   }
 
   containsAmenity(id:number){

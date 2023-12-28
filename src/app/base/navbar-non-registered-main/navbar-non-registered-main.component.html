@@ -4,13 +4,13 @@
   <mat-icon class="icon">
     <span class="material-icons-outlined">menu</span>
   </mat-icon>
-  <button mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">Menu</button>
+  <button type="button" mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">Menu</button>
   <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-    <button routerLink="/main" mat-menu-item class="text"><span class="material-icons">home</span>
+    <button type="button" routerLink="/main" mat-menu-item class="text"><span class="material-icons">home</span>
       Home</button>
-    <button mat-menu-item routerLink="/register">
+    <button type="button" mat-menu-item routerLink="/register">
       <span class="material-icons">edit</span>Register</button>
-    <button mat-menu-item routerLink="/login"><span class="material-icons">login</span>Login</button>
+    <button type="button" mat-menu-item routerLink="/login"><span class="material-icons">login</span>Login</button>
   </mat-menu>
   <div class="rectangle37"></div>
 </mat-toolbar>

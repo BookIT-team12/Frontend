@@ -55,30 +55,31 @@
     <div class="right-part">
       <h2>Accommodation amenities: </h2>
       <div class="amenities-container" >
+        <!-- Amenities Checkboxes -->
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" formControlName="parking" (change)="onAmenityChange($event, 1)">
+          <mat-checkbox class="global-icon-color" formControlName="parking" (change)="onAmenityChange($event, {id: 1, name: 'Parking'})">
             <mat-icon class="material-icons">local_parking</mat-icon>Parking
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" formControlName="wifi"  (change)="onAmenityChange($event, 2)">
+          <mat-checkbox class="global-icon-color" formControlName="wifi" (change)="onAmenityChange($event, { id: 2, name: 'Wifi' })">
             <mat-icon class="material-icons">wifi</mat-icon>Wifi
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" formControlName="airConditioning"  (change)="onAmenityChange($event, 3)">
+          <mat-checkbox class="global-icon-color" formControlName="airConditioning" (change)="onAmenityChange($event, { id: 3, name: 'Air Conditioning' })">
             <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" formControlName="kitchen"  (change)="onAmenityChange($event, 4)">
+          <mat-checkbox class="global-icon-color" formControlName="kitchen" (change)="onAmenityChange($event, { id: 4, name: 'Kitchen' })">
             <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" formControlName="bathroom"  (change)="onAmenityChange($event, 5)">
+          <mat-checkbox class="global-icon-color" formControlName="bathroom" (change)="onAmenityChange($event, { id: 5, name: 'Bathroom' })">
             <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
           </mat-checkbox>
-          <mat-checkbox class="global-icon-color" formControlName="pool" (change)="onAmenityChange($event, 6)">
+          <mat-checkbox class="global-icon-color" formControlName="pool" (change)="onAmenityChange($event, { id: 6, name: 'Pool' })">
             <mat-icon class="material-icons">pool</mat-icon>Pool
           </mat-checkbox>
         </div>
         <div class="amenities-column">
-          <mat-checkbox class="global-icon-color" formControlName="balcony" (change)="onAmenityChange($event, 7)">
+          <mat-checkbox class="global-icon-color" formControlName="balcony" (change)="onAmenityChange($event, { id: 7, name: 'Balcony' })">
             <mat-icon class="material-icons">balcony</mat-icon>Balcony
           </mat-checkbox>
         </div>
@@ -112,7 +113,7 @@
       <h2>Existing availability periods: </h2>
       <mat-form-field>
         <mat-label>Select....</mat-label>
-        <mat-select #selectedPeriod (selectionChange)="onSelectedPeriodChange($event)">
+        <mat-select #selectedPeriod (selectionChange)="onSelectedPeriodChangeGUI($event)">
           <mat-option value="none">None</mat-option>
           <mat-option *ngFor="let period of accommodation.availabilityPeriods" [value]="period" >
             {{ period.startDate | date }} - {{ period.endDate | date }} : price = {{ period.price | number }}
@@ -123,7 +124,7 @@
       <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn" type="button">Delete period</button>
 
       <div>
-        <input type="file" (change)="onFileSelected($event)" multiple />
+        <input type="file" (change)="this.onFileSelected($event)" multiple />
         <div class="image-container">
 <!--          <img [src]="testingImageTransfer" alt="Test transfer">-->
           <div *ngFor="let image of imageFiles">

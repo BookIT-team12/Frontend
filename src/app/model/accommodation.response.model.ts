@@ -1,6 +1,6 @@
 import {Accommodation} from "./accommodation.model";
 
-export interface AccommodationDtoModel{
+export interface AccommodationResponseModel {
   first:Accommodation,
   second: string[]
 }

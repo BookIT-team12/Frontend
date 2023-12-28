@@ -59,7 +59,7 @@
           Enter your password
         </mat-label>
         <input matInput [type]=" hide ? 'password' : 'text'" formControlName="password" required>
-        <button  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-pressed]="hide">
+        <button type="button"  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-pressed]="hide">
           <mat-icon >
             <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
             <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
@@ -76,7 +76,7 @@
           Confirm your password
         </mat-label>
         <input matInput [type]=" hideConfirmation ? 'password' : 'text'" formControlName="confirmPassword" required>
-        <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation" [attr.aria-pressed]="hideConfirmation">
+        <button type="button" mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation" [attr.aria-pressed]="hideConfirmation">
           <mat-icon >
             <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
             <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>

@@ -28,6 +28,7 @@ import {RouterOutlet} from "@angular/router";
 import { AccommodationUpdateComponent } from './accommodation-update/accommodation-update.component';
 import { OwnersAccommodationsComponent } from './owners-accommodations/owners-accommodations.component';
 import {MatListModule} from "@angular/material/list";
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 @NgModule({
@@ -35,9 +36,6 @@ import {MatListModule} from "@angular/material/list";
     DetailsComponent,
     AccommodationsMainComponent,
     AccommodationManagementComponent,
-/*
-    MapComponent
-*/
     AccommodationsMainComponent,
     AccommodationApprovalComponent,
     AccommodationApprovalCardComponent,
@@ -67,6 +65,7 @@ import {MatListModule} from "@angular/material/list";
         HttpClientModule,
         RouterOutlet,
         MatListModule,
+        MatDialogModule,
 
     ],
   exports: [

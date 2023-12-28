@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AccommodationService} from "../../service/accommodation.service";
 import {
@@ -8,14 +8,22 @@ import {
   BookingConfirmationType
 } from "../../model/accommodation.model";
 import {Amenity} from "../../model/amenity.model";
-import {Review} from "../../model/review.model";
-import {Reservation} from "../../model/reservation.model";
-import {UserService} from "../../service/user.service";
-import {ConsoleLogger} from "@angular/compiler-cli";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
-
-//TODO:IZMENITI DA USER BUDE LOGOVANI KORISNIK KOJI DODAJE AKOMODACIJE!!!!
+import {MapService} from "../../service/map.service";
+import {ImagesService} from "../../service/images.service";
+import {AvailabilityPeriod} from "../../model/availability-period.model";
+import {AvailabilityPeriodService} from "../../service/availability-period.service";
+import {AmenitiesService} from "../../service/amenities.service";
+import {AccommodationValidationService} from "../../service/accommodation.validation.service";
+import {MatButtonModule} from "@angular/material/button";
+import {
+  MatDialog,
+  MatDialogModule,
+} from "@angular/material/dialog";
+import {NgForOf} from "@angular/common";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -23,143 +31,164 @@ import {AuthService} from "../../access-control-module/auth.service";
   styleUrls: ['./accommodation-management.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AccommodationManagementComponent{
- // user=new User('Pera', 'Peric', 'pera','test', 'Novi Sad', '1234567890', Role.OWNER, 'test') ; //NON-NULL VREDNOST USER-A
-  amenities: number[]=[];
-  reviews:Review[]=[];
-  reservations:Reservation[]=[];
+export class AccommodationManagementComponent implements AfterViewInit {
 
-  availableFrom: Date;
-  availableUntil: Date;
-  //fixme: form should be form not like this, and these two dates should be inside form
-  //fixme: you need to make timezones the same. TIMEZONE PROBLEM IS DESCRIBED BELLOW:
-//   TIMEZONE PROBLEM: THING ABOUT THIS PROBLEM IS THAT ON THE FRONT I HAVE 25. DEC AT MIDNIGHT (00:00) AND WHEN I SEND IT
-//   TO BACKEND I GET 24. DEC AT (23:00). I GUESS ITS ABOUT SOME TIMEZONES AND I NEED TO FIX THIS LATER, FOR NOW ITS
-//   PATCHED UP JUST BY ADDING ONE HOUR TO VALUE BEFORE SUBMITTING FORM
-
-//TODO:IZMENI ID USER-A DA BUDE ID, A NE PERA!
-  accommodationForm ={
-    owner: '',
-    name: '',
-    minGuests: 0,
-    maxGuests: 0,
-    price: 0,
-    description: '',
-    images: [] as File[], //TODO: UVEZI SLIKE I LOKACIJU NA BEKU!
-    imageUrl: '',
-    location:'',
-    accommodationType: '',  // Add accommodation type field
-    bookingConfirmationType: '',  // Add booking confirmation type field
-    amenities: this.amenities,
-    reviews: this.reviews,
-    reservations: this.reservations
-  };
+  accommodationForm: FormGroup;
+  imageFiles: File[] = [];
+  amenities: number[] = [];
 
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
-              private userService:UserService, private cdr: ChangeDetectorRef, private authService: AuthService) {
-    this.availableUntil = new Date();
-    this.availableFrom = new Date();
+              private cdr: ChangeDetectorRef, private authService: AuthService,
+              private fb: FormBuilder, private map: MapService, private imageService: ImagesService,
+              private periodService: AvailabilityPeriodService, private amenitiesService: AmenitiesService,
+              private  validationService: AccommodationValidationService, public dialog: MatDialog) {
+
+    this.accommodationForm = this.fb.group({
+      owner: '',
+      name : ['', [Validators.required]],
+      maxGuests: [null],
+      minGuests: [null, [Validators.min(1)]],
+      description: ['', [Validators.maxLength(200)]],
+      accommodationType: [null, [Validators.required]],
+      bookingConfirmationType: [null, [Validators.required]],
+      endDate: [null, [Validators.required]],
+      startDate: [null, [Validators.required, validationService.startBeforeToday()]],
+      price: [0, [Validators.min(1)]],
+      reviews: [],
+      reservations: []
+    }, {validators: [validationService.minMaxGuestsValidator(), validationService.startBeforeEndValidatior()]})
+
+    this.amenitiesService.setCheckedAmenities(this.amenities)
 
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
-        this.accommodationForm.owner = user.email;
+        this.accommodationForm.patchValue({
+            owner: user.email
+        })
       }
     })
+
+    this.imageService.setFileArray(this.imageFiles);
   }
-
-
-
+  openErrorDialog(){
+    this.validationService.setListOfErrors(this.accommodationForm.errors, this.amenities, this.map.getSelectedLocation(), this.imageFiles);
+    if (this.validationService.shouldOpenDialog()) {
+      this.dialog.open(DialogElementsExampleDialog);
+    }
+  }
 
   onFileSelected(event: any): void {
-    const files: FileList | null = event.target.files;
-
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        this.accommodationForm.images.push(files.item(i) as File);
-      }
-    }
+  this.imageService.onFileSelected(event);
+  this.cdr.detectChanges();
   }
   deleteImage(toDelete: File){
-    let index = this.accommodationForm.images.findIndex(image => image === toDelete);
-    if (index !== -1) {
-      this.accommodationForm.images.splice(index, 1);
-    }
+    this.imageService.deleteImage(toDelete);
     this.cdr.detectChanges()
   }
   getUrl(file: File): string {
-    return URL.createObjectURL(file);
+    return this.imageService.getUrl(file);
   }
 
 
   onAmenityChange(event: any, amenity: Amenity): void {
-    // Handle the change in the checkbox state
-    if (event.checked) {
-      this.amenities.push(amenity.id);
-    } else {
-      // Remove the amenity if unchecked
-      const index = this.amenities.findIndex(a => a === amenity.id);
-      if (index !== -1) {
-        this.amenities.splice(index, 1);
-      }
-    }
+    this.amenitiesService.onAmenityChange(event, amenity);
   }
 
   onSubmit(): void {
-    this.availableUntil.setHours(this.availableUntil.getHours() + 1);
-    this.availableFrom.setHours(this.availableFrom.getHours() + 1)
-    const accommodationData = {
-      ownerEmail: this.accommodationForm.owner,
-      accommodationType: AccommodationType[this.accommodationForm.accommodationType as keyof typeof AccommodationType],
-      description: this.accommodationForm.description,
-      name: this.accommodationForm.name,
-      minGuests: this.accommodationForm.minGuests,
-      maxGuests: this.accommodationForm.maxGuests,
-      amenities: this.amenities, // Add amenities based on your form input
-      reviews: this.reviews, // You can add reviews if needed
-      reservations: this.reservations, // You can add reservations if needed
-      bookingConfirmationType: BookingConfirmationType[this.accommodationForm.bookingConfirmationType as keyof typeof BookingConfirmationType  ],
+    if(this.amenities.length === 0 || this.imageFiles.length === 0 || this.map.getSelectedLocation() === this.map.undefinedBasicLocation){
+      this.openErrorDialog();   //these arent form fields, and that i why i need to check em here, cause they wont raise an error by themselves
+      return;
+    }
+    if (this.accommodationForm.valid) {
+      const accommodationData = {
+        ownerEmail: this.accommodationForm.value.owner,
+        accommodationType: AccommodationType[this.accommodationForm.value.accommodationType as keyof typeof AccommodationType],
+        description: this.accommodationForm.value.description,
+        name: this.accommodationForm.value.name,
+        minGuests: this.accommodationForm.value.minGuests,
+        maxGuests: this.accommodationForm.value.maxGuests,
+        amenities: this.amenities,
+        reviews: this.accommodationForm.value.reviews,
+        reservations: this.accommodationForm.value.reservations,
+        bookingConfirmationType: BookingConfirmationType[this.accommodationForm.value.bookingConfirmationType as keyof typeof BookingConfirmationType],
+        availabilityPeriods: [
+          new AvailabilityPeriod(this.accommodationForm.value.startDate, this.accommodationForm.value.endDate,
+              this.accommodationForm.value.price)
+        ],
+      };
 
-      availabilityPeriods: [
-        {
-          startDate: this.availableFrom,
-          endDate: this.availableUntil,
-          price: this.accommodationForm.price
-        }
-      ],
-    };
+      // Convert accommodationData to Accommodation
+      const newAccommodation = new Accommodation(
+          accommodationData.ownerEmail,
+          accommodationData.accommodationType,
+          accommodationData.description,
+          accommodationData.name,
+          accommodationData.minGuests,
+          accommodationData.maxGuests,
+          accommodationData.amenities,
+          accommodationData.reviews,
+          accommodationData.reservations,
+          accommodationData.bookingConfirmationType,
+          accommodationData.availabilityPeriods,
+          AccommodationStatus.PENDING,
+          this.map.getSelectedLocation()
+      );
 
-    // Convert accommodationData to Accommodation
-    const newAccommodation = new Accommodation(
-        accommodationData.ownerEmail,
-        accommodationData.accommodationType,
-        accommodationData.description,
-        accommodationData.name,
-        accommodationData.minGuests,
-        accommodationData.maxGuests,
-        accommodationData.amenities,
-        accommodationData.reviews,
-        accommodationData.reservations,
-        accommodationData.bookingConfirmationType,
-        accommodationData.availabilityPeriods,
-      AccommodationStatus.PENDING
-    );
-    console.log('New accommodation: ', newAccommodation)
-
-    console.log(newAccommodation);
-
-    this.accommodationService.createAccommodation(newAccommodation, this.accommodationForm.images).subscribe(
-        (result) => {
-          // Handle success, if needed
-          console.log('Accommodation created successfully', result);
-        },
-        (error) => {
-          // Handle error, if needed
-          console.error('Error creating accommodation', error);
-        }
-    );
+      this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
+      this.accommodationService.createAccommodation(newAccommodation, this.imageFiles).subscribe(
+          (result) => {
+            console.log('Accommodation created successfully', result);
+          },
+          (error) => {
+            console.error('Error creating accommodation', error);
+          }
+      );
+    }
+    else {
+      console.error("INVALID FORM")
+      console.log("Form errors:", this.accommodationForm.errors)
+      this.openErrorDialog();
+    }
   }
 
-
+  ngAfterViewInit(): void {
+    this.map.InitAfterViewCreation()
+  }
 }
 
 
+@Component({
+  selector: 'dialog-elements-example-dialog',
+  templateUrl: 'dialog-elements-example-dialog.html',
+  standalone: true,
+  imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
+})
+export class DialogElementsExampleDialog {
+  mapOfErrorsToDisplay: Map<string, boolean|undefined>;
+  textToDisplay: string[] = [];
+  endBeforeStartTxt = "End date cant be set before start date";
+  minGuestBiggerThanMaxGuestTxt = "Number of minimal guests must be lower than number of maximum guests";
+  noAmenitiesTxt = "You must select some of the amenities for your apartment";
+  noLocationTxt = "You must select apartment location";
+  noImagesTxt = "You must provide at least 1 image for your apartment";
+
+  constructor(private service: AccommodationValidationService) {
+    this.mapOfErrorsToDisplay = this.service.getErrorsForDialog();
+    if (this.mapOfErrorsToDisplay.get('minMaxGuestErr') === true){
+      this.textToDisplay.push(this.minGuestBiggerThanMaxGuestTxt);
+    }
+    if (this.mapOfErrorsToDisplay.get('endBeforeStartErr')){
+      this.textToDisplay.push(this.endBeforeStartTxt);
+    }
+    if (this.mapOfErrorsToDisplay.get('noAmenities')){
+      this.textToDisplay.push(this.noAmenitiesTxt);
+    }
+    if (this.mapOfErrorsToDisplay.get('noImages')){
+      this.textToDisplay.push(this.noImagesTxt);
+    }
+    if (this.mapOfErrorsToDisplay.get('noLocation')){
+      this.textToDisplay.push(this.noLocationTxt);
+    }
+  }
+
+}
