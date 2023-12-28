@@ -8,7 +8,7 @@ import {
   BookingConfirmationType
 } from "../../model/accommodation.model";
 import {Amenity} from "../../model/amenity.model";
-import {AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../access-control-module/auth.service";
 import {MapService} from "../../service/map.service";
 import {ImagesService} from "../../service/images.service";
@@ -19,13 +19,11 @@ import {AccommodationValidationService} from "../../service/accommodation.valida
 import {MatButtonModule} from "@angular/material/button";
 import {
   MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
   MatDialogModule,
-  MatDialogTitle
 } from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -39,7 +37,6 @@ export class AccommodationManagementComponent implements AfterViewInit {
   imageFiles: File[] = [];
   amenities: number[] = [];
 
-    //TODO: VALIDACIJE
   constructor(private http: HttpClient, private accommodationService:AccommodationService,
               private cdr: ChangeDetectorRef, private authService: AuthService,
               private fb: FormBuilder, private map: MapService, private imageService: ImagesService,
@@ -74,9 +71,10 @@ export class AccommodationManagementComponent implements AfterViewInit {
     this.imageService.setFileArray(this.imageFiles);
   }
   openErrorDialog(){
-    console.log("iz open err dialog", this.amenities)
     this.validationService.setListOfErrors(this.accommodationForm.errors, this.amenities, this.map.getSelectedLocation(), this.imageFiles);
-    this.dialog.open(DialogElementsExampleDialog);
+    if (this.validationService.shouldOpenDialog()) {
+      this.dialog.open(DialogElementsExampleDialog);
+    }
   }
 
   onFileSelected(event: any): void {
@@ -98,8 +96,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
   onSubmit(): void {
     if(this.amenities.length === 0 || this.imageFiles.length === 0 || this.map.getSelectedLocation() === this.map.undefinedBasicLocation){
-      this.openErrorDialog();   //ovi su definisani van forme, zato je potrebno ovde ih proveriti!
-      console.log("AM: ", this.amenities)
+      this.openErrorDialog();   //these arent form fields, and that i why i need to check em here, cause they wont raise an error by themselves
       return;
     }
     if (this.accommodationForm.valid) {
@@ -137,7 +134,6 @@ export class AccommodationManagementComponent implements AfterViewInit {
           this.map.getSelectedLocation()
       );
 
-      console.log("starting date:", this.accommodationForm.value.startDate)
       this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
       this.accommodationService.createAccommodation(newAccommodation, this.imageFiles).subscribe(
           (result) => {
@@ -149,17 +145,15 @@ export class AccommodationManagementComponent implements AfterViewInit {
       );
     }
     else {
-      console.error("NEVALIDNA FORMA JEBIGA")
-      console.log("erori forme:", this.accommodationForm.errors)
+      console.error("INVALID FORM")
+      console.log("Form errors:", this.accommodationForm.errors)
       this.openErrorDialog();
-
     }
   }
 
   ngAfterViewInit(): void {
     this.map.InitAfterViewCreation()
   }
-
 }
 
 
@@ -167,7 +161,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
   selector: 'dialog-elements-example-dialog',
   templateUrl: 'dialog-elements-example-dialog.html',
   standalone: true,
-  imports: [MatButtonModule, MatDialogModule, NgForOf],
+  imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
 })
 export class DialogElementsExampleDialog {
   mapOfErrorsToDisplay: Map<string, boolean|undefined>;
@@ -179,7 +173,7 @@ export class DialogElementsExampleDialog {
   noImagesTxt = "You must provide at least 1 image for your apartment";
 
   constructor(private service: AccommodationValidationService) {
-    this.mapOfErrorsToDisplay = service.getErrorsForDialog();
+    this.mapOfErrorsToDisplay = this.service.getErrorsForDialog();
     if (this.mapOfErrorsToDisplay.get('minMaxGuestErr') === true){
       this.textToDisplay.push(this.minGuestBiggerThanMaxGuestTxt);
     }
