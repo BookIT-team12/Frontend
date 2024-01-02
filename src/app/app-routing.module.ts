@@ -17,6 +17,7 @@ import {AuthGuard} from "./access-control-module/guard/auth.guard";
 import {UserReportingComponent} from "./account-managment/user-reporting/user-reporting.component";
 import {UserBlockingComponent} from "./account-managment/user-blocking/user-blocking.component";
 import {VisitedPlacesComponent} from "./reviews/visited-places/visited-places.component";
+import {ApartmentReviewComponent} from "./reviews/apartment-review/apartment-review.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -32,7 +33,8 @@ const routes: Routes=[
   {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path:"user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
   {path:"user-blocking", component: UserBlockingComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
-  {path:"places-visited", component: VisitedPlacesComponent} //todo: set authguard at the end!!!
+  {path:"places-visited", component: VisitedPlacesComponent}, //todo: set authguard at the end!!!
+  {path:"apartment-review", component: ApartmentReviewComponent} //todo: set authguard at the end!!!
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
