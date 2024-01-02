@@ -1,7 +1,7 @@
 import {NgModule} from "@angular/core";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import { AppComponent } from './app.component';
@@ -19,9 +19,14 @@ import {ReservationModule} from "./reservation/reservation.module";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {Interceptor} from "./access-control-module/interceptor";
 import { UserReportingComponent } from './account-managment/user-reporting/user-reporting.component';
+import {ReportsComponent} from "./reports/reports.component";
+import {MatIconModule} from "@angular/material/icon";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
 @NgModule({
   declarations: [
     AppComponent,
+    ReportsComponent
   ],
   imports: [
     MatSnackBarModule,
@@ -43,7 +48,12 @@ import { UserReportingComponent } from './account-managment/user-reporting/user-
     AccommodationModule,
     BaseModule,
     AccountManagmentModule,
-    ReservationModule
+    ReservationModule,
+    MatIconModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatDatepickerModule,
+
   ],
   providers: [
     {

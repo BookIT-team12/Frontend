@@ -131,7 +131,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
           accommodationData.bookingConfirmationType,
           accommodationData.availabilityPeriods,
           AccommodationStatus.PENDING,
-          this.map.getSelectedLocation()
+          this.map.getSelectedLocation(),
+        false
       );
 
       this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
