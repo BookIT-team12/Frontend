@@ -18,7 +18,15 @@ export class ReportsComponent implements OnInit {
     private fb: FormBuilder,
     private accommodationService: AccommodationService,
     private authService: AuthService
-  ) { }
+  ) {
+    this.reportForm = this.fb.group({
+      reportType: ['reservation', Validators.required],
+      startPeriodDate: [null, Validators.required],
+      endPeriodDate: [null, Validators.required],
+      year: [null, Validators.required],
+      selectedAccommodation: [null, Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -27,10 +35,11 @@ export class ReportsComponent implements OnInit {
 
   initForm(): void {
     this.reportForm = this.fb.group({
+      reportType: ['reservation', Validators.required],
       startPeriodDate: [null, Validators.required],
       endPeriodDate: [null, Validators.required],
       year: [null, Validators.required],
-      selectedAccommodation: [null, Validators.required]
+      selectedAccommodation: [null, Validators.required],
     });
   }
 
@@ -49,24 +58,20 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  generateReservationReport(): void {
-    // Implement logic to generate reservation report
-    console.log('Generating Reservation Report');
-    console.log('Selected Start Date:', this.reportForm.value.startPeriodDate);
-    console.log('Selected End Date:', this.reportForm.value.endPeriodDate);
-    console.log('Selected Year:', this.reportForm.value.year);
-    console.log('Selected Accommodation:', this.reportForm.value.selectedAccommodation);
-    // Add your logic to generate the report
+
+  // Helper functions to determine the selected report type
+  isReservationReport(): boolean {
+    return this.reportForm.get('reportType')?.value === 'reservation';
   }
 
-  generateAccommodationReport(): void {
-    // Implement logic to generate accommodation report
-    console.log('Generating Accommodation Report');
-    console.log('Selected Start Date:', this.reportForm.value.startPeriodDate);
-    console.log('Selected End Date:', this.reportForm.value.endPeriodDate);
-    console.log('Selected Year:', this.reportForm.value.year);
-    console.log('Selected Accommodation:', this.reportForm.value.selectedAccommodation);
-    // Add your logic to generate the report
+  isAccommodationReport(): boolean {
+    return this.reportForm.get('reportType')?.value === 'accommodation';
+  }
+
+  // The function to generate the report
+  generateReport(): void {
+    // Your logic here based on selected report type and form values
+    console.log('Generating Report:', this.reportForm.value);
   }
 }
 

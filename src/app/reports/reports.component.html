@@ -2,8 +2,23 @@
 <form [formGroup]="reportForm">
   <div class="form-container">
     <h1 class="login-header">Generate Reports</h1>
-    <!-- Start Period Date -->
+
+    <!-- Report Type Dropdown -->
     <mat-form-field class="global-icon-color">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">assessment</span>
+        </mat-icon>
+      </span>
+      <mat-label>Select report type</mat-label>
+      <mat-select formControlName="reportType" required>
+        <mat-option value="reservation">Reservation Report</mat-option>
+        <mat-option value="accommodation">Accommodation Report</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Start Period Date -->
+    <mat-form-field class="global-icon-color" *ngIf="isReservationReport()">
       <span matTextPrefix>
         <mat-icon>
           <span class="material-symbols-outlined">event</span>
@@ -16,7 +31,7 @@
     </mat-form-field>
 
     <!-- End Period Date -->
-    <mat-form-field class="global-icon-color">
+    <mat-form-field class="global-icon-color" *ngIf="isReservationReport()">
       <span matTextPrefix>
         <mat-icon>
           <span class="material-symbols-outlined">event</span>
@@ -29,7 +44,7 @@
     </mat-form-field>
 
     <!-- Year -->
-    <mat-form-field class="global-icon-color">
+    <mat-form-field class="global-icon-color" *ngIf="isReservationReport()">
       <span matTextPrefix>
         <mat-icon>
           <span class="material-symbols-outlined">date_range</span>
@@ -40,7 +55,7 @@
     </mat-form-field>
 
     <!-- Accommodation Dropdown -->
-    <mat-form-field class="global-icon-color">
+    <mat-form-field class="global-icon-color" *ngIf="isAccommodationReport()">
       <span matTextPrefix>
         <mat-icon>
           <span class="material-symbols-outlined">hotel</span>
@@ -55,7 +70,6 @@
     </mat-form-field>
 
     <!-- Generate Reports Buttons -->
-    <button mat-raised-button class="global-darkBtn generate-btn" (click)="generateReservationReport()">Generate Reservation Report</button>
-    <button mat-raised-button class="global-darkBtn generate-btn" (click)="generateAccommodationReport()">Generate Accommodation Report</button>
+    <button mat-raised-button class="global-darkBtn generate-btn" (click)="generateReport()">Generate Report</button>
   </div>
 </form>
