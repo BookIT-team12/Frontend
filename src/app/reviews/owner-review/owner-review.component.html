@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="blue-square">
+    <h2 id="apartment-info">Owner info</h2>
+    <div id="apartment-info-details">
+      <li> Name: </li>
+      <li> Last name: </li>
+      <li> Average grade: </li>
+      <li> Email: </li>
+      <li> Your grade:</li>
+      <button mat-icon-button  matSuffix type="button">
+        <mat-icon>
+          <span class="material-icons-outlined">favorite_border</span>
+          <span class="material-icons-outlined">favorite</span>
+        </mat-icon>
+      </button>
+      <button mat-icon-button  matSuffix type="button">
+        <mat-icon>
+          <span class="material-icons-outlined">favorite_border</span>
+          <span class="material-icons-outlined">favorite</span>
+        </mat-icon>
+      </button>
+      <button mat-icon-button  matSuffix type="button">
+        <mat-icon>
+          <span class="material-icons-outlined">favorite_border</span>
+          <span class="material-icons-outlined">favorite</span>
+        </mat-icon>
+      </button>
+      <button mat-icon-button  matSuffix type="button">
+        <mat-icon>
+          <span class="material-icons-outlined">favorite_border</span>
+          <span class="material-icons-outlined">favorite</span>
+        </mat-icon>
+      </button>
+      <button mat-icon-button  matSuffix type="button">
+        <mat-icon>
+          <span class="material-icons-outlined">favorite_border</span>
+          <span class="material-icons-outlined">favorite</span>
+        </mat-icon>
+      </button>
+
+    </div>
+    <mat-form-field style="margin-left: 10%; width: 70%" class="example-full-width">
+      <mat-label>Leave a comment</mat-label>
+      <textarea matInput placeholder="Max 300 characters"></textarea>
+    </mat-form-field>
+    <button style="margin-left: 25%; width: 40%; margin-bottom: 3%" mat-raised-button class="global-darkBtn login-btn" type="submit"> Leave a review </button>
+  </div>
+  <div class="blue-square">
+    <h2 id="old-comms-and-reviews">Old comments and reviews</h2>
+    <div class="comment-container">
+      <mat-icon style="margin-left: 2%; margin-top: 2%; font-size: x-large"><span class="material-icons-outlined">person</span></mat-icon>
+      IME I PREZIME OWNERA
+      <p style="margin-left: 4%">Comment: </p>
+      <div class="grade-bar">
+        <p>Grade: </p>
+        <p id="grade-bar-avg-grade">Current average grade: </p>
+      </div>
+      <button mat-raised-button class="global-darkBtn delete-review-btn" type="submit"> Delete review </button>
+    </div>
+  </div>
+</div>

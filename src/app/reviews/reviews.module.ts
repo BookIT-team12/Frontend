@@ -10,13 +10,15 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import { ApartmentReviewComponent } from './apartment-review/apartment-review.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import { OwnerReviewComponent } from './owner-review/owner-review.component';
 
 
 
 @NgModule({
   declarations: [
     VisitedPlacesComponent,
-    ApartmentReviewComponent
+    ApartmentReviewComponent,
+    OwnerReviewComponent
   ],
     imports: [
         CommonModule,
