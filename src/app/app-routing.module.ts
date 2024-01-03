@@ -17,6 +17,10 @@ import {AuthGuard} from "./access-control-module/guard/auth.guard";
 import {UserReportingComponent} from "./account-managment/user-reporting/user-reporting.component";
 import {UserBlockingComponent} from "./account-managment/user-blocking/user-blocking.component";
 import {ReportsComponent} from "./reports/reports.component";
+import {
+  AccommodationFavoritesComponent
+} from "./accommodation/accommodation-favorites/accommodation-favorites.component";
+import {A} from "@angular/cdk/keycodes";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -32,7 +36,8 @@ const routes: Routes=[
   {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path:"user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
   {path:"user-blocking", component: UserBlockingComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
-  {path: "reports", component: ReportsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}}
+  {path: "reports", component: ReportsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
+  {path:"favorites", component:AccommodationFavoritesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}}
 
 ]
 @NgModule({

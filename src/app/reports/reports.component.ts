@@ -2,7 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AccommodationService} from "../service/accommodation.service";
 import {AuthService} from "../access-control-module/auth.service";
+import { DomSanitizer } from '@angular/platform-browser';
+import {ReportService} from "../service/report.service";
 import {User} from "../model/user.model";
+declare var Jaspersoft: any; // Declare JasperReports JavaScript API
 
 @Component({
   selector: 'app-reports',
@@ -10,15 +13,19 @@ import {User} from "../model/user.model";
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-
+  reportContent: any;
   reportForm!: FormGroup;
   accommodations: any[] = []; // Replace 'any' with the actual type of your accommodation model
+  jasperReportUrl: string | null = null;
+  user!:User | null;
+  ownerID!:string;
 
   constructor(
     private fb: FormBuilder,
     private accommodationService: AccommodationService,
-    private authService: AuthService
-  ) {
+    private authService: AuthService,
+    private reportService:ReportService,
+    private sanitizer: DomSanitizer) {
     this.reportForm = this.fb.group({
       reportType: ['reservation', Validators.required],
       startPeriodDate: [null, Validators.required],
@@ -26,12 +33,20 @@ export class ReportsComponent implements OnInit {
       year: [null, Validators.required],
       selectedAccommodation: [null, Validators.required],
     });
+    this.authService.getCurrentUser().subscribe((user: any) => {
+      if (user) {
+        this.user = user;
+        this.ownerID=user.email;
+      }});
+
   }
 
   ngOnInit(): void {
     this.initForm();
     this.fetchAccommodations();
   }
+
+
 
   initForm(): void {
     this.reportForm = this.fb.group({
@@ -68,10 +83,34 @@ export class ReportsComponent implements OnInit {
     return this.reportForm.get('reportType')?.value === 'accommodation';
   }
 
-  // The function to generate the report
   generateReport(): void {
-    // Your logic here based on selected report type and form values
-    console.log('Generating Report:', this.reportForm.value);
+    const reportType = this.reportForm.get('reportType')?.value;
+    const parameters = {
+      ownerID:this.ownerID,
+      startPeriodDate: this.formatDate(this.reportForm.get('startPeriodDate')?.value),
+      endPeriodDate: this.formatDate(this.reportForm.get('endPeriodDate')?.value),
+      year: this.reportForm.get('year')?.value,
+      selectedAccommodation: this.reportForm.get('selectedAccommodation')?.value,
+    };
+
+    if(this.reportForm.get('reportType')?.value === 'reservation'){
+    this.reportService.generateReservationReport(parameters.ownerID, parameters.startPeriodDate, parameters.endPeriodDate)
+      .subscribe((data) => {
+        this.reportContent = this.sanitizer.bypassSecurityTrustResourceUrl(
+          URL.createObjectURL(data)
+        );
+      }
+      );}
+    else if(this.reportForm.get('reportType')?.value === 'accommodation'){
+
+    }
+
   }
+
+  private formatDate(date: Date): string {
+    // Format the date to ISO 8601 format
+    return date.toISOString().split('T')[0];
+  }
+
 }
 

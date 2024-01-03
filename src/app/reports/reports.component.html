@@ -72,4 +72,10 @@
     <!-- Generate Reports Buttons -->
     <button mat-raised-button class="global-darkBtn generate-btn" (click)="generateReport()">Generate Report</button>
   </div>
+
+  <div *ngIf="reportContent">
+    <iframe [src]="reportContent" width="100%" height="600px"></iframe>
+  </div>
+
 </form>
+
