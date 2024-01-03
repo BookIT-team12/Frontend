@@ -24,161 +24,22 @@
   </mat-form-field>
 </div>
 <h2 id="search-res">Search results :</h2>
-
-
-
   <div class="cards-container">
-    <div id="card-visited-places">
+    <div *ngFor="let place of placesVisited; let i = index" id="card-visited-places">
           <mat-card>
             <mat-card-header>
               <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
+                <img mat-card-md-image [src]="getUrl(imagesHeaderFiles[i])" alt="Not implemented [src] yet" />
               </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
+              <h3 style="color: #080067"> {{place[0].name}}</h3>
+              <li style="color:white;"> {{place[0].location.address}}</li>
             </mat-card-content>
             <mat-card-actions>
               <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
+              <button mat-button [disabled]="place[1]!" >Review accommodation</button>
             </mat-card-actions>
           </mat-card>
     </div>
-    <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-    </div>
-    <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-    </div>
-    <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-    </div>
-    <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-      </div>
-      <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h1 style="color: #080067"> Apartment name</h1>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-      </div>
-      <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-      </div>
-      <div id="card-visited-places">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title-group>
-                <img mat-card-sm-image alt="Not implemented [src] yet" />
-              </mat-card-title-group>
-            </mat-card-header>
-            <mat-card-content>
-              <h3 style="color: #080067"> Apartment name</h3>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-              <li style="color:white;"> Location</li>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-button>Review owner</button>
-              <button mat-button>Review accommodation</button>
-            </mat-card-actions>
-          </mat-card>
-      </div>
-
 </div>

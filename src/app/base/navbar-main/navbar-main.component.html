@@ -13,7 +13,7 @@
       <span class="material-icons">edit</span> Manage account
     </button>
     <button type="button" mat-menu-item><span class="material-icons">hotel</span>Trips and reservations</button>
-    <button type="button" mat-menu-item><span class="material-icons">star</span>Reviews</button>
+    <button type="button" mat-menu-item (click)="menuItemClicked('places-visited')"><span class="material-icons">star</span>Reviews</button>
     <button type="button" mat-menu-item><span class="material-icons">forum</span>Notifications</button>
     <button type="button" mat-menu-item  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
   </mat-menu>
