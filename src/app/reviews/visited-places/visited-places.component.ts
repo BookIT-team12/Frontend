@@ -5,6 +5,7 @@ import {AuthService} from "../../access-control-module/auth.service";
 import {ImagesService} from "../../service/images.service";
 import {Reservation, ReservationStatus} from "../../model/reservation.model";
 import {Accommodation} from "../../model/accommodation.model";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -21,7 +22,7 @@ export class VisitedPlacesComponent implements OnInit{
   imagesHeaderStrings: string[];
 
   constructor(private accommodation: AccommodationService, private reservations: ReservationService,
-              private authService: AuthService, private cdr: ChangeDetectorRef, private imagesService: ImagesService) {
+              private authService: AuthService, private cdr: ChangeDetectorRef, private imagesService: ImagesService, private router: Router) {
     this.guestEmail = '';
     this.placesVisitedRoot = new Set();
     this.placesVisitedToShow = new Set();
@@ -105,5 +106,13 @@ export class VisitedPlacesComponent implements OnInit{
         }
       })
     }
+  }
+
+  goToReviewOwner(){
+    this.router.navigate(['owner-review'])
+  }
+
+  goToReviewAccommodation(){
+    this.router.navigate(['apartment-review'])
   }
 }
