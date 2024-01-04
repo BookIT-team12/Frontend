@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {AccommodationService} from "../../service/accommodation.service";
 import {ReservationService} from "../../service/reservation.service";
 import {AuthService} from "../../access-control-module/auth.service";
@@ -15,14 +15,16 @@ import {Accommodation} from "../../model/accommodation.model";
 export class VisitedPlacesComponent implements OnInit{
   searchValue: string;
   guestEmail: string;
-  placesVisited: Set<[Accommodation, boolean|undefined]>;
+  placesVisitedRoot: Set<[Accommodation, boolean|undefined]>;
+  placesVisitedToShow: Set<[Accommodation, boolean|undefined]>;
   imagesHeaderFiles: File[];
   imagesHeaderStrings: string[];
 
   constructor(private accommodation: AccommodationService, private reservations: ReservationService,
               private authService: AuthService, private cdr: ChangeDetectorRef, private imagesService: ImagesService) {
     this.guestEmail = '';
-    this.placesVisited = new Set();
+    this.placesVisitedRoot = new Set();
+    this.placesVisitedToShow = new Set();
     this.searchValue = '';
     this.imagesHeaderFiles = [];
     this.imagesHeaderStrings = [];
@@ -52,7 +54,8 @@ export class VisitedPlacesComponent implements OnInit{
       for (let i = 0; i!=accommodationIDs.length; i++){
             const accommodationModel = await this.accommodation.getAccommodationById(accommodationIDs[i][0]).toPromise();
             if (accommodationModel) {
-              this.placesVisited.add([accommodationModel.first, accommodationIDs[i][1]]);
+              this.placesVisitedRoot.add([accommodationModel.first, accommodationIDs[i][1]]);
+              this.placesVisitedToShow.add([accommodationModel.first, accommodationIDs[i][1]]);
               this.imagesHeaderStrings.push(accommodationModel.second[0]); //just first picture here!
             }
           }
@@ -61,7 +64,6 @@ export class VisitedPlacesComponent implements OnInit{
     } catch (error) {
       console.error('Error fetching places visited:', error);
     }
-    console.log("places visited: ", this.placesVisited);
   }
 
   filterResList(list: Reservation[]|undefined) {
@@ -87,5 +89,21 @@ export class VisitedPlacesComponent implements OnInit{
 
   getUrl(file:File){
     return this.imagesService.getUrl(file)
+  }
+
+  searchVisitedPlaces(){
+    let searchTxt = this.searchValue;
+    this.placesVisitedToShow.clear();
+    if (searchTxt.trim() === '') {
+      this.placesVisitedRoot.forEach((value) => {
+        this.placesVisitedToShow.add(value);
+      });
+    } else {
+      this.placesVisitedRoot.forEach(value =>{
+        if (value[0].name.includes(this.searchValue)){
+          this.placesVisitedToShow.add(value);
+        }
+      })
+    }
   }
 }

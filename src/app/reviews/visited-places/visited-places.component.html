@@ -16,7 +16,7 @@
         <span *ngIf="searchValue !== ''"  class="material-symbols-outlined">close</span>
       </mat-icon>
     </button>
-    <button  mat-icon-button matSuffix type="button">
+    <button  mat-icon-button matSuffix (click)="searchVisitedPlaces()" type="button">
       <mat-icon >
         <span class="material-symbols-outlined">search</span>
       </mat-icon>
@@ -25,7 +25,7 @@
 </div>
 <h2 id="search-res">Search results :</h2>
   <div class="cards-container">
-    <div *ngFor="let place of placesVisited; let i = index" id="card-visited-places">
+    <div *ngFor="let place of placesVisitedToShow; let i = index" id="card-visited-places">
           <mat-card>
             <mat-card-header>
               <mat-card-title-group>
@@ -38,7 +38,7 @@
             </mat-card-content>
             <mat-card-actions>
               <button mat-button>Review owner</button>
-              <button mat-button [disabled]="place[1]!" >Review accommodation</button>
+              <button mat-button [disabled]="!place[1]!" >Review accommodation</button>
             </mat-card-actions>
           </mat-card>
     </div>
