@@ -32,11 +32,11 @@ const routes: Routes=[
   {path: "owner-approval-res", component: OwnerApprovalComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path: "accommodation-update/:id", component: AccommodationUpdateComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
-  {path:"user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
-  {path:"user-blocking", component: UserBlockingComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
-  {path:"places-visited", component: VisitedPlacesComponent}, //todo: set authguard at the end!!!
-  {path:"apartment-review", component: ApartmentReviewComponent}, //todo: set authguard at the end!!!
-  {path:"owner-review", component: OwnerReviewComponent} //todo: set authguard at the end!!!
+  {path: "user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
+  {path: "user-blocking", component: UserBlockingComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
+  {path: "places-visited", component: VisitedPlacesComponent}, //todo: set authguard at the end!!!
+  {path: "apartment-review/:id", component: ApartmentReviewComponent}, //todo: set authguard at the end!!!
+  {path: "owner-review/:email", component: OwnerReviewComponent} //todo: set authguard at the end!!!
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

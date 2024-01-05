@@ -108,11 +108,11 @@ export class VisitedPlacesComponent implements OnInit{
     }
   }
 
-  goToReviewOwner(){
-    this.router.navigate(['owner-review'])
+  goToReviewOwner(place: [Accommodation, (boolean | undefined)]){
+    this.router.navigate(['owner-review/'+place[0].ownerEmail])
   }
 
-  goToReviewAccommodation(){
-    this.router.navigate(['apartment-review'])
+  goToReviewAccommodation(place: [Accommodation, (boolean | undefined)]){
+    this.router.navigate(['apartment-review/'+place[0].id])
   }
 }

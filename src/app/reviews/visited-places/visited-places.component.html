@@ -37,8 +37,8 @@
               <li style="color:white;"> {{place[0].location.address}}</li>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-button (click)="goToReviewOwner()">Review owner</button>
-              <button mat-button (click)="goToReviewAccommodation()" [disabled]="!place[1]!" >Review accommodation</button>
+              <button mat-button (click)="goToReviewOwner(place)">Review owner</button>
+              <button mat-button (click)="goToReviewAccommodation(place)" [disabled]="!place[1]!" >Review accommodation</button>
             </mat-card-actions>
           </mat-card>
     </div>
