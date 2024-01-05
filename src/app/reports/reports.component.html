@@ -12,8 +12,9 @@
       </span>
       <mat-label>Select report type</mat-label>
       <mat-select formControlName="reportType" required>
-        <mat-option value="reservation">Reservation Report</mat-option>
-        <mat-option value="accommodation">Accommodation Report</mat-option>
+        <mat-option value="reservation">Reservation report</mat-option>
+        <mat-option value="accommodation">Monthly income accommodation report</mat-option>
+        <mat-option value="allAccommodations">Owner's total income per accommodation report</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -43,17 +44,6 @@
       <mat-datepicker #endPicker></mat-datepicker>
     </mat-form-field>
 
-    <!-- Year -->
-    <mat-form-field class="global-icon-color" *ngIf="isReservationReport()">
-      <span matTextPrefix>
-        <mat-icon>
-          <span class="material-symbols-outlined">date_range</span>
-        </mat-icon>
-      </span>
-      <mat-label>Enter the year</mat-label>
-      <input matInput type="number" formControlName="year" required>
-    </mat-form-field>
-
     <!-- Accommodation Dropdown -->
     <mat-form-field class="global-icon-color" *ngIf="isAccommodationReport()">
       <span matTextPrefix>
@@ -67,6 +57,18 @@
           {{ accommodation.name }}
         </mat-option>
       </mat-select>
+    </mat-form-field>
+
+
+    <!-- Year -->
+    <mat-form-field class="global-icon-color" *ngIf="isAccommodationReport()">
+      <span matTextPrefix>
+        <mat-icon>
+          <span class="material-symbols-outlined">date_range</span>
+        </mat-icon>
+      </span>
+      <mat-label>Enter the year</mat-label>
+      <input matInput type="number" formControlName="year" required>
     </mat-form-field>
 
     <!-- Generate Reports Buttons -->

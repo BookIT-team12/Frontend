@@ -39,7 +39,6 @@ export class UserAccountManagementComponent implements OnInit {
         this.fetchUserData(user.email);
       }
     })
-      //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO USER ID
 
   }
 
@@ -71,7 +70,7 @@ export class UserAccountManagementComponent implements OnInit {
     this.authService.getCurrentUser().subscribe(user=>{
       if (user) {
         this.user = user;
-        this.userService.deleteUser(user.email).subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
+        this.userService.deleteUser(user.email).subscribe(
           (response) => {
             console.log('User deleted successfully', response);
           },
@@ -80,18 +79,7 @@ export class UserAccountManagementComponent implements OnInit {
           });
       }
     })
-
-/*    if (this.user?.email) {*/
-    // this.userService.deleteUser('pera@gmail.com').subscribe(  //TODO:IZMENITI DA NE BUDE UNAPRED PROSLEDJEN STRING, NEGO DOBAVLJEN USER ID ---> this.user.email
-    //   (response) => {
-    //     console.log('User deleted successfully', response);
-    //   },
-    //   (error) => {
-    //     console.error('Error deleting user', error);
-    //   }
-    // );
   }
-
 
 
   updateAccount(): void {
