@@ -4,89 +4,87 @@
   <div class="blue-square">
     <h2 id="apartment-info">Apartment info</h2>
       <div id="apartment-info-details">
-        <li> Apartment name: </li>
-        <li> Apartment owner: </li>
-        <li> Average grade: </li>
-        <li> Number of min guests: </li>
-        <li> Number of max guests: </li>
-        <li> Price per night: </li>
-        <li> Apartment location: </li>
+        <li> Apartment name: {{selectedAccommodation?.name}}</li>
+        <li> Apartment owner: {{selectedAccommodation?.ownerEmail}}</li>
+        <li> Average grade: {{accommodationAverageGrade}}</li>
+        <li> Number of min guests: {{selectedAccommodation?.minGuests}}</li>
+        <li> Number of max guests: {{selectedAccommodation?.maxGuests}}</li>
+<!-- todo: STA OVDE STAVITI ILI OBRISATI SAMO?       <li> Price per night: </li>-->
+        <li> Apartment location: {{selectedAccommodation?.location?.address}}</li>
         <li> Apartment amenities: </li>
     <div id="amenities-container">
       <div>
-        <mat-checkbox class="global-icon-color" [disabled]="true">
+        <mat-checkbox class="global-icon-color" [checked]="getAmenityValueGUI(1)" [disabled]="true">
           <mat-icon class="material-icons">local_parking</mat-icon>Parking
         </mat-checkbox>
-        <mat-checkbox class="global-icon-color" [disabled]="true">
+        <mat-checkbox [checked]="getAmenityValueGUI(2)" class="global-icon-color" [disabled]="true">
           <mat-icon class="material-icons">wifi</mat-icon>Wifi
         </mat-checkbox>
-        <mat-checkbox class="global-icon-color" [disabled]="true">
+        <mat-checkbox [checked]="getAmenityValueGUI(3)" class="global-icon-color" [disabled]="true">
           <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
         </mat-checkbox>
       </div>
-      <mat-checkbox class="global-icon-color" [disabled]="true">
+      <mat-checkbox [checked]="getAmenityValueGUI(4)" class="global-icon-color" [disabled]="true">
         <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
       </mat-checkbox>
-      <mat-checkbox class="global-icon-color" [disabled]="true">
+      <mat-checkbox [checked]="getAmenityValueGUI(5)" class="global-icon-color" [disabled]="true">
         <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
       </mat-checkbox>
-      <mat-checkbox class="global-icon-color" [disabled]="true">
+      <mat-checkbox [checked]="getAmenityValueGUI(6)" class="global-icon-color" [disabled]="true">
         <mat-icon class="material-icons">pool</mat-icon>Pool
       </mat-checkbox>
-      <mat-checkbox class="global-icon-color" [disabled]="true">
+      <mat-checkbox [checked]="getAmenityValueGUI(7)" class="global-icon-color" [disabled]="true">
         <mat-icon class="material-icons">balcony</mat-icon>Balcony
       </mat-checkbox>
     </div>
         <li> Your grade:</li>
-        <button mat-icon-button (click)="checkdGrade = !checkdGrade" matSuffix type="button">
+        <button mat-icon-button (click)="ratingStateChangedGUI(0)" matSuffix type="button">
           <mat-icon>
-            <span *ngIf="!checkdGrade" class="material-icons-outlined">favorite_border</span>
-            <span *ngIf="checkdGrade"  class="material-icons-outlined">favorite</span>
+            <span *ngIf="!rating[0]" class="material-icons-outlined">favorite_border</span>
+            <span *ngIf="rating[0]"  class="material-icons-outlined">favorite</span>
           </mat-icon>
         </button>
-        <button mat-icon-button (click)="checkdGrade = !checkdGrade" matSuffix type="button">
+        <button mat-icon-button (click)="ratingStateChangedGUI(1)" matSuffix type="button">
           <mat-icon>
-            <span *ngIf="!checkdGrade" class="material-icons-outlined">favorite_border</span>
-            <span *ngIf="checkdGrade"  class="material-icons-outlined">favorite</span>
+            <span *ngIf="!rating[1]" class="material-icons-outlined">favorite_border</span>
+            <span *ngIf="rating[1]"  class="material-icons-outlined">favorite</span>
           </mat-icon>
         </button>
-        <button mat-icon-button (click)="checkdGrade = !checkdGrade" matSuffix type="button">
+        <button mat-icon-button (click)="ratingStateChangedGUI(2)" matSuffix type="button">
           <mat-icon>
-            <span *ngIf="!checkdGrade" class="material-icons-outlined">favorite_border</span>
-            <span *ngIf="checkdGrade"  class="material-icons-outlined">favorite</span>
+            <span *ngIf="!rating[2]" class="material-icons-outlined">favorite_border</span>
+            <span *ngIf="rating[2]"  class="material-icons-outlined">favorite</span>
           </mat-icon>
         </button>
-        <button mat-icon-button (click)="checkdGrade = !checkdGrade" matSuffix type="button">
+        <button mat-icon-button (click)="ratingStateChangedGUI(3)" matSuffix type="button">
           <mat-icon>
-            <span *ngIf="!checkdGrade" class="material-icons-outlined">favorite_border</span>
-            <span *ngIf="checkdGrade"  class="material-icons-outlined">favorite</span>
+            <span *ngIf="!rating[3]" class="material-icons-outlined">favorite_border</span>
+            <span *ngIf="rating[3]"  class="material-icons-outlined">favorite</span>
           </mat-icon>
         </button>
-        <button mat-icon-button (click)="checkdGrade = !checkdGrade" matSuffix type="button">
+        <button mat-icon-button (click)="ratingStateChangedGUI(4)" matSuffix type="button">
           <mat-icon>
-            <span *ngIf="!checkdGrade" class="material-icons-outlined">favorite_border</span>
-            <span *ngIf="checkdGrade"  class="material-icons-outlined">favorite</span>
+            <span *ngIf="!rating[4]" class="material-icons-outlined">favorite_border</span>
+            <span *ngIf="rating[4]"  class="material-icons-outlined">favorite</span>
           </mat-icon>
         </button>
       </div>
       <mat-form-field style="margin-left: 10%; width: 70%" class="example-full-width">
         <mat-label>Leave a comment</mat-label>
-        <textarea matInput placeholder="Max 300 characters"></textarea>
+        <textarea [(ngModel)]="textComment" matInput placeholder="Max 300 characters"></textarea>
       </mat-form-field>
-      <button style="margin-left: 25%; width: 40%; margin-bottom: 3%" mat-raised-button class="global-darkBtn login-btn" type="submit"> Leave a review </button>
+      <button style="margin-left: 25%; width: 40%; margin-bottom: 3%" (click)="submitReview()" mat-raised-button class="global-darkBtn login-btn" type="button"> Leave a review </button>
   </div>
   <div class="blue-square">
     <h2 id="old-comms-and-reviews">Old comments and reviews</h2>
-    <div class="comment-container">
+    <div *ngFor="let review of authorReviews; let i = index" class="comment-container">
       <mat-icon style="margin-left: 2%; margin-top: 2%; font-size: x-large"><span class="material-icons-outlined">home</span></mat-icon>
-      VILLA IME
-      <p style="margin-left: 4%">Owner: </p>
-      <p style="margin-left: 4%">Comment: </p>
+      {{accommodationReviewedNames ? accommodationReviewedNames[i] : [i]}}
+      <p style="margin-left: 4%">Comment: {{review.text}}</p>
       <div class="grade-bar">
-        <p>Grade: </p>
-        <p id="grade-bar-avg-grade">Current average grade: </p>
+        <p>Grade: {{review.rating}}</p>
       </div>
-      <button mat-raised-button class="global-darkBtn delete-review-btn" type="submit"> Delete review </button>
+      <button mat-raised-button (click)="deleteReview(review)" class="global-darkBtn delete-review-btn" type="button"> Delete review </button>
     </div>
   </div>
 </div>

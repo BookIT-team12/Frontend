@@ -74,4 +74,8 @@ export class AccommodationService{
   getFilteredAccommodation(params:HttpParams):Observable<any>{
     return this.http.get<Accommodation[]>(this.apiUrl + '/filter',{params});
   }
+
+  getNameById(accommodationId: number | undefined): Observable<string> {
+    return this.http.get<string>(`${this.apiUrl}/name/${accommodationId}`);
+  }
 }

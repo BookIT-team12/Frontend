@@ -60,7 +60,7 @@ export class OwnerReviewComponent implements OnInit{
     }
 
     try {
-      this.authorReviews = await this.review.getAllAuthorReviews(this.author!.email).toPromise();
+      this.authorReviews = await this.review.getAllAuthorReviewsOwner(this.author!.email).toPromise();
     } catch (error) {
       console.error("Error fetching author reviews:", error);
     }
@@ -90,7 +90,7 @@ export class OwnerReviewComponent implements OnInit{
   }
 
   openErrDialog(){
-    this.dialog.open(DialogElementsExampleDialog);
+    this.dialog.open(ValidationDialogOwnerReview);
   }
   validateCommentContent(){
     return this.textComment.trim().length !== 0 && this.textComment.length < 300;
@@ -109,11 +109,11 @@ export class OwnerReviewComponent implements OnInit{
     }
     let rating = this.countRating()
     let toSubmit = new Review(null, this.owner?.email, null, this.textComment, this.author?.email, new Date(), rating);
-    console.log(toSubmit)
     this.review.createReview(toSubmit).subscribe(value => {
       this.router.navigate(["/main"])
     })
   }
+
 
 
 }
@@ -124,7 +124,7 @@ export class OwnerReviewComponent implements OnInit{
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
 })
-export class DialogElementsExampleDialog {
+export class ValidationDialogOwnerReview {
   constructor() {
   }
 }

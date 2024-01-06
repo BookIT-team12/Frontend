@@ -21,7 +21,6 @@ export class ReviewService{
 
   deleteOwnerReview(id: number | null): Observable<string> {
     const url = `${this.apiUrl}/owner/${id}`;
-    console.log("brisemo....", id)
     return this.http.delete<string>(url);
   }
   deleteAccommodationReview(id: number | null): Observable<string> {
@@ -39,12 +38,21 @@ export class ReviewService{
   }
 
   getOwnerAverageGrade(email: string): Observable<number>{
-    const url = `${this.apiUrl}/averageGrade/${email}`;
+    const url = `${this.apiUrl}/averageGrade/owner/${email}`;
     return this.http.get<number>(url)
   }
 
-  getAllAuthorReviews(authorEmail:string): Observable<Review[]>{
-    const url = `${this.apiUrl}/authorReviews/${authorEmail}`;
+  getAccommodationAverageGrade(id: number): Observable<number>{
+    const url = `${this.apiUrl}/averageGrade/accommodation/${id}`;
+    return this.http.get<number>(url)
+  }
+
+  getAllAuthorReviewsOwner(authorEmail:string): Observable<Review[]>{
+    const url = `${this.apiUrl}/authorReviews/owners/${authorEmail}`;
+    return this.http.get<Review[]>(url);
+  }
+  getAllAuthorReviewsAccommodation(authorEmail:string): Observable<Review[]>{
+    const url = `${this.apiUrl}/authorReviews/accommodations/${authorEmail}`;
     return this.http.get<Review[]>(url);
   }
 
