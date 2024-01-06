@@ -20,6 +20,7 @@ import {VisitedPlacesComponent} from "./reviews/visited-places/visited-places.co
 import {ApartmentReviewComponent} from "./reviews/apartment-review/apartment-review.component";
 import {OwnerReviewComponent} from "./reviews/owner-review/owner-review.component";
 import {OwnerReportComponent} from "./reviews/owner-report/owner-report.component";
+import {ApartmentReportComponent} from "./reviews/apartment-report/apartment-report.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -38,7 +39,8 @@ const routes: Routes=[
   {path: "places-visited", component: VisitedPlacesComponent}, //todo: set authguard at the end!!!
   {path: "apartment-review/:id", component: ApartmentReviewComponent}, //todo: set authguard at the end!!!
   {path: "owner-review/:email", component: OwnerReviewComponent}, //todo: set authguard at the end!!!
-  {path: "owner-report", component: OwnerReportComponent} //todo:set authguard at the end
+  {path: "owner-report", component: OwnerReportComponent}, //todo:set authguard at the end
+  {path: "apartments-report", component: ApartmentReportComponent} //todo:set authguard at the end
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
