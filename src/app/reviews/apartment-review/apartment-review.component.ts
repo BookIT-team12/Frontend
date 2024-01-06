@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccommodationService} from "../../service/accommodation.service";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Accommodation} from "../../model/accommodation.model";
 import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 import {ValidationDialogOwnerReview} from "../owner-review/owner-review.component";
@@ -10,7 +10,7 @@ import {NgForOf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {ReviewService} from "../../service/review.service";
-import {Review} from "../../model/review.model";
+import {Review, ReviewStatus} from "../../model/review.model";
 import {User} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
 
@@ -135,7 +135,7 @@ export class ApartmentReviewComponent implements OnInit{
     }
     let rating: number = this.countRating();
     let r: Review = new Review(null, null, this.selectedAccommodationId, this.textComment,
-      this.author?.email, new Date(), rating)
+      this.author?.email, new Date(), rating, ReviewStatus.PENDING)
     this.reviewService.createReview(r).subscribe(value => {
       this.router.navigate(['/main']);
     })

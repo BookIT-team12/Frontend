@@ -1,17 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
 import {ReviewService} from "../../service/review.service";
-import {Review} from "../../model/review.model";
-import {AbstractControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {Review, ReviewStatus} from "../../model/review.model";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
-import {AccommodationValidationService} from "../../service/accommodation.validation.service";
 
 @Component({
   selector: 'app-owner-review',
@@ -108,7 +106,8 @@ export class OwnerReviewComponent implements OnInit{
       return;
     }
     let rating = this.countRating()
-    let toSubmit = new Review(null, this.owner?.email, null, this.textComment, this.author?.email, new Date(), rating);
+    let toSubmit = new Review(null, this.owner?.email, null, this.textComment,
+        this.author?.email, new Date(), rating, ReviewStatus.PENDING);
     this.review.createReview(toSubmit).subscribe(value => {
       this.router.navigate(["/main"])
     })

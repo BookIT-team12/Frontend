@@ -1,4 +1,10 @@
 
+export enum ReviewStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REPORTED = 'REPORTED'
+}
+
 export class Review {
   id: number | null;
   accommodationId: number | null | undefined;
@@ -7,6 +13,7 @@ export class Review {
   authorEmail: string | undefined;
   createdAt: Date;
   rating: number;
+  status: ReviewStatus
 
   constructor(
     id: number | null,
@@ -15,7 +22,8 @@ export class Review {
     text: string,
     author: string | undefined,
     createdAt: Date,
-    rating: number
+    rating: number,
+    status: ReviewStatus
   ) {
     this.id = id;
     this.ownerEmail = ownerEmail;
@@ -24,6 +32,7 @@ export class Review {
     this.authorEmail = author;
     this.createdAt = createdAt;
     this.rating = rating;
+    this.status = status;
   }
 }
 
