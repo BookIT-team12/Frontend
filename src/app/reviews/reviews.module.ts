@@ -11,6 +11,7 @@ import {MatCardModule} from "@angular/material/card";
 import { ApartmentReviewComponent } from './apartment-review/apartment-review.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import { OwnerReviewComponent } from './owner-review/owner-review.component';
+import { OwnerReportComponent } from './owner-report/owner-report.component';
 
 
 
@@ -18,7 +19,8 @@ import { OwnerReviewComponent } from './owner-review/owner-review.component';
   declarations: [
     VisitedPlacesComponent,
     ApartmentReviewComponent,
-    OwnerReviewComponent
+    OwnerReviewComponent,
+    OwnerReportComponent
   ],
     imports: [
         CommonModule,
