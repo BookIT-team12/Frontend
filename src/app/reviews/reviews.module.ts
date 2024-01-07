@@ -13,6 +13,8 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import { OwnerReviewComponent } from './owner-review/owner-review.component';
 import { OwnerReportComponent } from './owner-report/owner-report.component';
 import { ApartmentReportComponent } from './apartment-report/apartment-report.component';
+import { AdminNewApprovalComponent } from './admin-new-approval/admin-new-approval.component';
+import { AdminApartmentApprovalComponent } from './admin-apartment-approval/admin-apartment-approval.component';
 
 
 
@@ -22,7 +24,9 @@ import { ApartmentReportComponent } from './apartment-report/apartment-report.co
     ApartmentReviewComponent,
     OwnerReviewComponent,
     OwnerReportComponent,
-    ApartmentReportComponent
+    ApartmentReportComponent,
+    AdminNewApprovalComponent,
+    AdminApartmentApprovalComponent
   ],
     imports: [
         CommonModule,

@@ -66,4 +66,13 @@ export class ReviewService{
     return this.http.get<Review[]>(url);
   }
 
+  getAllReviewAccommodationForApproval(): Observable<Review[]>{
+    const url = `${this.apiUrl}/accommodation/toApprove`;
+    return this.http.get<Review[]>(url);
+  }
+  getAllReviewOwnerForApproval(): Observable<Review[]>{
+    const url = `${this.apiUrl}/owner/toApprove`;
+    return this.http.get<Review[]>(url);
+  }
+
 }
