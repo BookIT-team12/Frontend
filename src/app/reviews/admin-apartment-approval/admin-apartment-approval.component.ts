@@ -16,7 +16,7 @@ export class AdminApartmentApprovalComponent implements OnInit{
 
   async ngOnInit(): Promise<void> {
     try {
-      this.reviewsToApprove = await this.reviewService.getAllReviewAccommodationForApproval().toPromise();
+      this.reviewsToApprove = await this.reviewService.getAllReviewOwnerForApproval().toPromise();
     } catch (error) {
       console.error("Error fetching accommodation:", error);
     }

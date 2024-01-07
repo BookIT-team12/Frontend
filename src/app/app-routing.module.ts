@@ -22,6 +22,7 @@ import {OwnerReviewComponent} from "./reviews/owner-review/owner-review.componen
 import {OwnerReportComponent} from "./reviews/owner-report/owner-report.component";
 import {ApartmentReportComponent} from "./reviews/apartment-report/apartment-report.component";
 import {AdminApartmentApprovalComponent} from "./reviews/admin-apartment-approval/admin-apartment-approval.component";
+import {AdminOwnerApprovalComponent} from "./reviews/admin-owner-approval/admin-owner-approval.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -41,8 +42,9 @@ const routes: Routes=[
   {path: "apartment-review/:id", component: ApartmentReviewComponent}, //todo: set authguard at the end!!!
   {path: "owner-review/:email", component: OwnerReviewComponent}, //todo: set authguard at the end!!!
   {path: "owner-report", component: OwnerReportComponent}, //todo:set authguard at the end
-  {path: "apartments-report", component: ApartmentReportComponent}, //todo:set authguard at the end
-  {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent}
+  {path: "apartments-report", component: ApartmentReportComponent}, //todo:set authguard at the end!!!
+  {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent}, //todo:set authguard at the end!!!!!!
+  {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent} //todo:set authguard at the end!!!
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

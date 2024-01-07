@@ -15,6 +15,7 @@ import { OwnerReportComponent } from './owner-report/owner-report.component';
 import { ApartmentReportComponent } from './apartment-report/apartment-report.component';
 import { AdminNewApprovalComponent } from './admin-new-approval/admin-new-approval.component';
 import { AdminApartmentApprovalComponent } from './admin-apartment-approval/admin-apartment-approval.component';
+import { AdminOwnerApprovalComponent } from './admin-owner-approval/admin-owner-approval.component';
 
 
 
@@ -26,7 +27,8 @@ import { AdminApartmentApprovalComponent } from './admin-apartment-approval/admi
     OwnerReportComponent,
     ApartmentReportComponent,
     AdminNewApprovalComponent,
-    AdminApartmentApprovalComponent
+    AdminApartmentApprovalComponent,
+    AdminOwnerApprovalComponent
   ],
     imports: [
         CommonModule,
