@@ -56,4 +56,14 @@ export class ReviewService{
     return this.http.get<Review[]>(url);
   }
 
+  getAllReviewsOnOwner(ownerEmail: string): Observable<Review[]>{
+    const url = `${this.apiUrl}/ownerReviews/${ownerEmail}`;
+    return this.http.get<Review[]>(url);
+  }
+
+  getAllReviewsOnOwnerAccommodations(ownerEmail: string): Observable<Review[]>{
+    const url = `${this.apiUrl}/ownersAccommodationReviews/${ownerEmail}`;
+    return this.http.get<Review[]>(url);
+  }
+
 }
