@@ -19,7 +19,7 @@ export class ApartmentReportComponent {
   async ngOnInit(): Promise<void> {
     try {
       this.owner = await this.auth.getCurrentUser().toPromise();
-      this.approvedReviews = await this.reviewService.getAllReviewsOnOwnerAccommodations(this.owner!.email).toPromise();
+      this.approvedReviews = await this.reviewService.getAllApprovedReviewsOnOwnerAccommodations(this.owner!.email).toPromise();
     } catch (error) {
       console.error("Error fetching accommodation:", error);
     }

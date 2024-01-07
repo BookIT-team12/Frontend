@@ -14,8 +14,7 @@ export class OwnerReportComponent implements OnInit{
   approvedReviews: Review[] | undefined;
   owner: User | null | undefined;
 
-  constructor(private reviewService: ReviewService, private auth: AuthService) {
-  }
+  constructor(private reviewService: ReviewService, private auth: AuthService) {  }
 
   async ngOnInit(): Promise<void> {
     try {

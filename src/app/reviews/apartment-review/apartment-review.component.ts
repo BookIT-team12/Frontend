@@ -35,7 +35,7 @@ export class ApartmentReviewComponent implements OnInit{
               private reviewService: ReviewService, private auth: AuthService, private router: Router) {
     this.selectedAccommodationId = -100;
     this.selectedAccommodation = null;
-    this.rating = [false, false, false, false, false];
+    this.rating = [true, false, false, false, false];
     this.accommodationAverageGrade = 0;
     this.amenitiesList = [];
     this.textComment = '';

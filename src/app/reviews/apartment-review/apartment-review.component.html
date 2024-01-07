@@ -76,7 +76,7 @@
       <button style="margin-left: 25%; width: 40%; margin-bottom: 3%" (click)="submitReview()" mat-raised-button class="global-darkBtn login-btn" type="button"> Leave a review </button>
   </div>
   <div class="blue-square">
-    <h2 id="old-comms-and-reviews">Old comments and reviews</h2>
+    <h2 id="old-comms-and-reviews">My old comments and reviews</h2>
     <div *ngFor="let review of authorReviews; let i = index" class="comment-container">
       <mat-icon style="margin-left: 2%; margin-top: 2%; font-size: x-large"><span class="material-icons-outlined">home</span></mat-icon>
       {{accommodationReviewedNames ? accommodationReviewedNames[i] : [i]}}

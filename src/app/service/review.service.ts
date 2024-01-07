@@ -15,7 +15,7 @@ export class ReviewService{
     return this.http.post<Review>(url, review);
   }
   updateReview(id:number,review:Review):Observable<Review>{
-    const url=`${this.apiUrl}/reviews/${id}`;
+    const url=`${this.apiUrl}/${id}`;
     return this.http.put<Review>(url, review);
   }
 
@@ -61,7 +61,7 @@ export class ReviewService{
     return this.http.get<Review[]>(url);
   }
 
-  getAllReviewsOnOwnerAccommodations(ownerEmail: string): Observable<Review[]>{
+  getAllApprovedReviewsOnOwnerAccommodations(ownerEmail: string): Observable<Review[]>{
     const url = `${this.apiUrl}/ownersAccommodationReviews/${ownerEmail}`;
     return this.http.get<Review[]>(url);
   }

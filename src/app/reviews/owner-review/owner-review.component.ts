@@ -30,7 +30,7 @@ export class OwnerReviewComponent implements OnInit{
     this.owner = undefined
     this.author = null
     this.averageGrade = 0;
-    this.rating = [false, false, false, false, false];
+    this.rating = [true, false, false, false, false];
     this.textComment = '';
     this.authorReviews = [];
   }
