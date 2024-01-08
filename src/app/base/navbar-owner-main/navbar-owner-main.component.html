@@ -6,20 +6,32 @@
     </mat-icon>
     <button type="button" mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
     <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
-        <button type="button" routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
-            <span class="material-icons">home</span> Home
-        </button>
+      <button type="button" routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
+        <span class="material-icons">home</span> Home
+      </button>
 
-        <button type="button" mat-menu-item routerLink="/manage" (click)="menuItemClicked('manage')">
-            <span class="material-icons">edit</span> Manage account
-        </button>
+      <button type="button" mat-menu-item class="text" (click)="menuItemClicked('add-accommodation')">
+        <span class="material-icons">add</span> Add accommodation
+      </button>
 
-        <button type="button" mat-menu-item routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
+      <button type="button" mat-menu-item class="text" (click)="menuItemClicked('manage')">
+        <span class="material-icons">edit</span> Manage account
+      </button>
 
-        <button type="button" mat-menu-item routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>
+      <button type="button" mat-menu-item class="text" (click)="menuItemClicked('generate-report')">
+        <span class="material-icons">description</span>Generate Report
+      </button>
 
-        <!--    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>-->
-        <button type="button" mat-menu-item  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
+      <button mat-menu-item class="text" type="button" (click)="menuItemClicked('guest-reporting')">
+        <span class="material-icons">person</span>Report a guest
+      </button>
+
+      <button type="button" mat-menu-item class="text"  routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
+      <button type="button" mat-menu-item class="text" routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>
+
+      <!--    <button mat-menu-item><span class="material-icons">forum</span>Notifications</button>-->
+
+      <button type="button" mat-menu-item class="text"  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
 
     </mat-menu>
     <div class="rectangle37"></div>

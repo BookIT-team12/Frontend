@@ -29,6 +29,10 @@ export class NavbarMainComponent implements OnInit {
       case 'manage':
         this.router.navigate(['/manage']);
         break;
+
+      case 'favorites':
+        this.router.navigate(['/favorites']);
+        break;
       case 'logout':
         this.authService.logout().subscribe(() => {
           // Clear user-related data and navigate to the login page
@@ -37,7 +41,10 @@ export class NavbarMainComponent implements OnInit {
           console.log("Logged out successfully!");
         });
         break;
-      // Add other cases for different options
+
+      case 'owner-reporting':
+        this.router.navigate(['/user-reporting']);
+        break;
       default:
         break;
     }
