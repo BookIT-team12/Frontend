@@ -14,6 +14,9 @@
             <span class="material-icons">edit</span> Manage account
         </button>
 
+        <button type="button" mat-menu-item (click)="menuItemClicked('apartments-report')"><span class="material-symbols-outlined">home</span> Review reporting</button>
+        <button type="button" mat-menu-item (click)="menuItemClicked('owner-report')"><span class="material-symbols-outlined">person</span> Review reporting</button>
+
         <button type="button" mat-menu-item routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
 
         <button type="button" mat-menu-item routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>

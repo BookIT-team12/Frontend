@@ -17,7 +17,8 @@
     <button mat-menu-item type="button" routerLink="/manage">
       <span class="material-icons">edit</span>Manage user account</button>
 
-
+    <button type="button" mat-menu-item (click)="menuItemClicked('reviews/apartments/approval')"><span class="material-symbols-outlined">home</span> Review approval</button>
+    <button type="button" mat-menu-item (click)="menuItemClicked('reviews/owners/approval')"><span class="material-symbols-outlined">person</span> Review approval</button>
     <button mat-menu-item type="button" routerLink="/accommodation-approval"><span class="material-icons">hotel</span>Accommodation approval</button>
 
     <button mat-menu-item type="button"  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
