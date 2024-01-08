@@ -38,13 +38,13 @@ const routes: Routes=[
   {path: "owner-accommodations", component: OwnersAccommodationsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path: "user-reporting", component: UserReportingComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
   {path: "user-blocking", component: UserBlockingComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
-  {path: "places-visited", component: VisitedPlacesComponent}, //todo: set authguard at the end!!!
-  {path: "apartment-review/:id", component: ApartmentReviewComponent}, //todo: set authguard at the end!!!
-  {path: "owner-review/:email", component: OwnerReviewComponent}, //todo: set authguard at the end!!!
-  {path: "owner-report", component: OwnerReportComponent}, //todo:set authguard at the end
-  {path: "apartments-report", component: ApartmentReportComponent}, //todo:set authguard at the end!!!
-  {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent}, //todo:set authguard at the end!!!!!!
-  {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent} //todo:set authguard at the end!!!
+  {path: "places-visited", component: VisitedPlacesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}},
+  {path: "apartment-review/:id", component: ApartmentReviewComponent, canActivate:[AuthGuard], data:{role:['GUEST']}},
+  {path: "owner-review/:email", component: OwnerReviewComponent, canActivate:[AuthGuard], data:{role:['GUEST']}},
+  {path: "owner-report", component: OwnerReportComponent, canActivate:[AuthGuard], data:{role:['OWNER']}},
+  {path: "apartments-report", component: ApartmentReportComponent, canActivate:[AuthGuard], data:{role:['OWNER']}},
+  {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
+  {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
