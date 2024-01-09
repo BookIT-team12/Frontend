@@ -28,7 +28,9 @@
       </div>
     </div>
     <div class="half">
+
       <div class="container1">
+
         <h1 class="name-header">{{accommodation.name}}</h1>
         <ul class="list"><li class="list-item">Novi Sad, Serbia</li><li class="list-item">${{accommodation.accommodationType}}</li></ul>
       </div>
@@ -47,6 +49,9 @@
         <button mat-raised-button class="global-darkBtn login-btn"> BOOKIT </button>
       </div>
       <div class="container-reviews">
+        <button mat-icon-button [color]="(isFavorite$ | async) ? 'warn' : 'primary'" (click)="toggleFavorite()">
+          <mat-icon>{{ (isFavorite$ | async) ? 'favorite' : 'favorite_border' }}</mat-icon>
+        </button>
         <div class="review"><span class="material-icons">star</span><h1 class="review">3 REVIEWS •  4.7</h1></div>
         <div *ngIf="accommodation.reviews.length > 0; else noReviews">
           <ng-container *ngFor="let review of accommodation.reviews; let isFirst = first">

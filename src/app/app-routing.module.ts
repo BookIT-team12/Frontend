@@ -6,9 +6,7 @@ import {DetailsComponent} from "./accommodation/details/details.component";
 import {UserAccountManagementComponent} from "./account-managment/user-account-management/user-account-management.component";
 import {AccommodationsMainComponent} from "./accommodation/accommodations-main/accommodations-main.component";
 import {AccommodationApprovalComponent} from "./accommodation/accommodation-approval/accommodation-approval.component";
-import {
-  AccommodationManagementComponent
-} from "./accommodation/accommodation-management/accommodation-management.component";
+import {AccommodationManagementComponent} from "./accommodation/accommodation-management/accommodation-management.component";
 import {GuestActiveComponent} from "./reservation/guest-active/guest-active.component";
 import {OwnerApprovalComponent} from "./reservation/owner-approval/owner-approval.component";
 import {AccommodationUpdateComponent} from "./accommodation/accommodation-update/accommodation-update.component";
@@ -23,6 +21,9 @@ import {OwnerReportComponent} from "./reviews/owner-report/owner-report.componen
 import {ApartmentReportComponent} from "./reviews/apartment-report/apartment-report.component";
 import {AdminApartmentApprovalComponent} from "./reviews/admin-apartment-approval/admin-apartment-approval.component";
 import {AdminOwnerApprovalComponent} from "./reviews/admin-owner-approval/admin-owner-approval.component";
+import {ReportsComponent} from "./reports/reports.component";
+import {AccommodationFavoritesComponent} from "./accommodation/accommodation-favorites/accommodation-favorites.component";
+import {A} from "@angular/cdk/keycodes";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -44,7 +45,9 @@ const routes: Routes=[
   {path: "owner-report", component: OwnerReportComponent, canActivate:[AuthGuard], data:{role:['OWNER']}},
   {path: "apartments-report", component: ApartmentReportComponent, canActivate:[AuthGuard], data:{role:['OWNER']}},
   {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
-  {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}}
+  {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
+  {path: "reports", component: ReportsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
+  {path:"favorites", component:AccommodationFavoritesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

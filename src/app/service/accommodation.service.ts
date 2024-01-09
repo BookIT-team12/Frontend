@@ -75,7 +75,16 @@ export class AccommodationService{
     return this.http.get<Accommodation[]>(this.apiUrl + '/filter',{params});
   }
 
+
   getNameById(accommodationId: number | undefined): Observable<string> {
     return this.http.get<string>(`${this.apiUrl}/name/${accommodationId}`);
   }
+
+  getFavoriteAccommodations(): Observable<Accommodation[]> {
+    return this.http.get<Accommodation[]>(`${this.apiUrl}/favorites`);
+  }
+
+  //todo:add a fav accommodation (kada Uros zavrsi main page-->dodati onClick pozivanje funkcije)
+
+
 }

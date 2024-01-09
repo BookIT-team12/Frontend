@@ -29,6 +29,7 @@ import { AccommodationUpdateComponent } from './accommodation-update/accommodati
 import { OwnersAccommodationsComponent } from './owners-accommodations/owners-accommodations.component';
 import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
+import { AccommodationFavoritesComponent } from './accommodation-favorites/accommodation-favorites.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import {MatDialogModule} from "@angular/material/dialog";
     AccommodationApprovalComponent,
     AccommodationApprovalCardComponent,
     AccommodationUpdateComponent,
-    OwnersAccommodationsComponent
+    OwnersAccommodationsComponent,
+    AccommodationFavoritesComponent
   ],
     imports: [
         CommonModule,
