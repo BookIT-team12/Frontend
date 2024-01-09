@@ -1,0 +1,19 @@
+<app-navbar></app-navbar>
+
+<div class="blue-square">
+  <h2 style="margin-left: 45%; margin-top: 1%" id="old-comms-and-reviews">Reviews on owner</h2>
+  <div class="review-container" *ngFor="let review of reviewsToApprove">
+    <header style="display: flex">
+      <mat-icon style="flex: 1; margin-left: 2%; margin-top: 2%; font-size: x-large"><span class="material-icons-outlined">person</span></mat-icon>
+      <p style="flex: 2; margin-top: 2%"> {{review.ownerEmail}}</p>
+    </header>
+    <div style="margin-left: 2%">
+      <p>Comment: {{review.text}}</p>
+      <p>Grade: {{review.rating}}</p>
+      <p>Author: {{review.authorEmail}}</p>
+    </div>
+    <button (click)="deleteRequest(review)" mat-raised-button class="report-btn global-dangerBtn delete-review-btn" type="button"> Delete review </button>
+    <button (click)="approveRequest(review)" mat-raised-button class="report-btn global-darkBtn delete-review-btn" type="button"> Approve review </button>
+  </div>
+</div>
+

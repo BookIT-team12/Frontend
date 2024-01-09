@@ -1,0 +1,22 @@
+.searchbar-container{
+  display: flex;
+  justify-content: center;
+}
+
+.searchbar{
+  width: 50%;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 110%; /* Adjust the width based on your layout */
+}
+.mat-car.material-card{
+  background-color: #080067;
+}
+
+#search-res{
+  color: #080067;
+  margin-left: 7%;
+}

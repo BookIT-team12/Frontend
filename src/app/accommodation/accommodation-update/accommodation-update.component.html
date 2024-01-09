@@ -126,7 +126,6 @@
       <div>
         <input type="file" (change)="this.onFileSelected($event)" multiple />
         <div class="image-container">
-<!--          <img [src]="testingImageTransfer" alt="Test transfer">-->
           <div *ngFor="let image of imageFiles">
             <mat-card>
               <mat-card-header>

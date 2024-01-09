@@ -1,0 +1,59 @@
+.container {
+  display: flex;
+}
+
+.blue-square {
+  flex: 1;
+  height: fit-content;
+  background-color:rgba(109,142,207,0.72);
+  border-radius: 20px;
+  margin: 10px;
+}
+
+#apartment-info{
+  font-weight: bolder;
+  color: #080067;
+  margin-left: 35%;
+  margin-top: 1%;
+}
+
+#apartment-info-details{
+  margin-left: 10%;
+  font-weight: bold;
+  color: #080067;
+}
+
+li{
+  margin-bottom: 1%;
+}
+
+#old-comms-and-reviews{
+  color: #080067;
+  margin-left: 30%;
+  font-weight: bolder;
+  margin-top: 1%;
+}
+
+.comment-container{
+  background-color: white;
+  color: #080067;
+  font-weight: bolder;
+  margin: 2%;
+  border-radius: 10px;
+}
+
+.grade-bar{
+  display: flex;
+  margin-left: 5%;
+}
+
+#grade-bar-avg-grade{
+ margin-left: 45%;
+}
+
+.delete-review-btn{
+  margin-left: 25%;
+  width: 40%;
+  margin-bottom: 1%;
+  border-radius: 30px;
+}

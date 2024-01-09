@@ -1,0 +1,20 @@
+.blue-square {
+  height: fit-content;
+  background-color:rgba(109,142,207,0.72);
+  border-radius: 20px;
+  margin: 10px;
+  width: 98%;
+  padding-bottom: 10px;
+  color: #080067;
+  font-weight: bolder;
+}
+
+.review-container{
+  margin: 1%;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.report-btn{
+  margin: 1%;
+}

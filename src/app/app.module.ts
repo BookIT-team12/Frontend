@@ -19,6 +19,7 @@ import {ReservationModule} from "./reservation/reservation.module";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {Interceptor} from "./access-control-module/interceptor";
 import { UserReportingComponent } from './account-managment/user-reporting/user-reporting.component';
+import {ReviewsModule} from "./reviews/reviews.module";
 import {ReportsComponent} from "./reports/reports.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
@@ -49,11 +50,11 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     BaseModule,
     AccountManagmentModule,
     ReservationModule,
+    ReviewsModule
     MatIconModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
-
   ],
   providers: [
     {

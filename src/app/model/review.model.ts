@@ -1,26 +1,38 @@
-import { User } from './user.model';
 
-export abstract class Review {
-  id: number;
+export enum ReviewStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
+  REPORTED = 'REPORTED'
+}
+
+export class Review {
+  id: number | null;
+  accommodationId: number | null | undefined;
+  ownerEmail: string | null | undefined;
   text: string;
-  author: string;
+  authorEmail: string | undefined;
   createdAt: Date;
   rating: number;
-  reviewType: string;
+  status: ReviewStatus
 
   constructor(
-    id: number,
+    id: number | null,
+    ownerEmail: string | null | undefined,
+    accommodationId: number | null | undefined,
     text: string,
-    author: string,
+    author: string | undefined,
     createdAt: Date,
     rating: number,
-    reviewType: string
+    status: ReviewStatus
   ) {
     this.id = id;
+    this.ownerEmail = ownerEmail;
+    this.accommodationId = accommodationId;
     this.text = text;
-    this.author = author;
+    this.authorEmail = author;
     this.createdAt = createdAt;
     this.rating = rating;
-    this.reviewType = reviewType;
+    this.status = status;
   }
 }
+

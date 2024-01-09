@@ -7,7 +7,7 @@ import {
   AccommodationType,
   BookingConfirmationType
 } from "../../model/accommodation.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
@@ -43,7 +43,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
   constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private map: MapService,
-              private imageService: ImagesService, private amenitiesService: AmenitiesService) {
+              private imageService: ImagesService, private amenitiesService: AmenitiesService, private router: Router) {
 
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
@@ -224,6 +224,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
           console.log('Accommodation updated successfully', result);
+          this.router.navigate(["/main"])
         },
         (error) => {
           console.error('Error updating accommodation', error);
