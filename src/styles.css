@@ -52,6 +52,20 @@ body {
   }*/
 
 
+#card-visited-places{
+  width: 18%; /* Adjust the size of each key */
+  height: fit-content;
+  margin: 5% 2%;
 
+  & mat-card {
+    background-color:rgba(109,142,207,0.72);
+    border-radius: 20px;
+  }
+  & button {
+    background-color: #080067;
+    color: white;
+    margin: 2%;
+  }
+}
 
 }

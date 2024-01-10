@@ -24,6 +24,10 @@
       <span class="material-icons">edit</span> Manage account
     </button>
 
+
+    <button type="button" mat-menu-item (click)="menuItemClicked('apartments-report')"><span class="material-icons">home</span> Review reporting</button>
+    <button type="button" mat-menu-item (click)="menuItemClicked('owner-report')"><span class="material-icons">person</span> Review reporting</button>
+
     <button type="button" mat-menu-item class="text" (click)="menuItemClicked('generate-report')">
       <span class="material-icons">description</span>Generate Report
     </button>

@@ -14,6 +14,12 @@
         <span class="material-icons">add</span> Add accommodation
       </button>
 
+
+        <button type="button" mat-menu-item (click)="menuItemClicked('apartments-report')"><span class="material-icons">home</span> Review reporting</button>
+        <button type="button" mat-menu-item (click)="menuItemClicked('owner-report')"><span class="material-icons">person</span> Review reporting</button>
+
+        <button type="button" mat-menu-item routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
+
       <button type="button" mat-menu-item class="text" (click)="menuItemClicked('manage')">
         <span class="material-icons">edit</span> Manage account
       </button>
