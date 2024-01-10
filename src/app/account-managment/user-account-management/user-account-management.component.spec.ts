@@ -106,6 +106,7 @@ fdescribe('UserAccountManagementComponent', () => {
   }));
 
   it('should update an account when the form is valid', fakeAsync(() => {
+
     const updatedUser = {
       name: 'John',
       lastName: 'DoeNew',
@@ -177,4 +178,7 @@ fdescribe('UserAccountManagementComponent', () => {
       expect(component.form.value.phone).toBe(updatedUser.phone);
     });
   }));
+
+  //TODO: testiranje forme!!!!
+
 });
