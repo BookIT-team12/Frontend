@@ -23,6 +23,7 @@ import {ReportsComponent} from "./reports/reports.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
+import {RouterModule} from "@angular/router";
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
+    RouterModule
 
   ],
   providers: [

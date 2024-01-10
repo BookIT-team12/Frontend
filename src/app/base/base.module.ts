@@ -8,7 +8,7 @@ import {MatIconModule} from "@angular/material/icon";
 import { NavbarOwnerComponent } from './navbar-owner/navbar-owner.component';
 import { NavbarAdminComponent } from './navbar-admin/navbar-admin.component';
 import { NavbarNonRegisteredComponent } from './navbar-non-registered/navbar-non-registered.component';
-import {RouterLink, RouterLinkActive} from "@angular/router";
+import {ActivatedRoute, RouterLink, RouterLinkActive, RouterModule} from "@angular/router";
 import { NavbarMainComponent } from './navbar-main/navbar-main.component';
 import { NavbarNonRegisteredMainComponent } from './navbar-non-registered-main/navbar-non-registered-main.component';
 import { NavbarOwnerMainComponent } from './navbar-owner-main/navbar-owner-main.component';
@@ -34,7 +34,8 @@ import { NavbarAdminMainComponent } from './navbar-admin-main/navbar-admin-main.
     MatMenuModule,
     MatIconModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    RouterModule,
   ], exports: [
     NavbarComponent,
     NavbarOwnerComponent,
