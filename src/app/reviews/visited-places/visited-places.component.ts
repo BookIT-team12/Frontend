@@ -16,10 +16,9 @@ import {Router} from "@angular/router";
 export class VisitedPlacesComponent implements OnInit{
   searchValue: string;
   guestEmail: string;
-  placesVisitedRoot: Set<[Accommodation, boolean|undefined]>;
-  placesVisitedToShow: Set<[Accommodation, boolean|undefined]>;
+  placesVisitedRoot: Set<[Accommodation, boolean|undefined, File|undefined]>;
+  placesVisitedToShow: Set<[Accommodation, boolean|undefined, File|undefined]>;
   imagesHeaderFilesRoot: File[];
-  imagesHeaderFilesToShow: File[];
   imagesHeaderStrings: string[];
 
   constructor(private accommodation: AccommodationService, private reservations: ReservationService,
@@ -31,7 +30,6 @@ export class VisitedPlacesComponent implements OnInit{
     this.imagesHeaderFilesRoot = [];
     this.imagesHeaderStrings = [];
     this.imagesHeaderFilesRoot = [];
-    this.imagesHeaderFilesToShow = [];
   }
 
   async ngOnInit(): Promise<void> {
@@ -47,6 +45,7 @@ export class VisitedPlacesComponent implements OnInit{
     this.imagesService.setArrays(this.imagesHeaderFilesRoot, this.imagesHeaderStrings);
     this.imagesService.addFileTypeToImages();
     this.imagesService.turnStringsToImages();
+    this.putImagesIntoSets()
   }
 
   async getPlacesVisited() {  //note: maybe is not efficient!!...if slow on tests should be made more efficient with less calls to backend
@@ -58,14 +57,27 @@ export class VisitedPlacesComponent implements OnInit{
       for (let i = 0; i!=accommodationIDs.length; i++){
             const accommodationModel = await this.accommodation.getAccommodationById(accommodationIDs[i][0]).toPromise();
             if (accommodationModel) {
-              this.placesVisitedRoot.add([accommodationModel.first, accommodationIDs[i][1]]);
-              this.placesVisitedToShow.add([accommodationModel.first, accommodationIDs[i][1]]);
+              this.placesVisitedRoot.add([accommodationModel.first, accommodationIDs[i][1], undefined]);
+              this.placesVisitedToShow.add([accommodationModel.first, accommodationIDs[i][1], undefined]);
               this.imagesHeaderStrings.push(accommodationModel.second[0]); //just first picture here!
             }
           }
     } catch (error) {
       console.error('Error fetching places visited:', error);
     }
+  }
+
+  async putImagesIntoSets(){
+    let i = 0;
+    this.placesVisitedRoot.forEach(value => {
+      value[2] = this.imagesHeaderFilesRoot[i]
+      i++;
+    })
+    let j = 0;
+    this.placesVisitedToShow.forEach(value => {
+      value[2] = this.imagesHeaderFilesRoot[j]
+      j++;
+    })
   }
 
   filterResList(list: Reservation[]|undefined) {
@@ -96,7 +108,6 @@ export class VisitedPlacesComponent implements OnInit{
     return this.imagesService.getUrl(file)
   }
 
-  //FIXME: FIX SEARCHING FUNCTION - IMAGES ARE SHOWN NOT CORRECTLY WHEN SEARCHING
   searchVisitedPlaces(){
     let searchTxt = this.searchValue;
     this.placesVisitedToShow.clear();
@@ -113,11 +124,11 @@ export class VisitedPlacesComponent implements OnInit{
     }
   }
 
-  goToReviewOwner(place: [Accommodation, (boolean | undefined)]){
+  goToReviewOwner(place: [Accommodation, (boolean | undefined), (File|undefined)]){
     this.router.navigate(['owner-review/'+place[0].ownerEmail])
   }
 
-  goToReviewAccommodation(place: [Accommodation, (boolean | undefined)]){
+  goToReviewAccommodation(place: [Accommodation, (boolean | undefined), (File | undefined)]){
     this.router.navigate(['apartment-review/'+place[0].id])
   }
 
