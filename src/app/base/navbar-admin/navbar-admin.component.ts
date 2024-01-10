@@ -38,6 +38,12 @@ export class NavbarAdminComponent {
       case 'manage':
         this.router.navigate(['/manage']);
         break;
+      case 'reviews/apartments/approval':
+        this.router.navigate(['reviews/apartments/approval']);
+        break;
+      case 'reviews/owners/approval':
+        this.router.navigate(['reviews/owners/approval']);
+        break;
       case 'accommodation-approval':
         this.router.navigate(['/accommodation-approval'])
         break;

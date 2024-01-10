@@ -37,6 +37,12 @@ export class NavbarAdminMainComponent {
         });
         break;
         // Add other cases for different options
+      case 'reviews/apartments/approval':
+        this.router.navigate(['reviews/apartments/approval']);
+        break;
+      case 'reviews/owners/approval':
+        this.router.navigate(['reviews/owners/approval']);
+        break;
       default:
         break;
     }

@@ -50,7 +50,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
     BaseModule,
     AccountManagmentModule,
     ReservationModule,
-    ReviewsModule
+    ReviewsModule,
     MatIconModule,
     ReactiveFormsModule,
     MatSelectModule,

@@ -76,6 +76,9 @@ export class VisitedPlacesComponent implements OnInit{
       for (let i = 0; i !== list.length; i++) {
         if (list[i].status === ReservationStatus.APPROVED && new Date(list[i].endDate) < new Date()) {
           if (map.get(list[i].accommodationId) !== true || !map.has(list[i].accommodationId)) {
+            console.log("end date reservation: ", new Date(list[i].endDate))
+            console.log("seven days before today: ", sevenDaysAgo)
+            console.log("bool: ", new Date(list[i].endDate) > sevenDaysAgo)
             map.set(list[i].accommodationId, new Date(list[i].endDate) > sevenDaysAgo)
           }
         }
