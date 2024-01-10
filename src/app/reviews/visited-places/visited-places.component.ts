@@ -18,7 +18,8 @@ export class VisitedPlacesComponent implements OnInit{
   guestEmail: string;
   placesVisitedRoot: Set<[Accommodation, boolean|undefined]>;
   placesVisitedToShow: Set<[Accommodation, boolean|undefined]>;
-  imagesHeaderFiles: File[];
+  imagesHeaderFilesRoot: File[];
+  imagesHeaderFilesToShow: File[];
   imagesHeaderStrings: string[];
 
   constructor(private accommodation: AccommodationService, private reservations: ReservationService,
@@ -27,8 +28,10 @@ export class VisitedPlacesComponent implements OnInit{
     this.placesVisitedRoot = new Set();
     this.placesVisitedToShow = new Set();
     this.searchValue = '';
-    this.imagesHeaderFiles = [];
+    this.imagesHeaderFilesRoot = [];
     this.imagesHeaderStrings = [];
+    this.imagesHeaderFilesRoot = [];
+    this.imagesHeaderFilesToShow = [];
   }
 
   async ngOnInit(): Promise<void> {
@@ -41,7 +44,7 @@ export class VisitedPlacesComponent implements OnInit{
       console.error("Error fetching user:", error);
     }
     await this.getPlacesVisited()
-    this.imagesService.setArrays(this.imagesHeaderFiles, this.imagesHeaderStrings);
+    this.imagesService.setArrays(this.imagesHeaderFilesRoot, this.imagesHeaderStrings);
     this.imagesService.addFileTypeToImages();
     this.imagesService.turnStringsToImages();
   }
@@ -60,8 +63,6 @@ export class VisitedPlacesComponent implements OnInit{
               this.imagesHeaderStrings.push(accommodationModel.second[0]); //just first picture here!
             }
           }
-
-
     } catch (error) {
       console.error('Error fetching places visited:', error);
     }
@@ -95,6 +96,7 @@ export class VisitedPlacesComponent implements OnInit{
     return this.imagesService.getUrl(file)
   }
 
+  //FIXME: FIX SEARCHING FUNCTION - IMAGES ARE SHOWN NOT CORRECTLY WHEN SEARCHING
   searchVisitedPlaces(){
     let searchTxt = this.searchValue;
     this.placesVisitedToShow.clear();
@@ -118,4 +120,7 @@ export class VisitedPlacesComponent implements OnInit{
   goToReviewAccommodation(place: [Accommodation, (boolean | undefined)]){
     this.router.navigate(['apartment-review/'+place[0].id])
   }
+
+
+
 }

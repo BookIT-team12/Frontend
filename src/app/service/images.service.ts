@@ -6,6 +6,7 @@ import {Inject, Injectable} from '@angular/core';
 export class ImagesService {
   imageStrings: string[] = [];
   imageFiles: File[] = [];
+
   constructor(){  }
   setArrays(imagesFromPage: File[], dataFromPage:string[]) {  //this one is for accommodation-update
     this.imageStrings = dataFromPage;

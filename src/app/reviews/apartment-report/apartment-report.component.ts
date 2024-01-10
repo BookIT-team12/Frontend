@@ -38,7 +38,7 @@ export class ApartmentReportComponent {
   reportReview(toReport: Review){
     toReport.status = ReviewStatus.REPORTED;
     this.reviewService.updateReview(toReport.id!, toReport).subscribe(value =>{
-      this.approvedReviews?.filter(review => review !== toReport)
+      this.approvedReviews = this.approvedReviews?.filter(review => review !== toReport)
     })
   }
 }
