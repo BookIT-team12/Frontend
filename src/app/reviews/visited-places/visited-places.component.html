@@ -9,7 +9,7 @@
 
 <div class="searchbar-container">
   <mat-form-field class="searchbar">
-    <mat-label>Search by name/location</mat-label>
+    <mat-label>Search by name</mat-label>
     <input matInput type="text"  [(ngModel)]="searchValue" >
     <button  mat-icon-button matSuffix (click)="searchValue = ''" type="button">
       <mat-icon >
@@ -29,7 +29,7 @@
           <mat-card>
             <mat-card-header>
               <mat-card-title-group>
-                <img mat-card-md-image [src]="getUrl(imagesHeaderFiles[i])" alt="Not implemented [src] yet" />
+                <img mat-card-md-image [src]="getUrl(place[2]!)" alt="Not implemented [src] yet" />
               </mat-card-title-group>
             </mat-card-header>
             <mat-card-content>

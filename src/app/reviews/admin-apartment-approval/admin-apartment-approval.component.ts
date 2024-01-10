@@ -34,14 +34,14 @@ export class AdminApartmentApprovalComponent implements OnInit{
   approveRequest(toApprove: Review){
     toApprove.status = ReviewStatus.APPROVED;
     this.reviewService.updateReview(toApprove.id!, toApprove).subscribe(review =>{
-      this.reviewsToApprove?.filter(review => review !== toApprove);
+      this.reviewsToApprove = this.reviewsToApprove?.filter(review => review !== toApprove);
     })
   }
 
   deleteRequest(toDelete: Review){
     this.reviewService.deleteAccommodationReview(toDelete.id!).subscribe(value =>{
       let index = this.reviewsToApprove!.findIndex(review => review.id === toDelete.id);
-      this.reviewsToApprove?.filter(review => review !== toDelete)
+      this.reviewsToApprove = this.reviewsToApprove?.filter(review => review !== toDelete)
       this.reviewedApartmentNames.splice(index, 1);
     })
   }

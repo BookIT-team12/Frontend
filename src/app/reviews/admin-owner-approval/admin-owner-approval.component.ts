@@ -25,13 +25,13 @@ export class AdminOwnerApprovalComponent {
   approveRequest(toApprove: Review){
     toApprove.status = ReviewStatus.APPROVED;
     this.reviewService.updateReview(toApprove.id!, toApprove).subscribe(review =>{
-      this.reviewsToApprove?.filter(review => review !== toApprove);
+      this.reviewsToApprove = this.reviewsToApprove?.filter(review => review !== toApprove);
     })
   }
 
   deleteRequest(toDelete: Review){
     this.reviewService.deleteOwnerReview(toDelete.id!).subscribe(value =>{
-      this.reviewsToApprove?.filter(review => review !== toDelete)
+      this.reviewsToApprove = this.reviewsToApprove?.filter(review => review !== toDelete)
     })
   }
 }
