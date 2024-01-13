@@ -1,10 +1,26 @@
-<app-navbar></app-navbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Owner Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
 <div class="form-container">
   <h1 class="register-header">Accommodation Details</h1>
   <div class="container">
     <div class="half">
       <div class="picture_container">
-        <div class="main_picture"><img src="./assets/europe_background.jpg" alt="Slika"></div>
+        <div class="main_picture"><img src="./assets/hotel-demo.png" alt="Slika"></div>
         <div class="sidebar_pictures">
           TESTT
         </div>
@@ -12,12 +28,13 @@
       <div class="container1">
         <h1 class="acc-header">WHAT THIS PLACE HAS TO OFFER</h1>
         <div class="grid-container">
-          <div class="grid-item"><span class="material-icons">wifi</span><body class="grid-item-text">Wi-Fi</body></div>
-          <div class="grid-item"><span class="material-icons">local_parking</span><body class="grid-item-text">Parking</body></div>
-          <div class="grid-item"><span class="material-icons">ac_unit</span><body class="grid-item-text">AC Unit</body></div>
-          <div class="grid-item"><span class="material-icons">kitchen</span><body class="grid-item-text">Fridge</body></div>
-          <div class="grid-item"><span class="material-icons">balcony</span><body class="grid-item-text">Balcony</body></div>
-          <div class="grid-item"><span class="material-icons">elevator</span><body class="grid-item-text">Elevator</body></div>
+          <div class="grid-item" *ngIf="wifi"><span class="material-icons">wifi</span><body class="grid-item-text">Wi-Fi</body></div>
+          <div class="grid-item" *ngIf="parking"><span class="material-icons">local_parking</span><body class="grid-item-text">Parking</body></div>
+          <div class="grid-item" *ngIf="ac_unit"><span class="material-icons">ac_unit</span><body class="grid-item-text">AC Unit</body></div>
+          <div class="grid-item" *ngIf="kitchen"><span class="material-icons">kitchen</span><body class="grid-item-text">Fridge</body></div>
+          <div class="grid-item" *ngIf="balcony"><span class="material-icons">balcony</span><body class="grid-item-text">Balcony</body></div>
+          <div class="grid-item" *ngIf="pool"><span class="material-icons">pool</span><body class="grid-item-text">Pool</body></div>
+          <div class="grid-item" *ngIf="bath"><span class="material-icons">bathtub</span><body class="grid-item-text">In-Suite Bathroom</body></div>
         </div>
       </div>
       <div class="container1">
@@ -30,28 +47,29 @@
     <div class="half">
       <div class="container1">
         <h1 class="name-header">{{accommodation.name}}</h1>
-        <ul class="list"><li class="list-item">Novi Sad, Serbia</li><li class="list-item">${{accommodation.accommodationType}}</li></ul>
+        <ul class="list"><li class="list-item">{{accommodation.location.address}}</li><li class="list-item">{{accommodationType}}</li></ul>
       </div>
       <div class="container1">
         <h3 class="date-picker-text">Choose time of your stay: </h3>
         <mat-form-field>
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date">
-            <input matEndDate placeholder="End date">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="startDate">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="endDate">
           </mat-date-range-input>
           <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
         </mat-form-field>
-        <button mat-raised-button class="global-darkBtn login-btn"> BOOKIT </button>
+        <button mat-raised-button (click)="bookITClicked()" class="global-darkBtn login-btn"> BOOKIT </button>
       </div>
       <div class="container-reviews">
-        <div class="review"><span class="material-icons">star</span><h1 class="review">3 REVIEWS •  4.7</h1></div>
-        <div *ngIf="accommodation.reviews.length > 0; else noReviews">
+        <div class="review"><span class="material-icons star">star</span><h1 class="review">{{accommodation.reviews.length}} REVIEWS •  {{avgRating}}</h1></div>
+        <div *ngIf="accommodation.reviews.length > 0">
           <ng-container *ngFor="let review of accommodation.reviews; let isFirst = first">
             <div class="grid-container">
-
+              {{review.author}}
+              {{review.text}}
             </div>
           </ng-container>
         </div>
@@ -60,5 +78,5 @@
   </div>
 </div>
 <ng-template #noReviews>
-  <p class="review-txt">No reviews yet</p>
+  <div class="review-txt">No reviews yet</div>
 </ng-template>
