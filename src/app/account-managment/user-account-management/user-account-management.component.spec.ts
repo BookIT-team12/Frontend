@@ -23,9 +23,9 @@ const mockUser: User = {
   lastName: 'Doe',
   password: 'password',
   confirmPassword: 'password',
-  phone: '123456789',
+  phone: '1234567890',
   address: '123 Main St',
-  email: 'john@example.com',
+  email: 'john@gmail.com',
   role: Role.GUEST,
   isBlocked: false,
   isReported: false,
@@ -87,7 +87,7 @@ fdescribe('UserAccountManagementComponent', () => {
 
     expect(authService.getCurrentUser).toHaveBeenCalled();
 
-    const req = httpTestingController.expectOne('http://localhost:8080/users/john@example.com');
+    const req = httpTestingController.expectOne('http://localhost:8080/users/john@gmail.com');
     req.flush(mockUser);
 
     tick();
@@ -105,16 +105,16 @@ fdescribe('UserAccountManagementComponent', () => {
     httpTestingController.verify();
   }));
 
-  it('should update an account when the form is valid', fakeAsync(() => {
+  it('should update an account when the form is valid and [Update button] should be enabled', fakeAsync(() => {
 
     const updatedUser = {
       name: 'John',
       lastName: 'DoeNew',
       password: 'newPassword',
       confirmPassword: 'newPassword',
-      phone: '123456789',
+      phone: '1234567890',
       address: '123 New Main St',
-      email: 'john@example.com',
+      email: 'john@gmail.com',
       role: Role.GUEST,
       isBlocked: false,
       isReported: false,
@@ -148,6 +148,8 @@ fdescribe('UserAccountManagementComponent', () => {
       address: updatedUser.address,
     });
 
+    expect(component.form.valid).toBeTruthy();
+
     component.updateAccount();
 
     tick();
@@ -176,9 +178,40 @@ fdescribe('UserAccountManagementComponent', () => {
       expect(component.form.value.confirmPassword).toBe(updatedUser.confirmPassword);
       expect(component.form.value.address).toBe(updatedUser.address);
       expect(component.form.value.phone).toBe(updatedUser.phone);
+
+      // Check if the "Update account" button is enabled in the DOM
+      const updateButton: HTMLButtonElement | null = fixture.nativeElement.querySelector('.save-changes-btn');
+      expect(updateButton).toBeTruthy();
+      expect(updateButton?.disabled).toBe(false);
+
     });
   }));
 
-  //TODO: testiranje forme!!!!
+
+
+  it('form should be invalid and [Update account] button should be disabled', () => {
+    // Initially, the form is  invalid and the button disabled
+    expect(component.form.invalid).toBe(true);
+    expect(component.isFormValid).toBe(false);
+
+    component.form.setValue({
+      email: 'invalid-email',
+      name: 'John',
+      lastName: 'Doe',
+      password: 'password123',
+      confirmPassword: 'password123',
+      phone: '1234567890',
+      address: '123 Main St',
+    });
+
+    fixture.detectChanges();
+
+    expect(component.form.invalid).toBe(true);
+    expect(component.isFormValid).toBe(false);
+
+    const updateButton: HTMLButtonElement | null = fixture.nativeElement.querySelector('.save-changes-btn');
+    expect(updateButton).toBeTruthy(); // Check if the button exists
+    expect(updateButton?.disabled).toBe(true);
+  });
 
 });

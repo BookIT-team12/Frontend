@@ -17,6 +17,7 @@ export class UserAccountManagementComponent implements OnInit {
   form!:FormGroup
   userRole!: Role;
   userEmail!:String;
+  isFormValid=false;
 
   constructor(private authService:AuthService,private userService:UserService, private fb:FormBuilder) {}
 
@@ -26,22 +27,25 @@ export class UserAccountManagementComponent implements OnInit {
 
     // You can initialize form controls and call fetchUserData here
     this.form = this.fb.group({
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required],
-      phone: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(10)]],
       address: ['', Validators.required],
     });
 
-    this.authService.getCurrentUser().subscribe(user=>{
+    this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         this.user = user;
         this.fetchUserData(user.email);
       }
     })
 
+    this.form.statusChanges.subscribe((status) => {
+      this.isFormValid = status === 'VALID';
+    });
   }
 
   fetchUserData(email: string): void {
@@ -84,7 +88,9 @@ export class UserAccountManagementComponent implements OnInit {
 
   updateAccount(): void {
 
-    if (this.form.valid) {
+    this.isFormValid = this.form.valid;
+
+    if (this.isFormValid) {
       const updatedUser: User = {
         name: this.form.value.name,
         lastName: this.form.value.lastName,
@@ -107,7 +113,7 @@ export class UserAccountManagementComponent implements OnInit {
         }
       );
     }
-  // }
+
   }
 
   protected readonly Role = Role;
