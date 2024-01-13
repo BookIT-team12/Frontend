@@ -187,8 +187,6 @@ fdescribe('UserAccountManagementComponent', () => {
     });
   }));
 
-
-
   it('form should be invalid and [Update account] button should be disabled', () => {
     // Initially, the form is  invalid and the button disabled
     expect(component.form.invalid).toBe(true);
