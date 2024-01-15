@@ -38,7 +38,7 @@ export class Accommodation {
   availabilityPeriods: AvailabilityPeriod[];
   status:AccommodationStatus;
   location: AccommodationLocation;
-
+  isFavorite: boolean;
   constructor(
     ownerEmail: string,
     accommodationType: AccommodationType,
@@ -52,7 +52,8 @@ export class Accommodation {
     bookingConfirmationType: BookingConfirmationType,
     availabilityPeriods: AvailabilityPeriod[],
     status:AccommodationStatus,
-    location: AccommodationLocation
+    location: AccommodationLocation,
+    isFavorite:boolean
   ) {
     this.ownerEmail = ownerEmail;
     this.accommodationType = accommodationType;
@@ -71,6 +72,7 @@ export class Accommodation {
     }
     this.status=status;
     this.location = location;
+    this.isFavorite=isFavorite;
   }
 
   containsAmenity(id:number){

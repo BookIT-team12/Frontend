@@ -129,8 +129,21 @@ export class AuthService {
 
         // Find the user with the matching ID
         const currentUser = users.find(user => user.email === userId);
-        // Return the found user or null if not found
-        return currentUser || null;
+
+        if (currentUser) {
+          // Check if the user is blocked
+          if (currentUser.isBlocked) {
+            console.log('User is blocked.');
+            // Optionally, you can log the user out or redirect to a different page
+            return null;
+          } else {
+            
+            return currentUser;
+          }
+        } else {
+          console.error('User not found with ID:', userId);
+          return null;
+        }
       }),
 
       catchError(error => {

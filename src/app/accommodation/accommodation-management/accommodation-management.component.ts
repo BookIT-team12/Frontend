@@ -24,6 +24,7 @@ import {
 import {NgForOf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -41,7 +42,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
               private cdr: ChangeDetectorRef, private authService: AuthService,
               private fb: FormBuilder, private map: MapService, private imageService: ImagesService,
               private periodService: AvailabilityPeriodService, private amenitiesService: AmenitiesService,
-              private  validationService: AccommodationValidationService, public dialog: MatDialog) {
+              private  validationService: AccommodationValidationService, public dialog: MatDialog, private router:Router) {
 
     this.accommodationForm = this.fb.group({
       owner: '',
@@ -131,13 +132,15 @@ export class AccommodationManagementComponent implements AfterViewInit {
           accommodationData.bookingConfirmationType,
           accommodationData.availabilityPeriods,
           AccommodationStatus.PENDING,
-          this.map.getSelectedLocation()
+          this.map.getSelectedLocation(),
+        false
       );
 
       this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
       this.accommodationService.createAccommodation(newAccommodation, this.imageFiles).subscribe(
           (result) => {
             console.log('Accommodation created successfully', result);
+            this.router.navigate(["/main"])
           },
           (error) => {
             console.error('Error creating accommodation', error);

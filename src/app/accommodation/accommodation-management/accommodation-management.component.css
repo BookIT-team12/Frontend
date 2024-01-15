@@ -22,7 +22,7 @@
   width: 48%;
   display: flex;
   flex-direction: column;
-}
+} 
 
 .acc-management-header {
   color: rgba(8, 0, 103, 1); /* Changes text color to blue */

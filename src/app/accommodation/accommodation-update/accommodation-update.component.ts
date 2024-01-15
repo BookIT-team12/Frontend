@@ -7,7 +7,7 @@ import {
   AccommodationType,
   BookingConfirmationType
 } from "../../model/accommodation.model";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 import {AvailabilityPeriod} from "../../model/availability-period.model";
 import {startWith} from "rxjs";
@@ -43,11 +43,11 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
   constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private map: MapService,
-              private imageService: ImagesService, private amenitiesService: AmenitiesService) {
+              private imageService: ImagesService, private amenitiesService: AmenitiesService, private router: Router) {
 
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-          AccommodationStatus.APPROVED, map.undefinedBasicLocation);
+          AccommodationStatus.APPROVED, map.undefinedBasicLocation, false);
       //this exists just so i dont get error when scanning ngFor for availability periods in html
       //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
 
@@ -87,7 +87,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
             pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status,
-            pair.first.location)
+            pair.first.location, pair.first.isFavorite)
 
         this.accommodationForm.patchValue({
             name: this.accommodation.name,
@@ -216,13 +216,15 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
         this.availabilityPeriods,
         AccommodationStatus.PENDING,
-        this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id)
+        this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id),
+      false
       );
 
       this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
           console.log('Accommodation updated successfully', result);
+          this.router.navigate(["/main"])
         },
         (error) => {
           console.error('Error updating accommodation', error);

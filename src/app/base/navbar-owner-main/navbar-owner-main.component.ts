@@ -32,13 +32,23 @@ export class NavbarOwnerMainComponent implements OnInit {
       case 'manage':
         this.router.navigate(['/manage']);
         break;
-        // Add other cases for different options
+      // Add other cases for different options
       case 'owner-accommodations':
         this.router.navigate(['/owner-accommodations']);
         break;
+
+      case 'add-accommodation':
+        this.router.navigate(['/add_accommodation']);
+        break;
+
+      case 'generate-report':
+        this.router.navigate(['/reports']);
+        break;
+
       case 'owner-approval-res':
         this.router.navigate(['/owner-approval-res']);
         break;
+
       case 'owner-logout':
         this.authService.logout().subscribe(() => {
           // Clear user-related data and navigate to the login page
@@ -46,6 +56,15 @@ export class NavbarOwnerMainComponent implements OnInit {
           this.router.navigate(['/login']);
           console.log("Logged out successfully!");
         });
+        break;
+      case 'apartments-report':
+        this.router.navigate(['apartments-report']);
+        break;
+      case 'owner-report':
+        this.router.navigate(['owner-report']);
+        break;
+      case 'guest-reporting':
+        this.router.navigate(['/user-reporting']);
         break;
       default:
         break;

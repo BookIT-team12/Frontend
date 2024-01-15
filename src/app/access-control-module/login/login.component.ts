@@ -34,14 +34,10 @@ export class LoginComponent {
       }
 
       this.userRole = this.authService.getRole();
-      console.log("USER ROLE:", this.userRole);
-
 
       this.authService.login(login).subscribe({
 
         next: (response: AuthResponse) => {
-          console.log(response)
-          console.log(response.accessToken)
           localStorage.setItem('user', response.accessToken);
           this.authService.setUser()
           this.authService.setUserDetails()

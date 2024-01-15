@@ -36,9 +36,19 @@ export class NavbarOwnerComponent implements OnInit {
       case 'owner-accommodations':
         this.router.navigate(['/owner-accommodations']);
         break;
+
+      case 'add-accommodation':
+        this.router.navigate(['/add_accommodation']);
+        break;
+
+      case 'generate-report':
+        this.router.navigate(['/reports']);
+        break;
+
       case 'owner-approval-res':
         this.router.navigate(['/owner-approval-res']);
         break;
+
       case 'owner-logout':
           this.authService.logout().subscribe(() => {
               // Clear user-related data and navigate to the login page
@@ -47,8 +57,15 @@ export class NavbarOwnerComponent implements OnInit {
               console.log("Logged out successfully!");
           });
           break;
+
       case 'guest-reporting':
         this.router.navigate(['/user-reporting']);
+        break;
+      case 'apartments-report':
+        this.router.navigate(['apartments-report']);
+        break;
+      case 'owner-report':
+        this.router.navigate(['owner-report']);
         break;
       default:
           break;

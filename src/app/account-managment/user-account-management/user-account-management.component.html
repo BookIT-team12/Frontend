@@ -110,6 +110,6 @@
     </div>
   </div>
 
-  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit" >Update account</button>
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit" [disabled]="!isFormValid" >Update account</button>
   <button mat-raised-button class="global-dangerBtn save-changes-btn"  (click)="deleteAccount()">Delete account</button>
 </form>

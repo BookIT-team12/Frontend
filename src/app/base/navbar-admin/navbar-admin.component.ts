@@ -25,7 +25,6 @@ export class NavbarAdminComponent {
   menuItemClicked(option: string) {
     console.log(`Selected option: ${option}`);
 
-    // Add logic to navigate based on the selected option
     switch (option) {
 
       case 'logout':
@@ -36,7 +35,21 @@ export class NavbarAdminComponent {
           console.log("Logged out successfully!");
         });
         break;
-        // Add other cases for different options
+      case 'manage':
+        this.router.navigate(['/manage']);
+        break;
+      case 'reviews/apartments/approval':
+        this.router.navigate(['reviews/apartments/approval']);
+        break;
+      case 'reviews/owners/approval':
+        this.router.navigate(['reviews/owners/approval']);
+        break;
+      case 'accommodation-approval':
+        this.router.navigate(['/accommodation-approval'])
+        break;
+      case 'user-blocking':
+        this.router.navigate(['/user-blocking'])
+        break;
       default:
         break;
     }
