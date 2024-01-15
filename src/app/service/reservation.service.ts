@@ -7,7 +7,7 @@ import {Reservation} from "../model/reservation.model";
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8080/api/reservations';
+  private apiUrl = 'http://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +39,8 @@ export class ReservationService {
 
   createReservation(dto: Reservation): Observable<Reservation> {
     const url = `${this.apiUrl}/reservations`;
+    console.log("DTO:");
+    console.log(dto);
     return this.http.post<Reservation>(url, dto);
   }
 

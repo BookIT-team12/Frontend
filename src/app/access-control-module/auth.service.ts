@@ -101,6 +101,7 @@ export class AuthService {
 
   getCurrentUser(): Observable<User | null> {
     const accessToken = localStorage.getItem('user');
+    console.log(accessToken);
     if (!accessToken) {
       return of(null);
     }
@@ -128,7 +129,6 @@ export class AuthService {
 
         // Find the user with the matching ID
         const currentUser = users.find(user => user.email === userId);
-
         // Return the found user or null if not found
         return currentUser || null;
       }),

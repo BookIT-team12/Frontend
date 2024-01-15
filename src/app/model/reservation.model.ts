@@ -10,7 +10,7 @@ export enum ReservationStatus {
 export class Reservation {
   id?: number;
   accommodationId: number;
-  guestId: string;
+  guestEmail: string;
   startDate: Date;
   endDate: Date;
   numberOfGuests: number;
@@ -28,7 +28,7 @@ export class Reservation {
   ) {
     this.id = 1;
     this.accommodationId = accommodation;
-    this.guestId = guest;
+    this.guestEmail = guest;
     this.startDate = startDate;
     this.endDate = endDate;
     this.numberOfGuests = numberOfGuests;

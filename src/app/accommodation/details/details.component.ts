@@ -38,6 +38,9 @@ export class DetailsComponent implements OnInit{
     this.authService.userAccount$.subscribe(user => {
       this.loadAccommodations(this.accommodationId);
     });
+    this.authService.getCurrentUser().subscribe((userOrNull) =>{
+      this.guestId = userOrNull!.email;
+    });
   }
 
   loadAccommodations(id:number){
@@ -90,13 +93,17 @@ export class DetailsComponent implements OnInit{
         );
   }
   bookITClicked(){
-    alert("clicked")
-    console.log(this.accommodationId)
-    console.log(this.startDate)
-    console.log(this.endDate)
-    this.authService.getCurrentUser().subscribe((userOrNull) =>{
-      this.guestId = userOrNull!.email;
-    });
+    // console.log(this.accommodationId)
+    // console.log(this.startDate)
+    // console.log(this.endDate)
+    // this.authService.getCurrentUser().subscribe((userOrNull) =>{
+    //   console.log("USER: ");
+    //   console.log(userOrNull);
+    //   this.guestId = userOrNull!.email;
+    //   console.log(this.guestId);
+    // });
+    // console.log("PRVO OVO");
+    // console.log(this.guestId);
     const reservation = new Reservation(
         this.accommodationId,
         this.guestId,
@@ -106,6 +113,7 @@ export class DetailsComponent implements OnInit{
         ReservationStatus.PENDING,
         true
     )
+    // console.log("ONDA OVO");
     this.reservationService.createReservation(reservation).subscribe(
         (res:Reservation) => {
             if(res){alert("Reservation successful! ")}
