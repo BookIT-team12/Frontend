@@ -83,7 +83,36 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: left;
+}
+.aaa5{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
+  padding-bottom: 3%;
+}
+.aaaG{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: -3%;
+}
+.aaaD{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: -3%;
+  margin-top: 3%;
+}
+.aaaS{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding-top: 1%;
 }
 .aaa1{
   width: 100%;
@@ -91,7 +120,7 @@
   flex-direction: row;
   justify-content: center;
   bottom: 0;
-  margin-top: 90%;
+  margin-top: 20%;
 }
 .filters-title{
   text-align: center;
@@ -160,15 +189,16 @@ button.mat-button.mat-accent:hover {
 .slider-labels {
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  top: -30px; /* Adjust the vertical position as needed */
   width: 100%;
 }
 
-.slider-label {
-  position: absolute;
-  transform: translateX(-50%);
+.slider-label-left {
   white-space: nowrap;
+  margin-left: -1%;
+}
+.slider-label-right {
+  white-space: nowrap;
+  margin-right: -7%;
 }
 
 .mat-slider-horizontal {
@@ -197,8 +227,7 @@ button.mat-button.mat-accent:hover {
   margin-right: 5px;
 }
 .mat-slider{
-  margin-top: -5px;
-  width: 500px;
+  width: 146px;
 }
 .acc-name{
   color: #080067;
@@ -209,3 +238,9 @@ button.mat-button.mat-accent:hover {
   color: white;
   font-size: 16px;
 }
+.slider-comp{
+  display: flex;
+  flex-direction: row;
+  padding-top: 6%;
+}
+

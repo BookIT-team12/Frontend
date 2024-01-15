@@ -101,6 +101,7 @@ export class AuthService {
 
   getCurrentUser(): Observable<User | null> {
     const accessToken = localStorage.getItem('user');
+    console.log(accessToken);
     if (!accessToken) {
       return of(null);
     }

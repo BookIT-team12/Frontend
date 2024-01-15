@@ -3,7 +3,7 @@
   border-radius: 40px; /* Adjust the border-radius for a smoother look */
   width: 90%; /* Use percentage for responsiveness */
   max-width: 1500px; /* Set a maximum width if needed */
-  margin: 100px auto; /* Center the container horizontally and add top margin */
+  margin: 50px auto; /* Center the container horizontally and add top margin */
   max-height: 1500px;
   padding: 2%;
   background: rgba(109, 142,207,0.82);
@@ -145,12 +145,11 @@
   font-weight: bold; /* Makes the text bold */
   position: relative;
   margin-top: 3%;
-  margin-bottom: -1%;
 }
 .container-reviews{
   display: flex;
   height: 100%; /* Set the height of the container to 100% of the viewport height */
-  flex-direction: row;
+  flex-direction: column;
   position: relative;
   margin-top: 5%;
 }
@@ -166,4 +165,7 @@
   font-size: larger;
   font-weight: bold;
   padding: 3%;
+}
+.star{
+  padding-top: 8px;
 }

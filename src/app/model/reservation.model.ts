@@ -8,29 +8,31 @@ export enum ReservationStatus {
   CANCELED = 'CANCELED',
 }
 export class Reservation {
-  id: number;
+  id?: number;
   accommodationId: number;
-  guestId: string;
+  guestEmail: string;
   startDate: Date;
   endDate: Date;
   numberOfGuests: number;
   status: ReservationStatus;
+  valid: boolean;
 
   constructor(
-    id: number,
     accommodation: number,
     guest: string,
     startDate: Date,
     endDate: Date,
     numberOfGuests: number,
-    status: ReservationStatus
+    status: ReservationStatus,
+    valid: boolean
   ) {
-    this.id = id;
+    this.id = 1;
     this.accommodationId = accommodation;
-    this.guestId = guest;
+    this.guestEmail = guest;
     this.startDate = startDate;
     this.endDate = endDate;
     this.numberOfGuests = numberOfGuests;
     this.status = status;
+    this.valid = valid
   }
 }

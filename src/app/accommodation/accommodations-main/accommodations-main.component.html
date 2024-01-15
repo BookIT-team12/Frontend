@@ -23,9 +23,21 @@
       <h1 class="title">BookIT</h1>
     </h1>
     <div class="filters-container">
-      <div class="aaa"><div class="filters-title"><h2>Filters:</h2></div></div>
+      <div class="aaaD">
+        <span class="material-icons">date_range</span>
+        <mat-form-field>
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="startDate">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="endDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="aaa5"><div class="filters-title"><h2>Filters:</h2></div></div>
       <h1>  </h1>
-      <div class="aaa">
+      <div class="aaaG">
         <span class="material-icons">person</span>
         <h3 class="filters-txt">Guests: </h3>
         <mat-form-field class="example">
@@ -34,61 +46,94 @@
         </mat-form-field>
       </div>
       <div class="aaa">
-        <span class="material-icons">wifi</span>
-        <h3 class="filters-txt">Wi-Fi: </h3>
         <mat-checkbox
           class="example-cb"
           [(ngModel)]="wifi" name="wifi">
         </mat-checkbox>
+        <span class="material-icons">wifi</span>
+        <h3 class="filters-txt">Wi-Fi</h3>
       </div>
       <div class="aaa">
-        <span class="material-icons">local_parking</span>
-        <h3 class="filters-txt">Parking: </h3>
         <mat-checkbox
           class="example-cb"
           [(ngModel)]="parking" name="parking">
         </mat-checkbox>
+        <span class="material-icons">local_parking</span>
+        <h3 class="filters-txt">Parking</h3>
       </div>
       <div class="aaa">
-        <span class="material-icons">ac_unit</span>
-        <h3 class="filters-txt">Air Condition: </h3>
         <mat-checkbox
           class="example-cb"
           [(ngModel)]="ac_unit" name="ac_unit">
         </mat-checkbox>
+        <span class="material-icons">ac_unit</span>
+        <h3 class="filters-txt">Air Condition</h3>
       </div>
       <div class="aaa">
-        <span class="material-icons">date_range</span>
-        <mat-form-field>
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="start">
-            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="end">
-          </mat-date-range-input>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="bath" name="bath">
+        </mat-checkbox>
+        <span class="material-icons">bathtub</span>
+        <h3 class="filters-txt">In-Suite Bathroom</h3>
       </div>
       <div class="aaa">
-        <span class="material-icons">paid</span>
-        <h3 class="filters-txt">Price range: </h3>
-
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="pool" name="pool">
+        </mat-checkbox>
+        <span class="material-icons">pool</span>
+        <h3 class="filters-txt">Pool</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="kitchen" name="kitchen">
+        </mat-checkbox>
+        <span class="material-icons">kitchen</span>
+        <h3 class="filters-txt">Kitchen</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="balcony" name="balcony">
+        </mat-checkbox>
+        <span class="material-icons">balcony</span>
+        <h3 class="filters-txt">Balcony</h3>
+      </div>
+<!--      <div class="aaaD">-->
+<!--        <span class="material-icons">date_range</span>-->
+<!--        <mat-form-field>-->
+<!--          <mat-label>Enter a date range</mat-label>-->
+<!--          <mat-date-range-input [rangePicker]="picker">-->
+<!--            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="start">-->
+<!--            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="end">-->
+<!--          </mat-date-range-input>-->
+<!--          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
+<!--          <mat-date-range-picker #picker></mat-date-range-picker>-->
+<!--        </mat-form-field>-->
+<!--      </div>-->
+      <div class="aaaS">
+        <div class="slider-comp">
+          <span class="material-icons">paid</span>
+          <h3 class="filters-txt">Price range: </h3>
+        </div>
         <!-- Display Min and Max Values Above Slider Ends -->
         <div class="aaaa">
         <div class="slider-labels">
-          <div class="slider-label" *ngIf="minSliderValue !== undefined">{{ minSliderValue }}</div>
-          <div class="slider-label" *ngIf="maxSliderValue !== undefined">{{ maxSliderValue }}</div>
+          <div class="slider-label-left" *ngIf="minSliderValue >= 10">{{ minSliderValue }}$</div>
+          <div class="slider-label-left" *ngIf="minSliderValue < 10">{{ minSliderValue + 1 }}-$</div>
+          <div class="slider-label-right" *ngIf="maxSliderValue <= 200">{{ maxSliderValue }}$</div>
+          <div class="slider-label-right" *ngIf="maxSliderValue > 200">{{ maxSliderValue - 1 }}+$</div>
         </div>
 
         <!-- MatSlider with Display Function -->
-        <mat-slider min="10" max="200" [displayWith]="displayFn" [(ngModel)]="sliderValues">
+        <mat-slider class="mat-slider" min="9" max="201" [displayWith]="displayFn" [(ngModel)]="sliderValues">
           <input matSliderStartThumb [(ngModel)]="minSliderValue" name="min">
           <input matSliderEndThumb [(ngModel)]="maxSliderValue" name="max">
         </mat-slider>
         </div>
       </div>
-
-      <h1></h1>
       <div class="aaa1">
         <button mat-raised-button class="global-darkBtn login-btn" (click)="applyFilters()"> Apply filters </button>
       </div>

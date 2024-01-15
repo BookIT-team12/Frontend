@@ -28,7 +28,7 @@ import {A} from "@angular/cdk/keycodes";
 const routes: Routes=[
   {path: "login", component: LoginComponent},
   {path: "register", component: RegisterComponent},
-  {path: "accommodation_details/:id", component: DetailsComponent},
+  {path: "accommodation_details/:id/:start/:end", component: DetailsComponent},
   {path: "manage", component: UserAccountManagementComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'OWNER', 'GUEST']}},
   {path: "main", component: AccommodationsMainComponent},
   {path: "guest-active-res", component: GuestActiveComponent, canActivate: [AuthGuard], data: {role: ['ADMINISTRATOR', 'GUEST']}},

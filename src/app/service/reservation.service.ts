@@ -39,6 +39,9 @@ export class ReservationService {
 
   createReservation(dto: Reservation): Observable<Reservation> {
     const url = `${this.apiUrl}/reservations`;
+    console.log("DTO:");
+    console.log(dto);
     return this.http.post<Reservation>(url, dto);
   }
+
 }

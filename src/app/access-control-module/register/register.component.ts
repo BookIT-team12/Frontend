@@ -4,6 +4,8 @@ import {Role, User} from "../../model/user.model";
 import {FormBuilder, FormGroup, Validators, AbstractControl} from "@angular/forms";
 import { Router } from '@angular/router';  // Import the Router service
 import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {AuthResponse, AuthService} from "../auth.service";
+import {Login} from "../../model/login.model";
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -25,7 +27,7 @@ export class RegisterComponent {
   isBlocked:boolean=false;
   isReported:boolean=false;
 
-  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, private router:Router) {
+  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, private router:Router, private authService:AuthService) {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -84,7 +86,20 @@ export class RegisterComponent {
           // Handle success, if needed
           console.log('User registered successfully', result);
   //        this.showSnackBar('Registration successful');
-          this.router.navigate(['/main']);
+          const login: Login = {
+            email: newUser.email || "test",
+            password: newUser.password || "test"
+          }
+          this.authService.login(login).subscribe({
+            next: (response: AuthResponse) => {
+              console.log(response)
+              console.log(response.accessToken)
+              localStorage.setItem('user', response.accessToken);
+              this.authService.setUser()
+              this.authService.setUserDetails()
+              this.router.navigate(['main'])
+            }
+          });
         },
         (error) => {
           // Handle error, if needed
