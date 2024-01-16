@@ -15,6 +15,7 @@ export class Reservation {
   endDate: Date;
   numberOfGuests: number;
   status: ReservationStatus;
+  price?: number;
   valid: boolean;
 
   constructor(
@@ -33,6 +34,7 @@ export class Reservation {
     this.endDate = endDate;
     this.numberOfGuests = numberOfGuests;
     this.status = status;
-    this.valid = valid
+    this.price = 0;
+    this.valid = valid;
   }
 }

@@ -25,5 +25,37 @@
     <input type="text" matInput>
   </mat-form-field>
 </div>
-<app-guest-active-card></app-guest-active-card>
-<app-guest-active-card></app-guest-active-card>
+<mat-drawer-content>
+  <mat-grid-list cols="3" rowHeight="3:4">
+    <div *ngIf="reservationDetails.length > 0; else noReservations">
+      <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
+        <div class="card-container">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>{{reservation.accommodationName}}</mat-card-title>
+                <mat-card-subtitle>
+                  <li>Price: {{reservation.price}}</li>
+                  <li>Address: {{reservation.accommodationLocation}}</li>
+                  <li>From: {{reservation.startDate}} To: {{reservation.endDate}}</li>
+                  <li>Status: {{reservation.status.toString()}}</li>
+                </mat-card-subtitle>
+              </mat-card-title-group>
+              <img mat-card-md-image class="picture">
+              <img mat-card-md-image class="picture">
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-raised-button class="global-darkBtn right-btn"> Leave a review </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </mat-grid-list>
+</mat-drawer-content>
+
+<ng-template #noReservations>
+  <div class="grid-container">
+    <h2 class="acc-name">No reservations found. </h2>
+  </div>
+</ng-template>

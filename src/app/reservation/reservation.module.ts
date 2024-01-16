@@ -11,6 +11,8 @@ import {MatCardModule} from "@angular/material/card";
 import { OwnerApprovalComponent } from './owner-approval/owner-approval.component';
 import { OwnerApprovalCardComponent } from './owner-approval-card/owner-approval-card.component';
 import {RouterOutlet} from "@angular/router";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {RouterOutlet} from "@angular/router";
         MatInputModule,
         MatButtonModule,
         MatCardModule,
-        RouterOutlet
+        RouterOutlet,
+        MatGridListModule,
+        MatSidenavModule
     ],
   exports:[
     GuestActiveComponent,
