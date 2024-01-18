@@ -4,7 +4,6 @@ import {AuthService} from "../../access-control-module/auth.service";
 import {Accommodation} from "../../model/accommodation.model";
 import {Role} from "../../model/user.model";
 import {Router} from "@angular/router";
-import { FormsModule } from '@angular/forms';
 import {HttpParams} from "@angular/common/http";
 
 @Component({
@@ -25,6 +24,7 @@ export class AccommodationsMainComponent implements OnInit {
   balcony = false;
   accommodations!: Accommodation[];
   userRole!: Role;
+  searchBar: string = "";
   constructor(private router: Router, private accommodationService: AccommodationService, private authService:AuthService) {
   this.accommodations=[];
   }
@@ -60,6 +60,8 @@ export class AccommodationsMainComponent implements OnInit {
   applyFilters(){
     if(isNaN(this.startDate.getTime()) || isNaN(this.endDate.getTime()) || this.startDate==null || this.endDate==null){
       alert("Please select the dates! ");
+    } else if(this.value == '' || this.value == null){
+      alert("Please select the number of guests! ");
     }
     else {
       let params = new HttpParams();
@@ -73,6 +75,9 @@ export class AccommodationsMainComponent implements OnInit {
 
       if (this.value != '') {
         params = params.set('guests', this.value);
+      }
+      if (this.searchBar != undefined || this.searchBar != "") {
+        params = params.set('searchBar', this.searchBar!);
       }
       if (this.startDate.getDate() != this.endDate.getDate()) {
         params = params.set('startDate', this.startDate.toISOString());
@@ -105,11 +110,13 @@ export class AccommodationsMainComponent implements OnInit {
   bookITClicked(id: number|undefined) {
     if(isNaN(this.startDate.getTime()) || isNaN(this.endDate.getTime()) || this.startDate==null || this.endDate==null){
       alert("Please select the dates! ");
+    } else if(this.value == '' || this.value == null){
+      alert("Please select the number of guests! ");
     }
     else {
       if (id) {
         console.log('ACCOMMODATION ID: ' + id.toString());
-        this.router.navigate(['/accommodation_details/' + id.toString() + "/" + this.startDate.getTime() + "/" + this.endDate.getTime()]);
+        this.router.navigate(['/accommodation_details/' + id.toString() + "/" + this.startDate.getTime() + "/" + this.endDate.getTime() + "/" + this.value]);
       } else {
         alert("id error")
       }

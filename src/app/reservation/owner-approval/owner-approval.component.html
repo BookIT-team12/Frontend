@@ -1,4 +1,20 @@
-<app-navbar></app-navbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
 <router-outlet></router-outlet>
 <h1 class="header">
   <mat-icon class="header-icon">
@@ -6,5 +22,43 @@
   </mat-icon>
   Pending reservations
 </h1>
-<app-owner-approval-card></app-owner-approval-card>
-<app-owner-approval-card></app-owner-approval-card>
+<mat-grid-list cols="3" rowHeight="3:4">
+  <div *ngIf="reservationDetails.length > 0; else noReservations">
+    <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
+      <div class="card-container">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title-group>
+              <mat-card-title>Reservation status: <b>{{reservation.status.toString()}}</b></mat-card-title>
+              <mat-card-subtitle>
+                <h3>{{reservation.accommodationName}}</h3>
+                <li>Price: {{reservation.price}}</li>
+                <li>From: {{reservation.startDate}} To: {{reservation.endDate}}</li>
+                <li>Guest: {{reservation.guestEmail}}</li>
+              </mat-card-subtitle>
+            </mat-card-title-group>
+            <img mat-card-md-image src="assets/hotel-demo.png" class="picture">
+            <img mat-card-md-image src="assets/hotel-demo.png" class="picture">
+            <button mat-icon-button id="add-pictures-btn">
+            </button>
+          </mat-card-header>
+          <div *ngIf="reservation.status === ReservationStatus.PENDING">
+            <mat-card-content>
+              <button mat-raised-button class="global-dangerBtn" (click)="denyReservation(reservation)"> Deny reservation request </button>
+              <button mat-raised-button class="global-darkBtn right-btn" (click)="approveReservation(reservation)"> Approve reservation request </button>
+            </mat-card-content>
+          </div>
+          <div *ngIf="reservation.status != ReservationStatus.PENDING">
+            <div class="not-pending"> </div>
+          </div>
+        </mat-card>
+      </div>
+
+    </ng-container>
+  </div>
+</mat-grid-list>
+<ng-template #noReservations>
+  <div class="grid-container">
+    <h2 class="acc-name">No reservations found. </h2>
+  </div>
+</ng-template>

@@ -1,4 +1,20 @@
-<app-navbar></app-navbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
 <router-outlet></router-outlet>
 <h1 class="header">
   <mat-icon class="header-icon">
@@ -25,7 +41,6 @@
     <input type="text" matInput>
   </mat-form-field>
 </div>
-<mat-drawer-content>
   <mat-grid-list cols="3" rowHeight="3:4">
     <div *ngIf="reservationDetails.length > 0; else noReservations">
       <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
@@ -46,13 +61,13 @@
             </mat-card-header>
             <mat-card-content>
               <button mat-raised-button class="global-darkBtn right-btn"> Leave a review </button>
+              <button mat-raised-button class="global-dangerBtn" (click)="cancelReservation(reservation)"> Cancel reservation </button>
             </mat-card-content>
           </mat-card>
         </div>
       </ng-container>
     </div>
   </mat-grid-list>
-</mat-drawer-content>
 
 <ng-template #noReservations>
   <div class="grid-container">

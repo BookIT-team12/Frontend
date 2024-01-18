@@ -84,6 +84,8 @@
   display: flex;
   flex-direction: row;
   justify-content: left;
+  margin-top: -4px;
+  margin-bottom: -4px;
 }
 .aaa5{
   width: 100%;
@@ -120,7 +122,7 @@
   flex-direction: row;
   justify-content: center;
   bottom: 0;
-  margin-top: 20%;
+  margin-top: 10%;
 }
 .filters-title{
   text-align: center;
@@ -243,4 +245,7 @@ button.mat-button.mat-accent:hover {
   flex-direction: row;
   padding-top: 6%;
 }
-
+.symbols-outlined{
+  padding: 0;
+  margin: 0;
+}

@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {Accommodation, AccommodationType} from "../../model/accommodation.model";
+import {Accommodation, AccommodationType, BookingConfirmationType} from "../../model/accommodation.model";
 import {Reservation, ReservationStatus} from "../../model/reservation.model";
 import {ReservationService} from "../../service/reservation.service";
-import { Role, User } from '../../model/user.model';
-import { ActivatedRoute } from '@angular/router';
-import { AccommodationService } from '../../service/accommodation.service';
-import { AuthService } from '../../access-control-module/auth.service';
-import { Amenity } from '../../model/amenity.model';
-import { FavoriteService } from '../../service/favorite.accommodation.service';
-import { Observable } from 'rxjs';
+import {Role, User} from '../../model/user.model';
+import {ActivatedRoute} from '@angular/router';
+import {AccommodationService} from '../../service/accommodation.service';
+import {AuthService} from '../../access-control-module/auth.service';
+import {Amenity} from '../../model/amenity.model';
+import {FavoriteService} from '../../service/favorite.accommodation.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -26,6 +26,7 @@ export class DetailsComponent implements OnInit {
   avgRating!:number;
   startDate!:Date;
   endDate!:Date;
+  guestsNum:number = 1;
   accommodationType = "";
   wifi= false;
   parking= false;
@@ -41,6 +42,7 @@ export class DetailsComponent implements OnInit {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
     this.startDate = new Date(+(this.route.snapshot.paramMap.get('start') ?? NaN));
     this.endDate = new Date(+(this.route.snapshot.paramMap.get('end') ?? NaN));
+    this.guestsNum = +(this.route.snapshot.paramMap.get('guestsNum') ?? 1);
     this.userRole = this.authService.getRole();
     this.authService.userAccount$.subscribe((user) => {
       this.loadAccommodations(this.accommodationId);
@@ -158,32 +160,40 @@ export class DetailsComponent implements OnInit {
     }
   }
   bookITClicked(){
-    // console.log(this.accommodationId)
-    // console.log(this.startDate)
-    // console.log(this.endDate)
-    // this.authService.getCurrentUser().subscribe((userOrNull) =>{
-    //   console.log("USER: ");
-    //   console.log(userOrNull);
-    //   this.guestId = userOrNull!.email;
-    //   console.log(this.guestId);
-    // });
-    // console.log("PRVO OVO");
-    // console.log(this.guestId);
-    const reservation = new Reservation(
+    if(this.accommodation.bookingConfirmationType == BookingConfirmationType.AUTOMATIC){
+      const reservation = new Reservation(
         this.accommodationId,
         this.guestId,
         this.startDate,
         this.endDate,
-        1,
-        ReservationStatus.PENDING,
-        true
-    )
-    // console.log("ONDA OVO");
-    this.reservationService.createReservation(reservation).subscribe(
-        (res:Reservation) => {
+        this.guestsNum,
+        ReservationStatus.APPROVED,
+        true,
+        0
+        );
+      this.reservationService.createReservation(reservation).subscribe(
+          (res:Reservation) => {
             if(res){alert("Reservation successful! ")}
             else{alert("Reservation unsuccessful! ")}
-        });
+          });
+    }
+    else{
+      const reservation = new Reservation(
+        this.accommodationId,
+        this.guestId,
+        this.startDate,
+        this.endDate,
+        this.guestsNum,
+        ReservationStatus.PENDING,
+        true,
+        0
+        );
+      this.reservationService.createReservation(reservation).subscribe(
+          (res:Reservation) => {
+            if(res){alert("Reservation request sent! ")}
+            else{alert("Reservation unsuccessful! ")}
+          });
+    }
 
   }
 

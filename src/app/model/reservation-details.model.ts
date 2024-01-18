@@ -10,7 +10,7 @@ export class ReservationDetails{
     startDate: Date;
     endDate: Date;
     numberOfGuests: number;
-    price?: number;
+    price: number;
     status: ReservationStatus;
 
     constructor(

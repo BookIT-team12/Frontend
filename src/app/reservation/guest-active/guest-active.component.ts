@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../access-control-module/auth.service";
 import {ReservationService} from "../../service/reservation.service";
-import {Reservation} from "../../model/reservation.model";
+import {Reservation, ReservationStatus} from "../../model/reservation.model";
 import {AccommodationService} from "../../service/accommodation.service";
 import {ReservationDetails} from "../../model/reservation-details.model";
+import {Role} from "../../model/user.model";
 
 @Component({
   selector: 'app-guest-active',
@@ -13,6 +14,7 @@ import {ReservationDetails} from "../../model/reservation-details.model";
 export class GuestActiveComponent implements OnInit {
   reservations: Reservation[]=[];
   reservationDetails: ReservationDetails[]=[];
+  userRole?: Role;
   constructor(private reservationService: ReservationService, private authService:AuthService, private accommodationService: AccommodationService) {
   }
 
@@ -20,6 +22,7 @@ export class GuestActiveComponent implements OnInit {
     this.authService.userAccount$.subscribe(user => {
       if (user) {
         this.loadReservations(user.email);
+        this.userRole = user.role;
       }
     });
   }
@@ -41,4 +44,19 @@ export class GuestActiveComponent implements OnInit {
         }
     )
   }
+  cancelReservation(dto: ReservationDetails){
+    const reservation: Reservation = new Reservation(dto.accommodationId, dto.guestEmail, dto.startDate, dto.endDate, dto.numberOfGuests, ReservationStatus.CANCELED, true, dto.price);
+    this.reservationService.updateReservation(reservation).subscribe(
+        (data) =>
+        {
+          if(reservation.valid){
+            alert("Deny successful! ")
+
+          } else {
+            alert("Deny unsuccessful! :( ")
+          }
+        }
+    );
+  }
+  protected readonly Role = Role;
 }
