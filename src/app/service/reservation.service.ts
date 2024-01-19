@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Reservation} from "../model/reservation.model";
 import {ReservationDetails} from "../model/reservation-details.model";
@@ -73,5 +73,9 @@ export class ReservationService {
     console.log("DTO:");
     console.log(dto);
     return this.http.put<Reservation>(url, dto);
+  }
+  searchReservations(params:HttpParams): Observable<any> {
+    const url = `${this.apiUrl}/reservations/search`;
+    return this.http.get<Reservation[]>(url, {params});
   }
 }

@@ -56,7 +56,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
       startDate: [null, [Validators.required, validationService.startBeforeToday()]],
       price: [0, [Validators.min(1)]],
       reviews: [],
-      reservations: []
+      reservations: [],
+      cancelAllow: [0, [Validators.min(0)]]
     }, {validators: [validationService.minMaxGuestsValidator(), validationService.startBeforeEndValidatior()]})
 
     this.amenitiesService.setCheckedAmenities(this.amenities)
@@ -116,6 +117,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
           new AvailabilityPeriod(this.accommodationForm.value.startDate, this.accommodationForm.value.endDate,
               this.accommodationForm.value.price)
         ],
+        cancelAllow: this.accommodationForm.value.cancelAllow
       };
 
       // Convert accommodationData to Accommodation
@@ -133,7 +135,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
           accommodationData.availabilityPeriods,
           AccommodationStatus.PENDING,
           this.map.getSelectedLocation(),
-        false
+        false,
+          accommodationData.cancelAllow
       );
 
       this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);

@@ -46,17 +46,19 @@ export class GuestActiveComponent implements OnInit {
   }
   cancelReservation(dto: ReservationDetails){
     const reservation: Reservation = new Reservation(dto.accommodationId, dto.guestEmail, dto.startDate, dto.endDate, dto.numberOfGuests, ReservationStatus.CANCELED, true, dto.price);
-    this.reservationService.updateReservation(reservation).subscribe(
+    reservation.id = dto.id;
+    this.reservationService.cancelReservation(reservation).subscribe(
         (data) =>
         {
-          if(reservation.valid){
-            alert("Deny successful! ")
+          if(data.valid){
+            alert("Cancel successful! ")
 
           } else {
-            alert("Deny unsuccessful! :( ")
+            alert("Cancel unsuccessful! :( ")
           }
         }
     );
   }
   protected readonly Role = Role;
+  protected readonly ReservationStatus = ReservationStatus;
 }

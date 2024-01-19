@@ -61,7 +61,7 @@
             </mat-card-header>
             <mat-card-content>
               <button mat-raised-button class="global-darkBtn right-btn"> Leave a review </button>
-              <button mat-raised-button class="global-dangerBtn" (click)="cancelReservation(reservation)"> Cancel reservation </button>
+                <button mat-raised-button class="global-dangerBtn" (click)="cancelReservation(reservation)" *ngIf="reservation.status != ReservationStatus.CANCELED && reservation.status != ReservationStatus.REJECTED"> Cancel reservation </button>
             </mat-card-content>
           </mat-card>
         </div>
