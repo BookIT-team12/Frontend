@@ -55,7 +55,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
       bookingConfirmationType: [null, [Validators.required]],
       endDate: [null, [Validators.required]],
       startDate: [null, [Validators.required, validationService.startBeforeToday()]],
-      price: [0, [Validators.min(1)]],
+      price: [null, [Validators.min(1)]],
       reviews: [],
       reservations: [],
       cancelAllow: [0, [Validators.min(0)]],

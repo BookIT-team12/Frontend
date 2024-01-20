@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Reservation} from "../model/reservation.model";
 import {ReservationDetails} from "../model/reservation-details.model";
+import {AvailabilityPeriodService} from "./availability-period.service";
+import {AvailabilityPeriod} from "../model/availability-period.model";
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +28,10 @@ export class ReservationService {
   getGuestReservations(email: string): Observable<Reservation[]> {
     const url = `${this.apiUrl}/reservations/guest/${email}`;
     return this.http.get<Reservation[]>(url);
+  }
+  areThereReservationsInPeriod(periodToCheck: AvailabilityPeriod, accommodationId: number): Observable<Boolean> {
+    const url = `${this.apiUrl}/reservations/canChangePeriod/${accommodationId}`;
+    return this.http.post<Boolean>(url, periodToCheck);
   }
 
   getOwnerReservations(email: string): Observable<Reservation[]> {

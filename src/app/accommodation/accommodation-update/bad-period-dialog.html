@@ -1,0 +1,11 @@
+<h1 mat-dialog-title  style="margin-bottom: 3%; color: red">
+    <mat-icon matIconPrefix>
+        <span class="material-symbols-outlined">error</span>
+    </mat-icon>
+    More errors to correct: </h1>
+<div style="margin: 1%">
+    <li *ngFor="let err of textToDisplay">{{err}}</li>
+</div>
+<div mat-dialog-actions>
+    <button style="color:  white; background-color: rgba(8,0,103,1);" mat-button mat-dialog-close>Close</button>
+</div>

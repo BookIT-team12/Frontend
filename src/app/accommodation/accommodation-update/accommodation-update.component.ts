@@ -19,6 +19,15 @@ import {ImagesService} from "../../service/images.service";
 import {AmenitiesService} from "../../service/amenities.service";
 import {Amenity} from "../../model/amenity.model";
 import {MatRadioChange} from "@angular/material/radio";
+import {AccommodationValidationService} from "../../service/accommodation.validation.service";
+import {DialogElementsExampleDialog} from "../accommodation-management/accommodation-management.component";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
+import {NgForOf} from "@angular/common";
+import {MatIconModule} from "@angular/material/icon";
+import {MatInputModule} from "@angular/material/input";
+import {ReservationService} from "../../service/reservation.service";
+import {B} from "@angular/cdk/keycodes";
 
 
 // TODO: VALIDACIJE(ZA OVO MI TREBA I REZERVACIJA!!!!)
@@ -44,7 +53,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
   constructor(private accommodationService: AccommodationService, private fb: FormBuilder, private route: ActivatedRoute,
               private cdr:ChangeDetectorRef, private periodService: AvailabilityPeriodService, private map: MapService,
-              private imageService: ImagesService, private amenitiesService: AmenitiesService, private router: Router) {
+              private imageService: ImagesService, private amenitiesService: AmenitiesService, private router: Router,
+              private validationService: AccommodationValidationService, public dialog: MatDialog,
+              private reservationService: ReservationService) {
 
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
@@ -62,13 +73,13 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.accommodationForm = this.fb.group({
             name: ['', [Validators.required]],
             maxGuests: [0, [Validators.required]],
-            minGuests: [0, [Validators.required]],
-            description: ['', [Validators.required]],
-            accommodationType: ['', [Validators.required]],
-            bookingConfirmationType: ['', [Validators.required]],
-            endDate: undefined,
-            startDate: undefined,
-            price: 0,
+            minGuests: [0, [Validators.min(1)]],
+            description: ['', [Validators.maxLength(200)]],
+            accommodationType: [null, [Validators.required]],
+            bookingConfirmationType: [null, [Validators.required]],
+            endDate: [null],
+            startDate: [null],
+            price: [null],
             parking: false,
             wifi: false,
             airConditioning: false,
@@ -76,9 +87,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
             bathroom: false,
             pool: false,
             balcony: false,
-            cancelAllow: [0, [Validators.required]],
+            cancelAllow: [0, [Validators.min(0)]],
             priceByHead: true
-        });
+        }, {validators: [validationService.minMaxGuestsValidator(), validationService.startBeforeEndValidatior()]});
   }
 
   ngOnInit(): void {
@@ -142,37 +153,61 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.accommodationForm.patchValue({
           endDate: null,
           startDate: null,
-          price: 0
+          price: null
       })
   }
-  onSelectedPeriodChangeGUI(event: any){
+  async onSelectedPeriodChangeGUI(event: any){
       let newSelectedPeriod = event.value;
       if (newSelectedPeriod === 'none'){  //znaci dodajemo nov period
           this.addingNewPeriod = true;
           this.onSelectingNoneGUI()
       } else {  //menjamo postojeci
-          this.addingNewPeriod = false;
-          this.onSelectingPeriodGUI(newSelectedPeriod);
+          let canSelect: Boolean | undefined = await this.reservationService.areThereReservationsInPeriod(newSelectedPeriod, this.accommodationId).toPromise();
+          console.log("CAN SEELCT",canSelect)
+          if (canSelect){
+              this.addingNewPeriod = false;
+              this.onSelectingPeriodGUI(newSelectedPeriod);
+          } else {
+              alert("THERE ARE RESERVATIONS FOR THIS PERIOD SO IT IS UNSELECTABLE!")
+          }
       }
   }
   onAddingPeriod(){
+    this.periodService.checkUpdatingAvailabilityPeriod(this.accommodationForm.value.startDate,
+      this.accommodationForm.value.endDate, this.accommodationForm.value.price)
+      if (this.periodService.isAvailabilityPeriodBad()){
+          this.openPeriodErrorDialog();
+          this.periodService.emptyMapOut();
+          return;
+      }
     let isAdded = this.periodService.addPeriod(this.accommodationForm.value.startDate,
       this.accommodationForm.value.endDate, this.accommodationForm.value.price)
     if (isAdded){
       this.resetPeriodsGUI();
       this.cdr.detectChanges();
     } else {
-      alert("Vec postoji period koji pokriva ovo vreme!!")
+      this.periodService.setOverlappingPeriods();
+      this.openPeriodErrorDialog();
+      this.periodService.emptyMapOut();
     }
   }
   onChangingPeriod(selectedPeriod: any){
+      this.periodService.checkUpdatingAvailabilityPeriod(this.accommodationForm.value.startDate,
+          this.accommodationForm.value.endDate, this.accommodationForm.value.price)
+      if (this.periodService.isAvailabilityPeriodBad()){
+          this.openPeriodErrorDialog();
+          this.periodService.emptyMapOut();
+          return;
+      }
     let isChanged = this.periodService.changePeriod(selectedPeriod, this.accommodationForm.value.startDate,
       this.accommodationForm.value.endDate, this.accommodationForm.value.price, selectedPeriod.id);
     if (isChanged) {
       this.resetPeriodsGUI()
       this.cdr.detectChanges()
     } else {
-      alert("Vec postoji period koji pokriva ovo vreme!!!")
+        this.periodService.setOverlappingPeriods();
+        this.openPeriodErrorDialog()
+        this.periodService.emptyMapOut();
     }
   }
   onDeletingPeriod(selectedPeriod:any){
@@ -186,7 +221,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
       this.accommodationForm.patchValue({
           startDate: null,
           endDate: null,
-          price: 0
+          price: null
       })
       this.cdr.detectChanges();
   }
@@ -207,35 +242,57 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.cdr.detectChanges();
   }
 
-  onSubmit(): void {
-    const updatedAccommodation = new Accommodation(
-        this.accommodation.ownerEmail,
-        this.accommodationForm.value.accommodationType,
-        this.accommodationForm.value.description,
-        this.accommodationForm.value.name,
-        this.accommodationForm.value.minGuests,
-        this.accommodationForm.value.maxGuests,
-        this.checkedAmenities,
-        this.accommodation.reviews,
-        this.accommodation.reservations,
-        this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
-        this.availabilityPeriods,
-        AccommodationStatus.PENDING,
-        this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id),
-      false,
-        this.accommodationForm.value.cancelAllow,
-        this.accommodationForm.value.priceByHead
-      );
-      this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
-      this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
-        (result) => {
-          console.log('Accommodation updated successfully', result);
-          this.router.navigate(["/main"])
-        },
-        (error) => {
-          console.error('Error updating accommodation', error);
+    openErrorDialog(){
+        this.validationService.setListOfErrors(this.accommodationForm.errors, this.checkedAmenities, this.map.getSelectedLocation(), this.imageFiles);
+        if (this.validationService.shouldOpenDialog()) {
+            this.dialog.open(DialogElementsExampleDialog);
         }
-      );
+    }
+
+    openPeriodErrorDialog(){
+      this.dialog.open(BadPeriodDialog);
+    }
+
+  onSubmit(): void {
+      if(this.checkedAmenities.length === 0 || this.imageFiles.length === 0 || this.map.getSelectedLocation() === this.map.undefinedBasicLocation){
+          this.openErrorDialog();   //these arent form fields, and that i why i need to check em here, cause they wont raise an error by themselves
+          return;
+      }
+      if (this.accommodationForm.valid) {
+          const updatedAccommodation = new Accommodation(
+              this.accommodation.ownerEmail,
+              this.accommodationForm.value.accommodationType,
+              this.accommodationForm.value.description,
+              this.accommodationForm.value.name,
+              this.accommodationForm.value.minGuests,
+              this.accommodationForm.value.maxGuests,
+              this.checkedAmenities,
+              this.accommodation.reviews,
+              this.accommodation.reservations,
+              this.accommodationForm.value.bookingConfirmationType as BookingConfirmationType,
+              this.availabilityPeriods,
+              AccommodationStatus.PENDING,
+              this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id),
+              false,
+              this.accommodationForm.value.cancelAllow,
+              this.accommodationForm.value.priceByHead
+          );
+          this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
+          this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
+              (result) => {
+                  console.log('Accommodation updated successfully', result);
+                  console.log(updatedAccommodation)
+                  this.router.navigate(["/main"])
+              },
+              (error) => {
+                  console.error('Error updating accommodation', error);
+              }
+          );
+      } else {
+          console.error("INVALID FORM")
+          console.log("Form errors:", this.accommodationForm.errors)
+          this.openErrorDialog();
+      }
   }
   protected readonly startWith = startWith;
 
@@ -253,3 +310,36 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
   }
 
 }
+
+@Component({
+    selector: 'bad-period-dialog',
+    templateUrl: 'bad-period-dialog.html',
+    standalone: true,
+    imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
+})
+export class BadPeriodDialog {
+    mapOfErrorsToDisplay: Map<string, boolean|undefined>;
+    textToDisplay: string[] = [];
+    endBeforeStartTxt = "End date cant be set before start date";
+    priceNotPositiveTxt = "Price must be higher than 0";
+    startDateInPastTxt = "Start date cannot be in the past";
+    overlappingPeriodsTxt = "There is period that already covers these dates";
+
+    constructor(private service: AvailabilityPeriodService) {
+        this.mapOfErrorsToDisplay = this.service.getErrorsForDialog();
+        if (this.mapOfErrorsToDisplay.get('endBeforeStart') === true){
+            this.textToDisplay.push(this.endBeforeStartTxt);
+        }
+        if (this.mapOfErrorsToDisplay.get('priceNotPositive')){
+            this.textToDisplay.push(this.priceNotPositiveTxt);
+        }
+        if (this.mapOfErrorsToDisplay.get('startDateInPast')){
+            this.textToDisplay.push(this.startDateInPastTxt);
+        }
+        if (this.mapOfErrorsToDisplay.get('overlappingPeriods')){
+            this.textToDisplay.push(this.overlappingPeriodsTxt);
+        }
+    }
+
+}
+
