@@ -77,7 +77,12 @@ export class RegisterComponent {
       // this.Role.ADMINISTRATOR, //
         this.confirmPassword,
         this.isReported,
-        this.isBlocked
+        this.isBlocked,
+      true,
+      true,
+      true,
+      true,
+      true
     );
     console.log('User: ', newUser)
 
