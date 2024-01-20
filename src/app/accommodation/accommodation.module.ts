@@ -30,6 +30,7 @@ import { OwnersAccommodationsComponent } from './owners-accommodations/owners-ac
 import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
 import { AccommodationFavoritesComponent } from './accommodation-favorites/accommodation-favorites.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 
 @NgModule({
@@ -68,6 +69,7 @@ import { AccommodationFavoritesComponent } from './accommodation-favorites/accom
         RouterOutlet,
         MatListModule,
         MatDialogModule,
+        MatRadioModule,
 
     ],
   exports: [

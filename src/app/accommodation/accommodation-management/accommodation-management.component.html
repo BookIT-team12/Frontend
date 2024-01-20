@@ -145,6 +145,13 @@
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
 
+      <h2>Define pricing policy</h2>
+
+      <mat-radio-group aria-label="Select an option" (change)="onPricingPolicyChange($event)">
+        <mat-radio-button value="priceByHead" checked="true">Price by guest</mat-radio-button>
+        <mat-radio-button value="priceByDay">Price by night spent</mat-radio-button>
+      </mat-radio-group>
+
 
       <app-map></app-map>
     </div>

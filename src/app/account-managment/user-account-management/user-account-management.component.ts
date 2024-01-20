@@ -101,7 +101,12 @@ export class UserAccountManagementComponent implements OnInit {
         email: this.user?.email || '',
         role:this.user?.role || Role.GUEST,
         isBlocked:false,
-        isReported:false
+        isReported:false,
+        ownerAnswerNotification: true,
+        gradedMyAccommodationNotification: true,
+        gradedMeNotification: true,
+        resCanceledNotification:true,
+        resCreatedNotification:true
       };
 
       this.userService.updateUser(updatedUser).subscribe(

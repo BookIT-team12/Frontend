@@ -25,6 +25,7 @@ import {NgForOf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {Router} from "@angular/router";
+import {MatRadioChange} from "@angular/material/radio";
 
 @Component({
   selector: 'app-accommodation-management',
@@ -57,7 +58,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
       price: [0, [Validators.min(1)]],
       reviews: [],
       reservations: [],
-      cancelAllow: [0, [Validators.min(0)]]
+      cancelAllow: [0, [Validators.min(0)]],
+      priceByHead: false
     }, {validators: [validationService.minMaxGuestsValidator(), validationService.startBeforeEndValidatior()]})
 
     this.amenitiesService.setCheckedAmenities(this.amenities)
@@ -117,7 +119,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
           new AvailabilityPeriod(this.accommodationForm.value.startDate, this.accommodationForm.value.endDate,
               this.accommodationForm.value.price)
         ],
-        cancelAllow: this.accommodationForm.value.cancelAllow
+        cancelAllow: this.accommodationForm.value.cancelAllow,
+        priceByHead: this.accommodationForm.value.priceByHead
       };
 
       // Convert accommodationData to Accommodation
@@ -136,7 +139,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
           AccommodationStatus.PENDING,
           this.map.getSelectedLocation(),
         false,
-          accommodationData.cancelAllow
+          accommodationData.cancelAllow,
+          accommodationData.priceByHead
       );
 
       this.periodService.patchUpHourTimezoneProblem(newAccommodation.availabilityPeriods);
@@ -159,6 +163,10 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.map.InitAfterViewCreation()
+  }
+
+  onPricingPolicyChange($event: MatRadioChange) {
+    this.accommodationForm.value.priceByHead = this.accommodationForm.value.priceByHead !== true;
   }
 }
 
