@@ -23,6 +23,13 @@
       <h1 class="title">BookIT</h1>
     </h1>
     <div class="filters-container">
+        <mat-form-field>
+          <mat-label>Search by name</mat-label>
+          <mat-icon matIconPrefix class="symbols-outlined">
+            <span class="material-symbols-outlined">search</span>
+          </mat-icon>
+          <input type="text" matInput [(ngModel)]="searchBar" name="search">
+        </mat-form-field>
       <div class="aaaD">
         <span class="material-icons">date_range</span>
         <mat-form-field>
@@ -101,18 +108,7 @@
         <span class="material-icons">balcony</span>
         <h3 class="filters-txt">Balcony</h3>
       </div>
-<!--      <div class="aaaD">-->
-<!--        <span class="material-icons">date_range</span>-->
-<!--        <mat-form-field>-->
-<!--          <mat-label>Enter a date range</mat-label>-->
-<!--          <mat-date-range-input [rangePicker]="picker">-->
-<!--            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="start">-->
-<!--            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="end">-->
-<!--          </mat-date-range-input>-->
-<!--          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--          <mat-date-range-picker #picker></mat-date-range-picker>-->
-<!--        </mat-form-field>-->
-<!--      </div>-->
+
       <div class="aaaS">
         <div class="slider-comp">
           <span class="material-icons">paid</span>
@@ -145,7 +141,7 @@
         <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
           <div class="grid-container">
             <h2 class="acc-name">Name: {{ accommodation.name }}</h2>
-            <p class="acc-desc">• Description: {{ accommodation.description}}</p>
+            <p class="acc-desc">• Location: {{ accommodation.location.address}}</p>
             <p class="acc-desc">• Type: {{ accommodation.accommodationType }}</p>
             <p class="acc-desc">• Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
                 <!-- Add more details as needed -->

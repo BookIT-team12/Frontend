@@ -31,6 +31,12 @@
         <mat-error>Minimal price is 1</mat-error>
       </mat-form-field>
 
+      <!-- Allow Cancel -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">free_cancellation</mat-icon>Allowed Number of Days to Cancel Before Reservation</mat-label>
+        <input matInput type="number" placeholder="Enter number of days" formControlName="cancelAllow" required>
+        <mat-error>Minimal price is 0</mat-error>
+      </mat-form-field>
 
       <!-- Detailed Description -->
       <mat-form-field class="global-icon-color">
@@ -138,6 +144,13 @@
         <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
         <mat-datepicker #toDatePicker></mat-datepicker>
       </mat-form-field>
+
+      <h2>Define pricing policy</h2>
+
+      <mat-radio-group aria-label="Select an option" (change)="onPricingPolicyChange($event)">
+        <mat-radio-button value="priceByHead" checked="true">Price by guest</mat-radio-button>
+        <mat-radio-button value="priceByDay">Price by night spent</mat-radio-button>
+      </mat-radio-group>
 
 
       <app-map></app-map>

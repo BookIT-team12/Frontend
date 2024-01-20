@@ -19,7 +19,7 @@
       <span class="material-icons">edit</span> Manage account
     </button>
 
-    <button mat-menu-item type="button"><span class="material-icons">hotel</span>Trips and reservations</button>
+    <button mat-menu-item type="button" (click)="menuItemClicked('reservations')"><span class="material-icons">hotel</span>Trips and reservations</button>
 
     <button type="button" mat-menu-item (click)="menuItemClicked('places-visited')"><span class="material-icons">star</span>Reviews</button>
 

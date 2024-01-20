@@ -20,7 +20,11 @@
         <input matInput type="number" placeholder="Enter number of guests" name="guests" formControlName="maxGuests" required>
       </mat-form-field>
 
-
+      <!-- Allow Cancel -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">free_cancellation</mat-icon>Allowed Number of Days to Cancel Before Reservation</mat-label>
+        <input matInput type="number" placeholder="Enter number of days" name="cancelAllow" formControlName="cancelAllow" required>
+      </mat-form-field>
 
 
       <!-- Detailed Description -->
@@ -122,6 +126,13 @@
       </mat-form-field>
 
       <button mat-raised-button (click)="onDeletingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-dangerBtn save-changes-btn" type="button">Delete period</button>
+
+      <h2>Define pricing policy</h2>
+
+      <mat-radio-group aria-label="Select an option" (change)="onPricingPolicyChange($event)">
+        <mat-radio-button value="priceByHead" [checked] = !accommodationForm?.value.priceByHead>Price by guest</mat-radio-button>
+        <mat-radio-button value="priceByDay" [checked] = accommodationForm?.value.priceByHead>Price by night spent</mat-radio-button>
+      </mat-radio-group>
 
       <div>
         <input type="file" (change)="this.onFileSelected($event)" multiple />

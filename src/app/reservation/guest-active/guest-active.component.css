@@ -19,3 +19,44 @@
   margin: 0 2% 0 4%;
 }
 
+.card-container{
+  margin: 2%;
+}
+mat-card{
+  background-color: rgba(109, 142,207,0.74);
+}
+mat-card-title{
+  color: rgba(8,0,103,1);
+}
+
+li{
+  color: rgba(8,0,103,1);
+}
+button{
+  margin: 0.2%;
+  width: 23em;
+  border-radius: 20px;
+}
+
+.picture{
+  margin-right: 2%;
+  margin-top: 2%;
+}
+
+#add-pictures-btn{
+  margin-top: 4.5%;
+}
+.grid-container{
+  background: rgba(125, 155, 232,0.85);
+  margin: 3%;
+  padding: 3%;
+  border-radius: 25px;
+  min-height: 80%;
+  min-width: 70%;
+  overflow: hidden;
+}
+.acc-name{
+  color: #080067;
+  font-size: 24px;
+  font-weight: bold;
+}

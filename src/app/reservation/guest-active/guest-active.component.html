@@ -1,4 +1,20 @@
-<app-navbar></app-navbar>
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
 <router-outlet></router-outlet>
 <h1 class="header">
   <mat-icon class="header-icon">
@@ -25,5 +41,36 @@
     <input type="text" matInput>
   </mat-form-field>
 </div>
-<app-guest-active-card></app-guest-active-card>
-<app-guest-active-card></app-guest-active-card>
+  <mat-grid-list cols="3" rowHeight="3:4">
+    <div *ngIf="reservationDetails.length > 0; else noReservations">
+      <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
+        <div class="card-container">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>{{reservation.accommodationName}}</mat-card-title>
+                <mat-card-subtitle>
+                  <li>Price: {{reservation.price}}</li>
+                  <li>Address: {{reservation.accommodationLocation}}</li>
+                  <li>From: {{reservation.startDate}} To: {{reservation.endDate}}</li>
+                  <li>Status: {{reservation.status.toString()}}</li>
+                </mat-card-subtitle>
+              </mat-card-title-group>
+              <img mat-card-md-image class="picture">
+              <img mat-card-md-image class="picture">
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-raised-button class="global-darkBtn right-btn"> Leave a review </button>
+                <button mat-raised-button class="global-dangerBtn" (click)="cancelReservation(reservation)" *ngIf="reservation.status != ReservationStatus.CANCELED && reservation.status != ReservationStatus.REJECTED"> Cancel reservation </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </mat-grid-list>
+
+<ng-template #noReservations>
+  <div class="grid-container">
+    <h2 class="acc-name">No reservations found. </h2>
+  </div>
+</ng-template>

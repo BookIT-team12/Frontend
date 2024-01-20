@@ -18,6 +18,7 @@ import {MapService} from "../../service/map.service";
 import {ImagesService} from "../../service/images.service";
 import {AmenitiesService} from "../../service/amenities.service";
 import {Amenity} from "../../model/amenity.model";
+import {MatRadioChange} from "@angular/material/radio";
 
 
 // TODO: VALIDACIJE(ZA OVO MI TREBA I REZERVACIJA!!!!)
@@ -47,7 +48,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
 
       this.accommodation = new Accommodation("", AccommodationType.STUDIO, "","",0,
           0,[], [], [], BookingConfirmationType.AUTOMATIC, [],
-          AccommodationStatus.APPROVED, map.undefinedBasicLocation, false);
+          AccommodationStatus.APPROVED, map.undefinedBasicLocation, false, 0, true);
       //this exists just so i dont get error when scanning ngFor for availability periods in html
       //cause here accommodation is null and raises err, so i make it empty and then on ngInit i create it
 
@@ -74,7 +75,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
             kitchen: false,
             bathroom: false,
             pool: false,
-            balcony: false
+            balcony: false,
+            cancelAllow: [0, [Validators.required]],
+            priceByHead: true
         });
   }
 
@@ -87,7 +90,7 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.accommodation = new Accommodation(pair.first.ownerEmail, pair.first.accommodationType, pair.first.description,
             pair.first.name, pair.first.minGuests, pair.first.maxGuests, pair.first.amenities, pair.first.reviews,
             pair.first.reservations, pair.first.bookingConfirmationType, pair.first.availabilityPeriods, pair.first.status,
-            pair.first.location, pair.first.isFavorite)
+            pair.first.location, pair.first.isFavorite, pair.first.cancelAllow, pair.first.priceByHead)
 
         this.accommodationForm.patchValue({
             name: this.accommodation.name,
@@ -102,7 +105,9 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
             kitchen: this.accommodation.containsAmenity(4),
             bathroom: this.accommodation.containsAmenity(5),
             pool: this.accommodation.containsAmenity(6),
-            balcony: this.accommodation.containsAmenity(7)
+            balcony: this.accommodation.containsAmenity(7),
+            cancelAllow: this.accommodation.cancelAllow,
+            priceByHead: this.accommodation.priceByHead
         });
 
         this.imageStrings = pair.second;
@@ -217,9 +222,10 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
         this.availabilityPeriods,
         AccommodationStatus.PENDING,
         this.accommodationLocation = this.map.updateLocation(this.accommodationLocation.id),
-      false
+      false,
+        this.accommodationForm.value.cancelAllow,
+        this.accommodationForm.value.priceByHead
       );
-
       this.periodService.patchUpHourTimezoneProblem(updatedAccommodation.availabilityPeriods);
       this.accommodationService.updateAccommodation(updatedAccommodation, this.imageFiles, this.accommodationId).subscribe(
         (result) => {
@@ -236,4 +242,14 @@ export class AccommodationUpdateComponent implements OnInit, AfterViewInit{
   ngAfterViewInit(): void {
       this.map.InitAfterViewCreation();
   }
+
+  onPricingPolicyChange($event: MatRadioChange) {
+    if (this.accommodationForm.value.priceByHead){
+      this.accommodationForm.value.priceByHead = false;
+    }
+    else {
+      this.accommodationForm.value.priceByHead = true;
+    }
+  }
+
 }

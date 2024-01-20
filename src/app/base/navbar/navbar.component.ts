@@ -50,6 +50,9 @@ export class NavbarComponent implements OnInit {
       case 'owner-reporting':
         this.router.navigate(['/user-reporting']);
         break;
+      case 'reservations':
+        this.router.navigate(['/guest-active-res']);
+        break;
       default:
         break;
     }

@@ -16,6 +16,11 @@ export class User {
   confirmPassword:string;
   isReported:boolean;
   isBlocked:boolean;
+  resCreatedNotification: boolean;
+  resCanceledNotification: boolean;
+  gradedMeNotification:boolean;
+  gradedMyAccommodationNotification: boolean;
+  ownerAnswerNotification:boolean;
 
   constructor(
     name: string,
@@ -27,7 +32,12 @@ export class User {
     role: Role,
     confirm:string,
     isReported:boolean,
-    isBlocked:boolean
+    isBlocked:boolean,
+    resCreatedNotification: boolean,
+    resCanceledNotification: boolean,
+    gradedMeNotification:boolean,
+    gradedMyAccommodationNotification: boolean,
+    ownerAnswerNotification:boolean
   ) {
     this.name = name;
     this.lastName = lastName;
@@ -39,5 +49,10 @@ export class User {
     this.confirmPassword=confirm;
     this.isReported=isReported;
     this.isBlocked=isBlocked;
+    this.resCreatedNotification = resCreatedNotification;
+    this.resCanceledNotification = resCanceledNotification;
+    this.gradedMeNotification = gradedMeNotification;
+    this.gradedMyAccommodationNotification = gradedMyAccommodationNotification;
+    this.ownerAnswerNotification = ownerAnswerNotification;
   }
 }
