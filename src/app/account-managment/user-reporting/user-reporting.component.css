@@ -71,3 +71,18 @@
 .update-button:hover {
   background-color: rgba(2, 19, 72, 0.81);
 }
+
+.report-container {
+  display: flex;
+  align-items: center;
+}
+
+.report-container input {
+  padding: 10px;
+  margin-left: 5px;
+  width: 420px;
+  height: 15px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}

@@ -23,9 +23,16 @@
 <!--          <p> Report status: {{user.isReported.valueOf()}}</p>-->
 
         </div>
+
+        <div class="report-container">
+          <input type="text" placeholder="Enter reporting reason" [(ngModel)]="reportReason" />
+        </div>
+
+
       </div>
       <div class="right-part">
         <button class="update-button" (click)="reportUser(user.email)">Report User</button>
+
       </div>
     </div>
   </ng-container>
