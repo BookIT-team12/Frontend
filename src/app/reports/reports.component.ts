@@ -15,7 +15,7 @@ declare var Jaspersoft: any; // Declare JasperReports JavaScript API
 export class ReportsComponent implements OnInit {
   reportContent: any;
   reportForm!: FormGroup;
-  accommodations: any[] = []; // Replace 'any' with the actual type of your accommodation model
+  accommodations: any[] = [];
   jasperReportUrl: string | null = null;
   user!:User | null;
   ownerID!:string;
@@ -87,11 +87,16 @@ export class ReportsComponent implements OnInit {
     const reportType = this.reportForm.get('reportType')?.value;
     const parameters = {
       ownerID:this.ownerID,
-      startPeriodDate: this.formatDate(this.reportForm.get('startPeriodDate')?.value),
-      endPeriodDate: this.formatDate(this.reportForm.get('endPeriodDate')?.value),
+      startPeriodDate: this.reportForm.get('startPeriodDate')?.value,
+      endPeriodDate: this.reportForm.get('endPeriodDate')?.value,
       year: this.reportForm.get('year')?.value,
       selectedAccommodation: this.reportForm.get('selectedAccommodation')?.value,
     };
+
+    if (parameters.startPeriodDate && parameters.endPeriodDate) {
+      parameters.startPeriodDate = this.formatDate(parameters.startPeriodDate);
+      parameters.endPeriodDate = this.formatDate(parameters.endPeriodDate);
+    }
 
     if(this.reportForm.get('reportType')?.value === 'reservation'){
     this.reportService.generateReservationReport(parameters.ownerID, parameters.startPeriodDate, parameters.endPeriodDate)
@@ -103,6 +108,22 @@ export class ReportsComponent implements OnInit {
       );}
     else if(this.reportForm.get('reportType')?.value === 'accommodation'){
 
+      this.reportService.generateMonthlyIncomeForAccommodationReport(parameters.ownerID, parameters.selectedAccommodation, parameters.year)
+        .subscribe((data) => {
+            this.reportContent = this.sanitizer.bypassSecurityTrustResourceUrl(
+              URL.createObjectURL(data)
+            );
+          }
+        );
+
+    }else if(this.reportForm.get('reportType')?.value === 'totalOwnersProfit'){
+      this.reportService.generateTotalOwnersProfitReport(parameters.ownerID)
+        .subscribe((data) => {
+            this.reportContent = this.sanitizer.bypassSecurityTrustResourceUrl(
+              URL.createObjectURL(data)
+            );
+          }
+        );
     }
 
   }
@@ -111,6 +132,8 @@ export class ReportsComponent implements OnInit {
     // Format the date to ISO 8601 format
     return date.toISOString().split('T')[0];
   }
+
+
 
 }
 
