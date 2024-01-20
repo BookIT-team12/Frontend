@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Accommodation, AccommodationType, BookingConfirmationType} from "../../model/accommodation.model";
 import {Reservation, ReservationStatus} from "../../model/reservation.model";
+import {CustomNotification} from "../../model/notification.model";
 import {ReservationService} from "../../service/reservation.service";
 import {Role, User} from '../../model/user.model';
 import {ActivatedRoute} from '@angular/router';
@@ -9,6 +10,7 @@ import {AuthService} from '../../access-control-module/auth.service';
 import {Amenity} from '../../model/amenity.model';
 import {FavoriteService} from '../../service/favorite.accommodation.service';
 import {Observable} from 'rxjs';
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-details',
@@ -36,7 +38,7 @@ export class DetailsComponent implements OnInit {
   ac_unit= false;
   kitchen= false;
   constructor(private accommodationService: AccommodationService, private authService:AuthService, private route: ActivatedRoute, private reservationService:ReservationService,
-      private favoriteService: FavoriteService) {this.isFavorite$ = new Observable<boolean>();}
+      private favoriteService: FavoriteService, private notificationService: NotificationService) {this.isFavorite$ = new Observable<boolean>();}
 
   ngOnInit(): void {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
@@ -190,7 +192,19 @@ export class DetailsComponent implements OnInit {
         );
       this.reservationService.createReservation(reservation).subscribe(
           (res:Reservation) => {
-            if(res){alert("Reservation request sent! ")}
+            if(res){
+              alert("Reservation request sent! ")
+              const message: string = "Reservation request has been sent. Accommodation: " + this.accommodation.name;
+              const notification: CustomNotification = new CustomNotification(
+                  this.guestId,
+                  message
+              );
+              this.notificationService.createNotification(notification).subscribe(
+                  (data:CustomNotification) => {
+                  if(data){console.log("Notification sent! ");}
+                  else{console.log("Error sending notification! ");}
+              });
+            }
             else{alert("Reservation unsuccessful! ")}
           });
     }
