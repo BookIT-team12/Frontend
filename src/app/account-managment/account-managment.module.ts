@@ -10,6 +10,8 @@ import {MatInputModule} from "@angular/material/input";
 import {MatCardModule} from '@angular/material/card';
 import { UserReportingComponent } from './user-reporting/user-reporting.component';
 import { UserBlockingComponent } from './user-blocking/user-blocking.component';
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 
 
@@ -19,19 +21,21 @@ import { UserBlockingComponent } from './user-blocking/user-blocking.component';
     UserReportingComponent,
     UserBlockingComponent
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    BaseModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatCardModule,
-    NgOptimizedImage,
-    ReactiveFormsModule
+    imports: [
+        CommonModule,
+        FormsModule,
+        MatButtonModule,
+        BaseModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatCardModule,
+        NgOptimizedImage,
+        ReactiveFormsModule,
+        MatGridListModule,
+        MatCheckboxModule
 
-  ], exports: [
+    ], exports: [
     UserAccountManagementComponent
   ]
 })

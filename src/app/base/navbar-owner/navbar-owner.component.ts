@@ -62,10 +62,13 @@ export class NavbarOwnerComponent implements OnInit {
         this.router.navigate(['/user-reporting']);
         break;
       case 'apartments-report':
-        this.router.navigate(['apartments-report']);
+        this.router.navigate(['/apartments-report']);
         break;
       case 'owner-report':
-        this.router.navigate(['owner-report']);
+        this.router.navigate(['/owner-report']);
+        break;
+      case 'notifications':
+        this.router.navigate(['/notifications']);
         break;
       default:
           break;

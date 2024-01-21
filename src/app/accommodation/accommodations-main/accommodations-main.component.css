@@ -42,6 +42,7 @@
 .mat-grid-tile {
   background: rgba(0,0,0,0);
   height: 10px;
+
 }
 .mat-drawer-content{
   margin-left: 300px;
@@ -62,6 +63,7 @@
   min-height: 80%;
   min-width: 70%;
   overflow: hidden;
+  width: 25%;
 }
 .background-container{
   position: fixed;
@@ -248,4 +250,13 @@ button.mat-button.mat-accent:hover {
 .symbols-outlined{
   padding: 0;
   margin: 0;
+}
+.accommodation-image{
+  max-height: 22vh;
+  width: 100%;
+  border-radius: 18px;
+}
+mat-grid-tile{
+  min-height: 30px;
+  max-height: 30px;
 }

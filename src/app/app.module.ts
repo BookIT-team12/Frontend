@@ -25,6 +25,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {RouterModule} from "@angular/router";
+import {NotificationModule} from "./notification/notification.module";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,8 +58,8 @@ import {RouterModule} from "@angular/router";
     ReactiveFormsModule,
     MatSelectModule,
     MatDatepickerModule,
-    RouterModule
-
+    RouterModule,
+    NotificationModule
   ],
   providers: [
     {

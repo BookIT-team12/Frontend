@@ -1,0 +1,53 @@
+.header {
+    font-size: 3em;
+    color: rgba(8,0,103,1);
+    text-align: center;
+    margin-top: 6%;
+    font-weight: bold;
+    position: relative;
+}
+.header-icon {
+    padding: 2.5%;
+    font-size: 88%;
+}
+.header-div{
+    width: 30%;
+    background-color: rgba(125, 155, 232,0.85);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    padding: 0.3%;
+    padding-bottom: 1%;
+}
+.grid-container{
+    background: rgba(125, 155, 232,0.85);
+    margin: 3%;
+    padding: 3%;
+    border-radius: 25px;
+    min-height: 80%;
+    min-width: 70%;
+    overflow: hidden;
+}
+.acc-name{
+    color: #080067;
+    font-size: 24px;
+    font-weight: bold;
+}
+.notifications{
+    padding-top: 2%;
+    margin: -1%;
+}
+mat-card{
+    margin-top: -2%;
+    background-color: transparent;
+    box-shadow: none;
+}
+mat-card-title{
+    color: rgba(8,0,103,1);
+}
+
+li{
+    color: rgba(8,0,103,1);
+}

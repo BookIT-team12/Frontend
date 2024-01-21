@@ -107,6 +107,33 @@
         </mat-label>
         <input matInput formControlName="address">
       </mat-form-field>
+      <div class="notifications-container">
+        <ng-container *ngIf="userRole == Role.OWNER">
+          <div class="notifications-column">
+            <mat-checkbox class="global-icon-color" formControlName="resCreatedNotification">
+              <div class="notifications-text">Reservation request notification</div>
+            </mat-checkbox>
+            <mat-checkbox class="global-icon-color" formControlName="resCanceledNotification">
+              <div class="notifications-text">Reservation cancel notification</div>
+            </mat-checkbox>
+          </div>
+          <div class="notifications-column">
+            <mat-checkbox class="global-icon-color" formControlName="gradedMeNotification">
+              <div class="notifications-text">Review account notification</div>
+            </mat-checkbox>
+            <mat-checkbox class="global-icon-color" formControlName="gradedMyAccommodationNotification">
+              <div class="notifications-text">Review accommodation notification</div>
+            </mat-checkbox>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="userRole == Role.GUEST">
+          <div class="notifications-column">
+              <mat-checkbox class="global-icon-color" formControlName="ownerAnswerNotification">
+                <div class="notifications-text">Reservation request notification</div>
+              </mat-checkbox>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 

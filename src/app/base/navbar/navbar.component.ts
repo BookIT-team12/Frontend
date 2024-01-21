@@ -53,6 +53,9 @@ export class NavbarComponent implements OnInit {
       case 'reservations':
         this.router.navigate(['/guest-active-res']);
         break;
+      case 'notifications':
+        this.router.navigate(['/notifications']);
+        break;
       default:
         break;
     }

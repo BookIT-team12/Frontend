@@ -31,7 +31,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatDialogModule} from "@angular/material/dialog";
 import { AccommodationFavoritesComponent } from './accommodation-favorites/accommodation-favorites.component';
 import {MatRadioModule} from "@angular/material/radio";
-
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,7 @@ import {MatRadioModule} from "@angular/material/radio";
         MatListModule,
         MatDialogModule,
         MatRadioModule,
-
+        FlexLayoutModule
     ],
   exports: [
     DetailsComponent,

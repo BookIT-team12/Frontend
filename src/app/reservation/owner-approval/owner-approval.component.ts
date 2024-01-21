@@ -5,6 +5,10 @@ import {ReservationService} from "../../service/reservation.service";
 import {AuthService} from "../../access-control-module/auth.service";
 import {AccommodationService} from "../../service/accommodation.service";
 import {Role} from "../../model/user.model";
+import {CustomNotification} from "../../model/notification.model";
+import {NotificationService} from "../../service/notification.service";
+import {UserService} from "../../service/user.service";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-owner-approval',
@@ -15,7 +19,12 @@ export class OwnerApprovalComponent implements OnInit{
   reservations: Reservation[]=[];
   reservationDetails: ReservationDetails[]=[];
   userRole?: Role;
-  constructor(private reservationService: ReservationService, private authService:AuthService, private accommodationService: AccommodationService) {
+  status: string = "";
+  searchBar: string = "";
+  currentUser?: string;
+  constructor(private reservationService: ReservationService, private authService:AuthService,
+              private accommodationService: AccommodationService, private notificationService: NotificationService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -23,6 +32,7 @@ export class OwnerApprovalComponent implements OnInit{
       if (user) {
         this.loadReservations(user.email);
         this.userRole = user.role;
+        this.currentUser = user.email;
       }
     });
   }
@@ -34,7 +44,7 @@ export class OwnerApprovalComponent implements OnInit{
           for(const res of data){
             this.accommodationService.getAccommodationById(res.accommodationId).subscribe(accommodation =>{
               if(accommodation){
-                this.reservationDetails.push(new ReservationDetails(res, accommodation.first.name, accommodation.first.location.address));
+                this.reservationDetails.push(new ReservationDetails(res, accommodation.first.name, accommodation.first.location.address, accommodation.first.ownerEmail));
               }
             });
           }
@@ -53,6 +63,18 @@ export class OwnerApprovalComponent implements OnInit{
         (data) =>
         {
           if(reservation.valid){
+            const message: string = "Reservation request has been rejected for the accommodation: " + dto.accommodationName +
+                ". From: " + dto.startDate.toString().substring(8, 10) + "-" + dto.startDate.toString().substring(5, 7) + "-"  + dto.startDate.toString().substring(0, 4) +
+                " To: " + dto.endDate.toString().substring(8, 10) + "-"  + dto.endDate.toString().substring(5, 7) + "-"  + dto.endDate.toString().substring(0, 4);
+            const notification: CustomNotification = new CustomNotification(
+                dto.guestEmail,
+                message
+            );
+            this.notificationService.createNotification(notification).subscribe(
+                (data:CustomNotification) => {
+                  if(data){console.log("Notification sent! ");}
+                  else{console.log("Error sending notification! ");}
+                });
             alert("Deny successful! ")
 
           } else {
@@ -68,13 +90,45 @@ export class OwnerApprovalComponent implements OnInit{
         (data) =>
         {
           if(reservation.valid){
+            const message: string = "Reservation request has been approved for the accommodation: " + dto.accommodationName +
+                ". From: " + dto.startDate.toString().substring(8, 10) + "-" + dto.startDate.toString().substring(5, 7) + "-"  + dto.startDate.toString().substring(0, 4) +
+                " To: " + dto.endDate.toString().substring(8, 10) + "-"  + dto.endDate.toString().substring(5, 7) + "-"  + dto.endDate.toString().substring(0, 4);
+            const notification: CustomNotification = new CustomNotification(
+                dto.guestEmail,
+                message
+            );
+            this.notificationService.createNotification(notification).subscribe(
+                (data:CustomNotification) => {
+                  if(data){console.log("Notification sent! ");}
+                  else{console.log("Error sending notification! ");}
+                });
             alert("Approve successful! ")
-
           } else {
             alert("Approve unsuccessful! :( ")
           }
         }
     );
+  }
+  applyFilters(){
+    let params = new HttpParams();
+    console.log(this.searchBar);
+    console.log(this.status);
+    params = params.set('searchBar', this.searchBar);
+    params = params.set('status', this.status)
+    this.reservationService.searchReservations(params).subscribe(
+        (data) => {
+          console.log(data.length);
+          this.reservations = data;
+          this.reservationDetails = []
+          for(const res of data){
+            this.accommodationService.getAccommodationById(res.accommodationId).subscribe(accommodation =>{
+              if(accommodation && accommodation.first.ownerEmail==this.currentUser){
+                this.reservationDetails.push(new ReservationDetails(res, accommodation.first.name, accommodation.first.location.address, accommodation.first.ownerEmail));
+              }
+            });
+          }
+        }
+    )
   }
   protected readonly Role = Role;
   protected readonly ReservationStatus = ReservationStatus;

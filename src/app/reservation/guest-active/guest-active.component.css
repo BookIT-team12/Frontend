@@ -4,15 +4,28 @@
   text-align: center;
   margin-top: 3%;
   font-weight: bold;
+  position: relative;
 }
 .header-icon {
-  padding: 0.5%;
+  padding: 2.6%;
   font-size: 88%;
+}
+.header-div{
+  width: 30%;
+  background-color: rgba(125, 155, 232,0.85);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 25px;
+  padding: 0.3%;
+  padding-bottom: 1%;
 }
 
 .navigation-div{
   display: inline-block;
   width: 100%;
+  margin-top: 5%;
 }
 
 .reservation-status-form{
@@ -59,4 +72,9 @@ button{
   color: #080067;
   font-size: 24px;
   font-weight: bold;
+}
+.search-button{
+  margin-left: 2%;
+  width: 200px;
+  margin-bottom: 2%;
 }

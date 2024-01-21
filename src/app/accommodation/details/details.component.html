@@ -20,10 +20,7 @@
   <div class="container">
     <div class="half">
       <div class="picture_container">
-        <div class="main_picture"><img src="./assets/hotel-demo.png" alt="Slika"></div>
-        <div class="sidebar_pictures">
-          TESTT
-        </div>
+        <div class="main_picture"><img mat-card-md-image [src]="getUrl(imagesHeaderFilesRoot[0]!)" alt="Not implemented [src] yet" /></div>
       </div>
       <div class="container1">
         <h1 class="acc-header">WHAT THIS PLACE HAS TO OFFER</h1>
@@ -66,12 +63,11 @@
         <button mat-raised-button (click)="bookITClicked()" class="global-darkBtn login-btn"> BOOKIT </button>
       </div>
       <div class="container-reviews">
-        <div class="review"><span class="material-icons star">star</span><h1 class="review">{{accommodation.reviews.length}} REVIEWS •  {{avgRating}}</h1></div>
-        <div *ngIf="accommodation.reviews.length > 0">
-          <ng-container *ngFor="let review of accommodation.reviews; let isFirst = first">
-            <div class="grid-container">
-              {{review.authorEmail}}
-              {{review.text}}
+        <div class="review"><span class="material-icons star">star</span><h1 class="review">{{reviews.length}} REVIEWS •  {{avgRating}}</h1></div>
+        <div *ngIf="reviews.length > 0; else noReviews">
+          <ng-container *ngFor="let review of reviews">
+            <div>
+              <ul class="list"><li class="list-item">Rating: {{review.rating}},     Review: {{review.text}}</li></ul>
             </div>
           </ng-container>
         </div>
