@@ -64,8 +64,8 @@
       </div>
       <div class="container-reviews">
         <div class="review"><span class="material-icons star">star</span><h1 class="review">{{reviews.length}} REVIEWS •  {{avgRating}}</h1></div>
-        <div *ngIf="reviews.length > 0">
-          <ng-container *ngFor="let review of reviews; let isFirst = first">
+        <div *ngIf="reviews.length > 0; else noReviews">
+          <ng-container *ngFor="let review of reviews">
             <div>
               <ul class="list"><li class="list-item">Rating: {{review.rating}},     Review: {{review.text}}</li></ul>
             </div>
