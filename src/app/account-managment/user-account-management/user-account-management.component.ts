@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../service/user.service";
-import {Role, User} from "../../model/user.model";
+import {Role, User, UserStatus} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
 
 @Component({
@@ -106,7 +106,8 @@ export class UserAccountManagementComponent implements OnInit {
         gradedMyAccommodationNotification: true,
         gradedMeNotification: true,
         resCanceledNotification:true,
-        resCreatedNotification:true
+        resCreatedNotification:true,
+        status: UserStatus.APPROVED
       };
 
       this.userService.updateUser(updatedUser).subscribe(

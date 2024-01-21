@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {AuthResponse, AuthService} from "../auth.service";
 import {Login} from "../../model/login.model";
 import {Role} from "../../model/user.model";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,6 @@ export class LoginComponent {
 
 
   userRole: string = Role.UNKNOWN;
-
 
   constructor(private authService: AuthService,
               private router: Router) {
@@ -33,15 +33,22 @@ export class LoginComponent {
         password: this.loginForm.value.password || "test"
       }
 
-      this.userRole = this.authService.getRole();
+      this.userRole = this.authService.getRole(); //nepotrebna linija?
 
       this.authService.login(login).subscribe({
 
         next: (response: AuthResponse) => {
-          localStorage.setItem('user', response.accessToken);
-          this.authService.setUser()
-          this.authService.setUserDetails()
-          this.router.navigate(['main'])
+          if (!response) {
+            alert("Account not verified yet!!!");
+          } else {
+            localStorage.setItem('user', response.accessToken);
+            this.authService.setUser();
+            this.authService.setUserDetails();
+            this.router.navigate(['main']);
+          }
+        },
+        error: (error) => {
+          alert('Bad credentials or account not verified yet');
         }
       })
     }
