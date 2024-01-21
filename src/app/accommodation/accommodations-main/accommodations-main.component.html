@@ -137,20 +137,21 @@
   </mat-drawer>
   <mat-drawer-content>
     <mat-grid-list cols="3" rowHeight="4:5">
-      <ng-container *ngIf="accommodations.length > 0; else noAccommodations">
-        <mat-grid-tile *ngFor="let accommodation of accommodations; let isFirst = first">
-<!--          <mat-grid-tile-header>-->
+      <ng-container *ngIf="accommodationsShow.size > 0; else noAccommodations">
+        <mat-grid-tile *ngFor="let accommodation of accommodationsShow; let isFirst = first">
+<!--          <mat-card-header>-->
 <!--            <mat-card-title-group>-->
-<!--              <img mat-card-md-image [src]="getUrl(accommodation[2]!)" alt="Not implemented [src] yet" />-->
+<!--              <img class="accommodation-image" mat-card-md-image [src]="getUrl(accommodation[1]!)" alt="Not implemented [src] yet" />-->
 <!--            </mat-card-title-group>-->
-<!--          </mat-grid-tile-header>-->
+<!--          </mat-card-header>-->
           <div class="grid-container">
-            <h2 class="acc-name">Name: {{ accommodation.name }}</h2>
-            <p class="acc-desc">• Location: {{ accommodation.location.address}}</p>
-            <p class="acc-desc">• Type: {{ accommodation.accommodationType }}</p>
-            <p class="acc-desc">• Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
+            <img class="accommodation-image" mat-card-md-image [src]="getUrl(accommodation[1]!)" alt="Not implemented [src] yet" />
+            <h2 class="acc-name">Name: {{ accommodation[0].name }}</h2>
+            <p class="acc-desc">• Location: {{ accommodation[0].location.address}}</p>
+            <p class="acc-desc">• Type: {{ accommodation[0].accommodationType }}</p>
+            <p class="acc-desc">• Booking Confirmation Type: {{ accommodation[0].bookingConfirmationType }}</p>
             <!-- Add more details as needed -->
-            <button mat-raised-button (click)="bookITClicked(accommodation.id)" class="global-darkBtn login-btn"> Book IT </button>
+            <button mat-raised-button (click)="bookITClicked(accommodation[0].id)" class="global-darkBtn login-btn"> Book IT </button>
           </div>
         </mat-grid-tile>
       </ng-container>
