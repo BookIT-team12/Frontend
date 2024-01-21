@@ -13,6 +13,7 @@ import { OwnerApprovalCardComponent } from './owner-approval-card/owner-approval
 import {RouterOutlet} from "@angular/router";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
         MatCardModule,
         RouterOutlet,
         MatGridListModule,
-        MatSidenavModule
+        MatSidenavModule,
+        FormsModule
     ],
   exports:[
     GuestActiveComponent,

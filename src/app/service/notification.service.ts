@@ -15,6 +15,8 @@ export class NotificationService {
         return this.http.get<CustomNotification[]>(url);
     }
     createNotification(dto: CustomNotification) {
+        console.log("NOTIFICATION:");
+        console.log(dto);
         return this.http.post<CustomNotification>(this.apiUrl, dto);
     }
 }

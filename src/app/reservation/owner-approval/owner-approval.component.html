@@ -17,12 +17,34 @@
 </div>
 <router-outlet></router-outlet>
 <h1 class="header">
-  <mat-icon class="header-icon">
-    <span class="material-symbols-outlined">edit_calendar</span>
-  </mat-icon>
-  Pending reservations
+  <div class="header-div">
+    <mat-icon class="header-icon">
+      <span class="material-symbols-outlined">edit_calendar</span>
+    </mat-icon>
+    Reservations
+  </div>
 </h1>
-<mat-grid-list cols="3" rowHeight="3:4">
+<div class="navigation-div">
+  <mat-form-field class="reservation-status-form">
+    <mat-label>Reservation status</mat-label>
+    <select matNativeControl [(ngModel)]="status">
+      <option value="" selected></option>
+      <option value="CANCELED">Canceled</option>
+      <option value="APPROVED">Approved</option>
+      <option value="PENDING">Pending</option>
+      <option value="REJECTED">Denied</option>
+    </select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Search by name</mat-label>
+    <mat-icon matIconPrefix>
+      <span class="material-symbols-outlined">search</span>
+    </mat-icon>
+    <input type="text" matInput [(ngModel)]="searchBar">
+  </mat-form-field>
+  <button mat-raised-button class="global-darkBtn search-button" (click)="applyFilters()"> Search </button>
+</div>
+<mat-grid-list cols="3" rowHeight="3:4" class="notifications">
   <div *ngIf="reservationDetails.length > 0; else noReservations">
     <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
       <div class="card-container">
@@ -37,10 +59,6 @@
                 <li>Guest: {{reservation.guestEmail}}</li>
               </mat-card-subtitle>
             </mat-card-title-group>
-            <img mat-card-md-image src="assets/hotel-demo.png" class="picture">
-            <img mat-card-md-image src="assets/hotel-demo.png" class="picture">
-            <button mat-icon-button id="add-pictures-btn">
-            </button>
           </mat-card-header>
           <div *ngIf="reservation.status === ReservationStatus.PENDING">
             <mat-card-content>

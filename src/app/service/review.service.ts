@@ -58,5 +58,9 @@ export class ReviewService{
     const url = `${this.apiUrl}/owner/toApprove`;
     return this.http.get<Review[]>(url);
   }
+  getAllReviewAccommodation(id:number){
+    const url = `${this.apiUrl}/accommodations/${id}`;
+    return this.http.get<Review[]>(url);
+  }
 }
 

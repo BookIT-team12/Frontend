@@ -58,3 +58,24 @@
   margin-top: 12%;
   margin-left: 6%;
 }
+
+.notifications-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notifications-column {
+  width: 50%; /* Adjust the width as needed */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px; /* Adjust the spacing between columns */
+}
+
+.notifications-text{
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.mat-checkbox {
+  margin-bottom: 5px; /* Adjust the spacing between checkboxes */
+}

@@ -6,6 +6,7 @@ export class ReservationDetails{
     accommodationId: number;
     accommodationName: string;
     accommodationLocation: string;
+    accommodationOwner: string;
     guestEmail: string;
     startDate: Date;
     endDate: Date;
@@ -16,7 +17,8 @@ export class ReservationDetails{
     constructor(
         reservation: Reservation,
         accommodationName: string,
-        accommodationLocation: string
+        accommodationLocation: string,
+        accommodationOwner: string
     ) {
         this.id = reservation.id;
         this.accommodationId = reservation.accommodationId;
@@ -28,6 +30,7 @@ export class ReservationDetails{
         this.status = reservation.status;
         this.accommodationName = accommodationName;
         this.accommodationLocation = accommodationLocation;
+        this.accommodationOwner = accommodationOwner;
     }
 }
 

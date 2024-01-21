@@ -10,6 +10,8 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
+import {NotificationService} from "../../service/notification.service";
+import {CustomNotification} from "../../model/notification.model";
 
 @Component({
   selector: 'app-owner-review',
@@ -26,7 +28,7 @@ export class OwnerReviewComponent implements OnInit{
   textComment;
   constructor(private route: ActivatedRoute, private user: UserService, private auth: AuthService,
               private review: ReviewService, public dialog: MatDialog,
-              private router: Router) {
+              private router: Router, private notificationService: NotificationService) {
     this.owner = undefined
     this.author = null
     this.averageGrade = 0;
@@ -109,6 +111,16 @@ export class OwnerReviewComponent implements OnInit{
     let toSubmit = new Review(null, this.owner?.email, null, this.textComment,
         this.author?.email, new Date(), rating, ReviewStatus.PENDING);
     this.review.createReview(toSubmit).subscribe(value => {
+      const message: string = "You have been reviewed by: " + this.author!.email;
+      const notification: CustomNotification = new CustomNotification(
+          this.owner!.email,
+          message
+      );
+      this.notificationService.createNotification(notification).subscribe(
+          (data:CustomNotification) => {
+            if(data){console.log("Notification sent! ");}
+            else{console.log("Error sending notification! ");}
+          });
       this.router.navigate(["/main"])
     })
   }

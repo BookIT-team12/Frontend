@@ -5,6 +5,7 @@ import {Accommodation} from "../../model/accommodation.model";
 import {Role} from "../../model/user.model";
 import {Router} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
+import {ImagesService} from "../../service/images.service";
 
 @Component({
   selector: 'app-accommodations-main',
@@ -25,7 +26,9 @@ export class AccommodationsMainComponent implements OnInit {
   accommodations!: Accommodation[];
   userRole!: Role;
   searchBar: string = "";
-  constructor(private router: Router, private accommodationService: AccommodationService, private authService:AuthService) {
+  accommodationsShow!: Set<[Accommodation,File|undefined]>;
+  constructor(private router: Router, private accommodationService: AccommodationService,
+              private authService:AuthService, private imagesService: ImagesService) {
   this.accommodations=[];
   }
   minSliderValue = 10;
@@ -45,17 +48,31 @@ export class AccommodationsMainComponent implements OnInit {
     });
   }
 
+  getUrl(file:File){
+    return this.imagesService.getUrl(file)
+  }
+
   loadAccommodations(){
     this.accommodationService.getAllAccommodations().subscribe(
       (data)=>
       {
         this.accommodations=data;
+        for(const accommodation of this.accommodations){
+          const addressParts: string[] = accommodation.location.address.split(",");
+          const location: string = addressParts[1] + " " + addressParts[0] + ", " + addressParts[4] + ", " + addressParts[addressParts.length-1];
+          accommodation.location.address = location;
+          this.accommodationService.getAccommodationById(accommodation.id!).subscribe(
+              (accommodationResponse) => {
+
+              }
+          )
+        }
         console.log("Accommodations")
       },
       (error)=>{
         console.error('Error loading accommodations: ', error)
       }
-    )
+    );
   }
   applyFilters(){
     if(isNaN(this.startDate.getTime()) || isNaN(this.endDate.getTime()) || this.startDate==null || this.endDate==null){

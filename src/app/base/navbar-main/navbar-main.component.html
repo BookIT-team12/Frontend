@@ -20,7 +20,7 @@
 
     <button type="button" mat-menu-item (click)="menuItemClicked('places-visited')"><span class="material-icons">star</span>Reviews</button>
 
-    <button mat-menu-item type="button"><span class="material-icons">forum</span>Notifications</button>
+    <button mat-menu-item type="button" (click)="menuItemClicked('notifications')"><span class="material-icons">forum</span>Notifications</button>
     <button mat-menu-item type="button" (click)="menuItemClicked('owner-reporting')"><span class="material-icons">person</span>Report an owner</button>
     <button mat-menu-item type="button"  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
 
