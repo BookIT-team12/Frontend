@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {Role, User} from "../../model/user.model";
-import {FormBuilder, FormGroup, Validators, AbstractControl} from "@angular/forms";
-import { Router } from '@angular/router';  // Import the Router service
-import {MatSnackBar, MatSnackBarConfig} from '@angular/material/snack-bar';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router'; // Import the Router service
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {AuthResponse, AuthService} from "../auth.service";
 import {Login} from "../../model/login.model";
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -66,24 +67,46 @@ export class RegisterComponent {
 /*
     if (this.form.valid) {
 */
-    const newUser = new User(
-        this.name,
-        this.lastName,
-        this.email,
-        this.password,
-        this.address,
-        this.phone,
-        this.selectedRole as Role,  // Set the selected role
-      // this.Role.ADMINISTRATOR, //
-        this.confirmPassword,
-        this.isReported,
-        this.isBlocked,
-      true,
-      true,
-      true,
-      true,
-      true
-    );
+      let newUser: User;
+      if ((this.selectedRole as Role) === Role.GUEST){
+          newUser = new User(
+              this.name,
+              this.lastName,
+              this.email,
+              this.password,
+              this.address,
+              this.phone,
+              this.selectedRole as Role,  // Set the selected role
+              // this.Role.ADMINISTRATOR, //
+              this.confirmPassword,
+              this.isReported,
+              this.isBlocked,
+              false,
+              false,
+              false,
+              false,
+              true
+          );
+      } else {  //it will be owner then
+          newUser = new User(
+              this.name,
+              this.lastName,
+              this.email,
+              this.password,
+              this.address,
+              this.phone,
+              this.selectedRole as Role,  // Set the selected role
+              // this.Role.ADMINISTRATOR, //
+              this.confirmPassword,
+              this.isReported,
+              this.isBlocked,
+              true,
+              true,
+              true,
+              true,
+              false
+          );
+      }
     console.log('User: ', newUser)
 
     this.userService.registerUser(newUser).subscribe(

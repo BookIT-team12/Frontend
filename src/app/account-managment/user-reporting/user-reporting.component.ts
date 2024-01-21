@@ -13,16 +13,22 @@ export class UserReportingComponent implements OnInit {
   users: User[] = [];
   userRole: Role | undefined;
   reporterID: string | null = null;
+  reportReason: string = ''; // Add this line
+
+
+
 
   constructor(private authService: AuthService, private userService: UserService) { }
 
   ngOnInit(): void {
+
     this.userRole = this.authService.getRole();
 
     this.authService.getCurrentUser().subscribe(user => {
       if (user) {
         // Assuming user ID is in the 'email' field, replace it with the correct field
         this.reporterID = user.email;
+        this.reportReason='';
         this.getReportableUsers();
       }
     });

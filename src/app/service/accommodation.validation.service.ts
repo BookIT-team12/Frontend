@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {AbstractControl, FormGroup, ValidationErrors, ValidatorFn} from "@angular/forms";
-import {min} from "rxjs";
+import {min, of} from "rxjs";
 import {Amenity} from "../model/amenity.model";
 import {AccommodationLocation} from "../model/location.model";
 import {MapService} from "./map.service";
@@ -21,7 +21,6 @@ export class AccommodationValidationService {
     this.errGroup.set('noLocation', location === this.map.undefinedBasicLocation)
     this.errGroup.set('noImages', images.length === 0)
   }
-
   shouldOpenDialog(){
     return this.errGroup.size != 0;
   }
@@ -29,7 +28,6 @@ export class AccommodationValidationService {
   getErrorsForDialog(){
     return this.errGroup;
   }
-
 
   minMaxGuestsValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -62,4 +60,5 @@ export class AccommodationValidationService {
       return null;
     }
   }
+
 }
