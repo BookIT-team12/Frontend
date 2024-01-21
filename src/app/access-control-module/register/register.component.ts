@@ -113,28 +113,32 @@ export class RegisterComponent {
         (result) => {
           // Handle success, if needed
           console.log('User registered successfully', result);
-  //        this.showSnackBar('Registration successful');
-          const login: Login = {
-            email: newUser.email || "test",
-            password: newUser.password || "test"
-          }
-          this.authService.login(login).subscribe({
-            next: (response: AuthResponse) => {
-              console.log(response)
-              console.log(response.accessToken)
-              localStorage.setItem('user', response.accessToken);
-              this.authService.setUser()
-              this.authService.setUserDetails()
-              this.router.navigate(['main'])
-            }
-          });
-        },
-        (error) => {
-          // Handle error, if needed
- //         this.showSnackBar('Error registering user');
-          console.error('Error registering user', error);
+          this.router.navigate(['/main'])
         }
+  //        this.showSnackBar('Registration successful');
+ //          const login: Login = {
+ //            email: newUser.email || "test",
+ //            password: newUser.password || "test"
+ //          }
+ //          this.authService.login(login).subscribe({
+ //            next: (response: AuthResponse) => {
+ //              console.log(response)
+ //              console.log(response.accessToken)
+ //              localStorage.setItem('user', response.accessToken);
+ //              this.authService.setUser()
+ //              this.authService.setUserDetails()
+ //              this.router.navigate(['main'])
+ //            }
+ //          });
+ //        },
+ //        (error) => {
+ //          // Handle error, if needed
+ // //         this.showSnackBar('Error registering user');
+ //          console.error('Error registering user', error);
+ //        }
     );
+
+
 
 /*
   }
