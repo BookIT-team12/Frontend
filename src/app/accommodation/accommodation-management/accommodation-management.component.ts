@@ -172,8 +172,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
 
 @Component({
-  selector: 'dialog-elements-example-dialog',
-  templateUrl: 'dialog-elements-example-dialog.html',
+  selector: 'bad-accommodation-form-dialog',
+  templateUrl: 'bad-accommodation-form-dialog.html',
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
 })
