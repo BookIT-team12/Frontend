@@ -55,7 +55,7 @@ export class AccommodationManagementComponent implements AfterViewInit {
       bookingConfirmationType: [null, [Validators.required]],
       endDate: [null, [Validators.required]],
       startDate: [null, [Validators.required, validationService.startBeforeToday()]],
-      price: [0, [Validators.min(1)]],
+      price: [null, [Validators.min(1)]],
       reviews: [],
       reservations: [],
       cancelAllow: [0, [Validators.min(0)]],
@@ -172,8 +172,8 @@ export class AccommodationManagementComponent implements AfterViewInit {
 
 
 @Component({
-  selector: 'dialog-elements-example-dialog',
-  templateUrl: 'dialog-elements-example-dialog.html',
+  selector: 'bad-accommodation-form-dialog',
+  templateUrl: 'bad-accommodation-form-dialog.html',
   standalone: true,
   imports: [MatButtonModule, MatDialogModule, NgForOf, MatIconModule, MatInputModule],
 })

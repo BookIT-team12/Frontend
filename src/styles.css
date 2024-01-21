@@ -67,5 +67,8 @@ body {
     margin: 2%;
   }
 }
-
+  .custom-dialog-content {
+    overflow: hidden; /* Ensure content within the dialog does not overflow rounded corners */
+    background-color: rgba(109, 142,207,0.74);
+  }
 }

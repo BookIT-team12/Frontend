@@ -9,6 +9,7 @@ import {coerceStringArray} from "@angular/cdk/coercion";
 export class AvailabilityPeriodService {
 
   existingPeriods:AvailabilityPeriod[] = []
+  errGroup = new Map<string, boolean|undefined>
   constructor() { }
 
   setExistingPeriods(accommodationPeriods: AvailabilityPeriod[]){
@@ -63,5 +64,30 @@ export class AvailabilityPeriodService {
       return true;
     }
     return false; // Period not found
+  }
+
+  checkUpdatingAvailabilityPeriod(startDate: Date, endDate: Date, price: number){
+    this.errGroup.set('endBeforeStart', startDate > endDate)
+    this.errGroup.set('priceNotPositive', price < 0);
+    this.errGroup.set('startDateInPast', startDate < new Date())
+  }
+
+  isAvailabilityPeriodBad(){
+    if (this.errGroup.get("endBeforeStart")! === true || this.errGroup.get("priceNotPositive")! === true || this.errGroup.get('startDateInPast')! === true){
+      return true;
+    }
+    return false;
+  }
+
+  setOverlappingPeriods(){
+    this.errGroup.set('overlappingPeriods', true);
+  }
+
+  emptyMapOut(){
+    this.errGroup.clear();
+  }
+
+  getErrorsForDialog(){
+    return this.errGroup;
   }
 }
