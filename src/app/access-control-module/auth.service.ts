@@ -74,7 +74,9 @@ export class AuthService {
 
 
   getRole(): any {
+    console.log("usao u getRole")
     if (this.isLoggedIn()) {
+      console.log("is logged in")
       try {
         const accessToken: any = localStorage.getItem('user');
         const helper = new JwtHelperService();
@@ -88,11 +90,14 @@ export class AuthService {
         return null;
       }
     }
-    else{return Role.UNKNOWN;}
+    else{
+      return Role.UNKNOWN;
+    }
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem('user') != null;
+    const user = localStorage.getItem('user');
+    return user !== null && user !== '';
   }
 
   setUser(): void {
@@ -137,7 +142,7 @@ export class AuthService {
             // Optionally, you can log the user out or redirect to a different page
             return null;
           } else {
-            
+
             return currentUser;
           }
         } else {

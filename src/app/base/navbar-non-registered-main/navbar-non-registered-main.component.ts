@@ -14,7 +14,7 @@ export class NavbarNonRegisteredMainComponent implements OnInit {
   ngOnInit() {
     this.authService.getRoleObservable().subscribe(role=>{
       this.userRole=role;
-      console.log(this.userRole);
+      console.log("rola koja treba da bude unknown: ",this.userRole);
     })
   }
 }

@@ -4,6 +4,10 @@ export enum Role {
   OWNER= 'OWNER',
   UNKNOWN='UNKNOWN'
 }
+export enum UserStatus {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED'
+}
 
 export class User {
   name: string;
@@ -21,6 +25,7 @@ export class User {
   gradedMeNotification:boolean;
   gradedMyAccommodationNotification: boolean;
   ownerAnswerNotification:boolean;
+  status: UserStatus;
 
   constructor(
     name: string,
@@ -37,7 +42,8 @@ export class User {
     resCanceledNotification: boolean,
     gradedMeNotification:boolean,
     gradedMyAccommodationNotification: boolean,
-    ownerAnswerNotification:boolean
+    ownerAnswerNotification:boolean,
+    status: UserStatus
   ) {
     this.name = name;
     this.lastName = lastName;
@@ -54,5 +60,6 @@ export class User {
     this.gradedMeNotification = gradedMeNotification;
     this.gradedMyAccommodationNotification = gradedMyAccommodationNotification;
     this.ownerAnswerNotification = ownerAnswerNotification;
+    this.status = status;
   }
 }

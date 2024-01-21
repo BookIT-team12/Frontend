@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../service/user.service";
-import {Role, User} from "../../model/user.model";
+import {Role, User, UserStatus} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
 
 @Component({
@@ -115,7 +115,8 @@ export class UserAccountManagementComponent implements OnInit {
         gradedMyAccommodationNotification: this.form.value.gradedMyAccommodationNotification,
         gradedMeNotification: this.form.value.gradedMeNotification,
         resCanceledNotification:this.form.value.resCanceledNotification,
-        resCreatedNotification:this.form.value.resCreatedNotification
+        resCreatedNotification:this.form.value.resCreatedNotification,
+        status: UserStatus.APPROVED
       };
       console.log(updatedUser.resCanceledNotification);
       console.log(updatedUser.resCreatedNotification);

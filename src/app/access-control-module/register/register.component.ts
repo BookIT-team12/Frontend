@@ -1,11 +1,10 @@
 import {Component} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {Role, User} from "../../model/user.model";
+import {Role, User, UserStatus} from "../../model/user.model";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from '@angular/router'; // Import the Router service
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {AuthResponse, AuthService} from "../auth.service";
-import {Login} from "../../model/login.model";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-register',
@@ -85,7 +84,8 @@ export class RegisterComponent {
               false,
               false,
               false,
-              true
+              true,
+              UserStatus.PENDING
           );
       } else {  //it will be owner then
           newUser = new User(
@@ -104,7 +104,8 @@ export class RegisterComponent {
               true,
               true,
               true,
-              false
+              false,
+              UserStatus.PENDING
           );
       }
     console.log('User: ', newUser)
@@ -113,28 +114,32 @@ export class RegisterComponent {
         (result) => {
           // Handle success, if needed
           console.log('User registered successfully', result);
-  //        this.showSnackBar('Registration successful');
-          const login: Login = {
-            email: newUser.email || "test",
-            password: newUser.password || "test"
-          }
-          this.authService.login(login).subscribe({
-            next: (response: AuthResponse) => {
-              console.log(response)
-              console.log(response.accessToken)
-              localStorage.setItem('user', response.accessToken);
-              this.authService.setUser()
-              this.authService.setUserDetails()
-              this.router.navigate(['main'])
-            }
-          });
-        },
-        (error) => {
-          // Handle error, if needed
- //         this.showSnackBar('Error registering user');
-          console.error('Error registering user', error);
+          this.router.navigate(['/main'])
         }
+  //        this.showSnackBar('Registration successful');
+ //          const login: Login = {
+ //            email: newUser.email || "test",
+ //            password: newUser.password || "test"
+ //          }
+ //          this.authService.login(login).subscribe({
+ //            next: (response: AuthResponse) => {
+ //              console.log(response)
+ //              console.log(response.accessToken)
+ //              localStorage.setItem('user', response.accessToken);
+ //              this.authService.setUser()
+ //              this.authService.setUserDetails()
+ //              this.router.navigate(['main'])
+ //            }
+ //          });
+ //        },
+ //        (error) => {
+ //          // Handle error, if needed
+ // //         this.showSnackBar('Error registering user');
+ //          console.error('Error registering user', error);
+ //        }
     );
+
+
 
 /*
   }
