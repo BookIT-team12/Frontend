@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Review, ReviewStatus} from "../../model/review.model";
 import {ReviewService} from "../../service/review.service";
-import {User} from "../../model/user.model";
+import {Role, User} from "../../model/user.model";
 import {Route} from "@angular/router";
 import {AuthService} from "../../access-control-module/auth.service";
 
@@ -13,11 +13,12 @@ import {AuthService} from "../../access-control-module/auth.service";
 export class OwnerReportComponent implements OnInit{
   approvedReviews: Review[] | undefined;
   owner: User | null | undefined;
-
+  userRole: Role | undefined;
   constructor(private reviewService: ReviewService, private auth: AuthService) {  }
 
   async ngOnInit(): Promise<void> {
     try {
+      this.userRole = this.auth.getRole();
       this.owner = await this.auth.getCurrentUser().toPromise();
       this.approvedReviews = await this.reviewService.getAllApprovedReviewsOnOwner(this.owner!.email).toPromise();
     } catch (error) {
@@ -32,4 +33,6 @@ export class OwnerReportComponent implements OnInit{
       this.approvedReviews = this.approvedReviews?.filter(review => review !== toReport)
     })
   }
+
+  protected readonly Role = Role;
 }

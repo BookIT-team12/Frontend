@@ -43,6 +43,9 @@ export class NavbarAdminMainComponent {
       case 'reviews/owners/approval':
         this.router.navigate(['reviews/owners/approval']);
         break;
+      case 'user-blocking':
+        this.router.navigate(['/user-blocking'])
+        break;
       default:
         break;
     }

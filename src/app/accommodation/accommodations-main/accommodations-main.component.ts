@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AccommodationService} from "../../service/accommodation.service";
 import {AuthService} from "../../access-control-module/auth.service";
-import {Accommodation} from "../../model/accommodation.model";
+import {Accommodation, AccommodationStatus} from "../../model/accommodation.model";
 import {Role} from "../../model/user.model";
 import {Router} from "@angular/router";
 import {HttpParams} from "@angular/common/http";
@@ -77,9 +77,11 @@ export class AccommodationsMainComponent implements OnInit {
       const location: string = addressParts[1] + " " + addressParts[0] + ", " + addressParts[4] + ", " + addressParts[addressParts.length - 1];
       const accommodationModel = await this.accommodationService.getAccommodationById(accommodation.id!).toPromise()
       if(accommodationModel){
-        accommodationModel.first.location.address = location;
-        this.accommodationsShow.add([accommodationModel.first, undefined]);
-        this.imagesHeaderStrings.push(accommodationModel.second[0]);
+        if (accommodationModel.first.status == AccommodationStatus.APPROVED) {
+          accommodationModel.first.location.address = location;
+          this.accommodationsShow.add([accommodationModel.first, undefined]);
+          this.imagesHeaderStrings.push(accommodationModel.second[0]);
+        }
       }
     }
     console.log("Accommodations");
@@ -96,9 +98,11 @@ export class AccommodationsMainComponent implements OnInit {
       const location: string = addressParts[1] + " " + addressParts[0] + ", " + addressParts[4] + ", " + addressParts[addressParts.length - 1];
       const accommodationModel = await this.accommodationService.getAccommodationById(accommodation.id!).toPromise();
       if (accommodationModel) {
-        accommodationModel.first.location.address = location;
-        this.accommodationsShow.add([accommodationModel.first, undefined]);
-        this.imagesHeaderStrings.push(accommodationModel.second[0]);
+        if (accommodationModel.first.status == AccommodationStatus.APPROVED) {
+          accommodationModel.first.location.address = location;
+          this.accommodationsShow.add([accommodationModel.first, undefined]);
+          this.imagesHeaderStrings.push(accommodationModel.second[0]);
+        }
       }
     }
     console.log("Filtered");

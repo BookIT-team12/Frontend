@@ -4,7 +4,7 @@ import {Reservation, ReservationStatus} from "../../model/reservation.model";
 import {CustomNotification} from "../../model/notification.model";
 import {ReservationService} from "../../service/reservation.service";
 import {Role, User} from '../../model/user.model';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Route, Router} from '@angular/router';
 import {AccommodationService} from '../../service/accommodation.service';
 import {AuthService} from '../../access-control-module/auth.service';
 import {Amenity} from '../../model/amenity.model';
@@ -45,7 +45,8 @@ export class DetailsComponent implements OnInit {
   imagesHeaderFilesRoot: File[] = [];
   imagesHeaderStrings: string[] = [];
   constructor(private accommodationService: AccommodationService, private authService:AuthService, private route: ActivatedRoute, private reservationService:ReservationService,
-      private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService) {this.isFavorite$ = new Observable<boolean>();}
+      private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService
+  , private router: Router) {this.isFavorite$ = new Observable<boolean>();}
 
   async ngOnInit(): Promise<void> {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
@@ -204,10 +205,13 @@ export class DetailsComponent implements OnInit {
               );
               this.notificationService.createNotification(notification).subscribe(
                   (data:CustomNotification) => {
-                    if(data){console.log("Notification sent! ");}
+                    if(data){
+                      console.log("Notification sent! ");
+                    }
                     else{console.log("Error sending notification! ");}
                   });
               alert("Reservation successful! ");
+              this.router.navigate(['/main'])
             }
             else{alert("Reservation unsuccessful! ")}
           });
@@ -233,10 +237,13 @@ export class DetailsComponent implements OnInit {
               );
               this.notificationService.createNotification(notification).subscribe(
                   (data:CustomNotification) => {
-                  if(data){console.log("Notification sent! ");}
+                  if(data){
+                    console.log("Notification sent! ");
+                  }
                   else{console.log("Error sending notification! ");}
               });
               alert("Reservation request sent! ");
+              this.router.navigate(['/main'])
             }
             else{alert("Reservation unsuccessful! ")}
           });

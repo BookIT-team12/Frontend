@@ -73,7 +73,7 @@ export class GuestActiveComponent implements OnInit {
                 });
             alert("Cancel successful! ")
           } else {
-            alert("Cancel unsuccessful! :( ")
+            alert("Cancel unsuccessful, you cant cancel reservations in this time frame")
           }
         }
     );

@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../service/user.service";
 import {Role, User, UserStatus} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-account-management',
@@ -19,7 +20,8 @@ export class UserAccountManagementComponent implements OnInit {
   userEmail!:String;
   isFormValid=false;
 
-  constructor(private authService:AuthService,private userService:UserService, private fb:FormBuilder) {}
+  constructor(private authService:AuthService,private userService:UserService, private fb:FormBuilder,
+              private router: Router) {}
 
 
   ngOnInit(): void {
@@ -30,8 +32,8 @@ export class UserAccountManagementComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
       phone: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(10)]],
       address: ['', Validators.required],
       ownerAnswerNotification: true,
@@ -126,6 +128,7 @@ export class UserAccountManagementComponent implements OnInit {
       this.userService.updateUser(updatedUser).subscribe(
         (response) => {
           console.log('User updated successfully', response);
+          this.router.navigate(['/main'])
         },
         (error) => {
           console.error('Error updating user', error);

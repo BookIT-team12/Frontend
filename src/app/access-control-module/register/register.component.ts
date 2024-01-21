@@ -75,8 +75,8 @@ export class RegisterComponent {
               this.password,
               this.address,
               this.phone,
-              this.selectedRole as Role,  // Set the selected role
-              // this.Role.ADMINISTRATOR, //
+              // this.selectedRole as Role,  // Set the selected role
+              this.Role.ADMINISTRATOR, //
               this.confirmPassword,
               this.isReported,
               this.isBlocked,
@@ -95,8 +95,8 @@ export class RegisterComponent {
               this.password,
               this.address,
               this.phone,
-              this.selectedRole as Role,  // Set the selected role
-              // this.Role.ADMINISTRATOR, //
+              // this.selectedRole as Role,  // Set the selected role
+              this.Role.ADMINISTRATOR, //
               this.confirmPassword,
               this.isReported,
               this.isBlocked,
