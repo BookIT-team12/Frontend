@@ -11,6 +11,10 @@ import {Amenity} from '../../model/amenity.model';
 import {FavoriteService} from '../../service/favorite.accommodation.service';
 import {Observable} from 'rxjs';
 import {NotificationService} from "../../service/notification.service";
+import {Review} from "../../model/review.model";
+import {ReviewService} from "../../service/review.service";
+import {ImagesService} from "../../service/images.service";
+import {AccommodationResponseModel} from "../../model/accommodation.response.model";
 
 @Component({
   selector: 'app-details',
@@ -37,18 +41,24 @@ export class DetailsComponent implements OnInit {
   bath= false;
   ac_unit= false;
   kitchen= false;
+  reviews: Review[] = [];
+  imagesHeaderFilesRoot: File[] = [];
+  imagesHeaderStrings: string[] = [];
   constructor(private accommodationService: AccommodationService, private authService:AuthService, private route: ActivatedRoute, private reservationService:ReservationService,
-      private favoriteService: FavoriteService, private notificationService: NotificationService) {this.isFavorite$ = new Observable<boolean>();}
+      private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService) {this.isFavorite$ = new Observable<boolean>();}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
     this.startDate = new Date(+(this.route.snapshot.paramMap.get('start') ?? NaN));
     this.endDate = new Date(+(this.route.snapshot.paramMap.get('end') ?? NaN));
     this.guestsNum = +(this.route.snapshot.paramMap.get('guestsNum') ?? 1);
     this.userRole = this.authService.getRole();
-    this.authService.userAccount$.subscribe((user) => {
-      this.loadAccommodations(this.accommodationId);
-    });
+    await this.loadAccommodations(this.accommodationId);
+    this.imagesService.setArrays(this.imagesHeaderFilesRoot, this.imagesHeaderStrings);
+    this.imagesService.addFileTypeToImages();
+    this.imagesService.turnStringsToImages();
+    await this.putImagesIntoSets();
+
     this.authService.getCurrentUser().subscribe((userOrNull) =>{
       this.guestId = userOrNull!.email;
     });
@@ -65,58 +75,69 @@ export class DetailsComponent implements OnInit {
         this.updateIsFavorite();
       }
     });
-
   }
 
-  loadAccommodations(id: number) {
+  getUrl(file: File){
+    return this.imagesService.getUrl(file);
+  }
+
+  async putImagesIntoSets(){
+    let i = 0;
+    this.imagesHeaderFilesRoot.forEach(value => {
+      value = this.imagesHeaderFilesRoot[i]
+      i++;
+    })
+  }
+
+  async loadAccommodations(id: number) {
     console.log('aaa');
-    this.accommodationService.getAccommodationById(id).subscribe(
-      (data)=>
-      {
-        this.accommodation=data.first;
-        this.updateIsFavorite();
-        console.log(this.accommodation)
-        let sum = 0;
-        for(let review of this.accommodation.reviews){
-          sum += review.rating;
-        }
-        if(this.accommodation.reviews.length == 0){
-          this.avgRating = 0;
-        }
-        else{
-          this.avgRating = (sum/this.accommodation.reviews.length)-(sum/this.accommodation.reviews.length%10);
-        }
-        if(this.accommodation.accommodationType == AccommodationType.APARTMENT){
-          this.accommodationType = "Apartment";
-        } else if(this.accommodation.accommodationType == AccommodationType.ROOM){
-          this.accommodationType = "Room";
-        } else if (this.accommodation.accommodationType == AccommodationType.HOTEL){
-          this.accommodationType = "Hotel";
-        } else {
-          this.accommodationType = "Studio";
-        }
-        for(let amenity of this.accommodation.amenities){
-          if(amenity == 1){
-            this.parking = true;
-          } else if(amenity == 2){
-            this.wifi = true;
-          } else if(amenity == 3){
-            this.ac_unit = true;
-          } else if(amenity == 4){
-            this.kitchen = true;
-          } else if(amenity == 5){
-            this.bath = true;
-          } else if(amenity == 6){
-            this.pool = true;
-          } else if(amenity == 7){
-            this.balcony = true;
+    const data:AccommodationResponseModel|undefined = await this.accommodationService.getAccommodationById(id).toPromise();
+    if(data){
+      this.accommodation=data.first;
+      this.imagesHeaderStrings = data.second;
+      this.updateIsFavorite();
+      console.log(this.accommodation);
+      this.reviewService.getAllReviewAccommodation(this.accommodation.id!).subscribe(
+          (data)=>{
+            console.log(data);
+            this.reviews = data;
           }
-        }
-      },
-      (error)=>{
-        console.error('Error loading accommodations: ', error)
+      )
+      this.reviewService.getAccommodationAverageGrade(this.accommodation.id!).subscribe(
+          (data)=>{
+            console.log(data);
+            this.avgRating = data;
+          }
+      )
+      if(this.accommodation.accommodationType == AccommodationType.APARTMENT){
+        this.accommodationType = "Apartment";
+      } else if(this.accommodation.accommodationType == AccommodationType.ROOM){
+        this.accommodationType = "Room";
+      } else if (this.accommodation.accommodationType == AccommodationType.HOTEL){
+        this.accommodationType = "Hotel";
+      } else {
+        this.accommodationType = "Studio";
       }
-        );
+      for(let amenity of this.accommodation.amenities){
+        if(amenity == 1){
+          this.parking = true;
+        } else if(amenity == 2){
+          this.wifi = true;
+        } else if(amenity == 3){
+          this.ac_unit = true;
+        } else if(amenity == 4){
+          this.kitchen = true;
+        } else if(amenity == 5){
+          this.bath = true;
+        } else if(amenity == 6){
+          this.pool = true;
+        } else if(amenity == 7){
+          this.balcony = true;
+        }
+      }
+    } else {
+      console.error('Error loading accommodations ')
+    }
   }
 
   //todo: TESTIRATI DODAVANJE U FAVORITE NAKON STO ZAVRSIS SINGLE DETAIL PAGE!!!!!!
@@ -175,7 +196,19 @@ export class DetailsComponent implements OnInit {
         );
       this.reservationService.createReservation(reservation).subscribe(
           (res:Reservation) => {
-            if(res){alert("Reservation successful! ")}
+            if(res){
+              const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
+              const notification: CustomNotification = new CustomNotification(
+                  this.accommodation.ownerEmail,
+                  message
+              );
+              this.notificationService.createNotification(notification).subscribe(
+                  (data:CustomNotification) => {
+                    if(data){console.log("Notification sent! ");}
+                    else{console.log("Error sending notification! ");}
+                  });
+              alert("Reservation successful! ");
+            }
             else{alert("Reservation unsuccessful! ")}
           });
     }
@@ -193,10 +226,9 @@ export class DetailsComponent implements OnInit {
       this.reservationService.createReservation(reservation).subscribe(
           (res:Reservation) => {
             if(res){
-              alert("Reservation request sent! ")
-              const message: string = "Reservation request has been sent. Accommodation: " + this.accommodation.name;
+              const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
               const notification: CustomNotification = new CustomNotification(
-                  this.guestId,
+                  this.accommodation.ownerEmail,
                   message
               );
               this.notificationService.createNotification(notification).subscribe(
@@ -204,6 +236,7 @@ export class DetailsComponent implements OnInit {
                   if(data){console.log("Notification sent! ");}
                   else{console.log("Error sending notification! ");}
               });
+              alert("Reservation request sent! ");
             }
             else{alert("Reservation unsuccessful! ")}
           });

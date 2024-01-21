@@ -58,13 +58,16 @@ export class NavbarOwnerMainComponent implements OnInit {
         });
         break;
       case 'apartments-report':
-        this.router.navigate(['apartments-report']);
+        this.router.navigate(['/apartments-report']);
         break;
       case 'owner-report':
-        this.router.navigate(['owner-report']);
+        this.router.navigate(['/owner-report']);
         break;
       case 'guest-reporting':
         this.router.navigate(['/user-reporting']);
+        break;
+      case 'notifications':
+        this.router.navigate(['/notifications']);
         break;
       default:
         break;

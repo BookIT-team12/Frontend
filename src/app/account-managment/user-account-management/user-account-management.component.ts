@@ -34,6 +34,11 @@ export class UserAccountManagementComponent implements OnInit {
       confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
       phone: ['', [Validators.required, Validators.pattern(/^\d+$/), Validators.minLength(10), Validators.maxLength(10)]],
       address: ['', Validators.required],
+      ownerAnswerNotification: true,
+      gradedMyAccommodationNotification: true,
+      gradedMeNotification: true,
+      resCanceledNotification:true,
+      resCreatedNotification:true
     });
 
     this.authService.getCurrentUser().subscribe(user => {
@@ -57,10 +62,15 @@ export class UserAccountManagementComponent implements OnInit {
           email:user.email,
           name: user.name,
           lastName: user.lastName,
-          password: user.password,
-          confirmPassword: user.confirmPassword,
+          password: "",
+          confirmPassword: "",
           phone: user.phone,
           address: user.address,
+          ownerAnswerNotification: user.ownerAnswerNotification,
+          gradedMyAccommodationNotification: user.gradedMyAccommodationNotification,
+          gradedMeNotification: user.gradedMeNotification,
+          resCanceledNotification: user.resCanceledNotification,
+          resCreatedNotification: user.resCreatedNotification
         });
       },
       (error) => {
@@ -87,7 +97,6 @@ export class UserAccountManagementComponent implements OnInit {
   }
 
   updateAccount(): void {
-
     this.isFormValid = this.form.valid;
 
     if (this.isFormValid) {
@@ -102,13 +111,17 @@ export class UserAccountManagementComponent implements OnInit {
         role:this.user?.role || Role.GUEST,
         isBlocked:false,
         isReported:false,
-        ownerAnswerNotification: true,
-        gradedMyAccommodationNotification: true,
-        gradedMeNotification: true,
-        resCanceledNotification:true,
-        resCreatedNotification:true
+        ownerAnswerNotification: this.form.value.ownerAnswerNotification,
+        gradedMyAccommodationNotification: this.form.value.gradedMyAccommodationNotification,
+        gradedMeNotification: this.form.value.gradedMeNotification,
+        resCanceledNotification:this.form.value.resCanceledNotification,
+        resCreatedNotification:this.form.value.resCreatedNotification
       };
-
+      console.log(updatedUser.resCanceledNotification);
+      console.log(updatedUser.resCreatedNotification);
+      console.log(updatedUser.gradedMeNotification);
+      console.log(updatedUser.gradedMyAccommodationNotification);
+      console.log(updatedUser.ownerAnswerNotification);
       this.userService.updateUser(updatedUser).subscribe(
         (response) => {
           console.log('User updated successfully', response);

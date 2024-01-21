@@ -24,6 +24,7 @@ import {AdminOwnerApprovalComponent} from "./reviews/admin-owner-approval/admin-
 import {ReportsComponent} from "./reports/reports.component";
 import {AccommodationFavoritesComponent} from "./accommodation/accommodation-favorites/accommodation-favorites.component";
 import {A} from "@angular/cdk/keycodes";
+import {NotificationOverviewComponent} from "./notification/notification-overview/notification-overview.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -47,7 +48,8 @@ const routes: Routes=[
   {path: "reviews/apartments/approval", component: AdminApartmentApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
   {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
   {path: "reports", component: ReportsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
-  {path:"favorites", component:AccommodationFavoritesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}}
+  {path:"favorites", component:AccommodationFavoritesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}},
+  {path:"notifications", component:NotificationOverviewComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -13,6 +13,8 @@ import {ReviewService} from "../../service/review.service";
 import {Review, ReviewStatus} from "../../model/review.model";
 import {User} from "../../model/user.model";
 import {AuthService} from "../../access-control-module/auth.service";
+import {CustomNotification} from "../../model/notification.model";
+import {NotificationService} from "../../service/notification.service";
 
 @Component({
   selector: 'app-apartment-review',
@@ -32,7 +34,7 @@ export class ApartmentReviewComponent implements OnInit{
   accommodationReviewedNames: string[] | undefined;
 
   constructor(private accommodationService: AccommodationService, private route:ActivatedRoute, public dialog: MatDialog,
-              private reviewService: ReviewService, private auth: AuthService, private router: Router) {
+              private reviewService: ReviewService, private auth: AuthService, private router: Router, private notificationService: NotificationService) {
     this.selectedAccommodationId = -100;
     this.selectedAccommodation = null;
     this.rating = [true, false, false, false, false];
@@ -137,6 +139,16 @@ export class ApartmentReviewComponent implements OnInit{
     let r: Review = new Review(null, null, this.selectedAccommodationId, this.textComment,
       this.author?.email, new Date(), rating, ReviewStatus.PENDING)
     this.reviewService.createReview(r).subscribe(value => {
+      const message: string = "Review has been put on the accommodation: " + this.selectedAccommodation?.name
+      const notification: CustomNotification = new CustomNotification(
+          this.selectedAccommodation!.ownerEmail,
+          message
+      );
+      this.notificationService.createNotification(notification).subscribe(
+          (data:CustomNotification) => {
+            if(data){console.log("Notification sent! ");}
+            else{console.log("Error sending notification! ");}
+          });
       this.router.navigate(['/main']);
     })
   }

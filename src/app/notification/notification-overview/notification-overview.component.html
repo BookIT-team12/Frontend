@@ -1,0 +1,49 @@
+<div *ngIf="userRole === Role.GUEST">
+    <!-- Guest Navbar Links -->
+    <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+    <!-- Non Reg Navbar Links -->
+    <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+    <!-- Owner Navbar Links -->
+    <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+    <!-- Admin Navbar Links -->
+    <app-navbar-admin></app-navbar-admin>
+</div>
+<router-outlet></router-outlet>
+<h1 class="header">
+    <div class="header-div">
+        <mat-icon class="header-icon">
+            <span class="material-symbols-outlined">notifications_active</span>
+        </mat-icon>
+        Notifications
+    </div>
+</h1>
+<mat-grid-list cols="3" rowHeight="3:4" class="notifications">
+    <div *ngIf="notifications.length > 0; else noNotifications">
+        <ng-container *ngFor="let notification of notifications; let isFirst = first">
+            <div class="grid-container">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title-group>
+                            <mat-card-title>{{notification.message}}</mat-card-title>
+                            <mat-card-subtitle>
+                                <li>Date: {{notification.dateTime.toString().substring(8,10)}}-{{notification.dateTime.toString().substring(5,7)}}-{{notification.dateTime.toString().substring(0,4)}}</li>
+                            </mat-card-subtitle>
+                        </mat-card-title-group>
+                    </mat-card-header>
+                </mat-card>
+            </div>
+        </ng-container>
+    </div>
+</mat-grid-list>
+<ng-template #noNotifications>
+    <div class="grid-container">
+        <h2 class="acc-name">You currently don't have any notifications.</h2>
+    </div>
+</ng-template>

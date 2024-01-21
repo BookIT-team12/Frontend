@@ -80,7 +80,7 @@ export class ReservationService {
     console.log(dto);
     return this.http.put<Reservation>(url, dto);
   }
-  searchReservations(params:HttpParams): Observable<any> {
+  searchReservations(params:HttpParams): Observable<Reservation[]> {
     const url = `${this.apiUrl}/reservations/search`;
     return this.http.get<Reservation[]>(url, {params});
   }
