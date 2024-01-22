@@ -45,10 +45,11 @@
 
       <div class="container1">
 
-        <h1 class="name-header">{{accommodation.name}}</h1>
+        <h1 class="name-header">{{accommodation.name}} <span class="material-icons" *ngIf="favorite">favorite</span><span class="material-icons" *ngIf="!favorite" (click)="toggleFavorite()">favorite_border</span></h1>
         <ul class="list"><li class="list-item">{{accommodation.location.address}}</li><li class="list-item">{{accommodationType}}</li></ul>
       </div>
       <div class="container1">
+<!--        <button mat-raised-button (click)="toggleFavorite()" class="global-darkBtn login-btn"> Add to favorites </button>-->
         <h3 class="date-picker-text">Choose time of your stay: </h3>
         <mat-form-field>
           <mat-label>Enter a date range</mat-label>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Accommodation } from '../model/accommodation.model';
 
@@ -13,7 +13,10 @@ export class FavoriteService {
 
   addFavorite(userId: string, accommodationId: number): Observable<any> {
     const url = `${this.baseUrl}/add`;
-    const body = { userId, accommodationId };
+    let body:HttpParams = new HttpParams();
+    body = body.set('userId', userId);
+    body = body.set('accommodationId', accommodationId);
+    console.log("TRY ADDING");
     return this.http.post(url, body);
   }
 
@@ -23,6 +26,7 @@ export class FavoriteService {
       headers: { 'Content-Type': 'application/json' },
       body: { userId, accommodationId },
     };
+    console.log("TRY REMOVING");
     return this.http.delete(url, options);
   }
 
