@@ -1,11 +1,10 @@
-import {ComponentFixture, fakeAsync, flush, TestBed, tick} from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
-import {ActivatedRoute} from "@angular/router";
-import { UserAccountManagementComponent } from './user-account-management.component';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {HttpClientModule} from '@angular/common/http';
+import {UserAccountManagementComponent} from './user-account-management.component';
 import {AuthService} from "../../access-control-module/auth.service";
 import {UserService} from "../../service/user.service";
-import {Role, User} from "../../model/user.model";
-import {Observable, of} from "rxjs";
+import {Role, User, UserStatus} from "../../model/user.model";
+import {of} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -14,11 +13,28 @@ import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
 import {NavbarOwnerComponent} from "../../base/navbar-owner/navbar-owner.component";
 import {NavbarAdminComponent} from "../../base/navbar-admin/navbar-admin.component";
 import {NavbarComponent} from "../../base/navbar/navbar.component";
-import {MatToolbar, MatToolbarModule} from "@angular/material/toolbar";
+import {MatToolbarModule} from "@angular/material/toolbar";
 import {BaseModule} from "../../base/base.module";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
-const mockUser: User = {
+const mockUser: {
+  lastName: string;
+  password: string;
+  address: string;
+  role: Role;
+  phone: string;
+  name: string;
+  isBlocked: boolean;
+  confirmPassword: string;
+  email: string;
+  isReported: boolean,
+  resCreatedNotification:boolean,
+  resCanceledNotification:boolean,
+  gradedMeNotification:boolean,
+  gradedMyAccommodationNotification:boolean,
+  ownerAnswerNotification:boolean,
+    status:UserStatus
+} = {
   name: 'John',
   lastName: 'Doe',
   password: 'password',
@@ -29,6 +45,12 @@ const mockUser: User = {
   role: Role.GUEST,
   isBlocked: false,
   isReported: false,
+  resCreatedNotification:true,
+  resCanceledNotification:true,
+  gradedMeNotification:true,
+  gradedMyAccommodationNotification:true,
+  ownerAnswerNotification:false,
+  status:UserStatus.APPROVED
 };
 
 fdescribe('UserAccountManagementComponent', () => {
@@ -131,6 +153,12 @@ fdescribe('UserAccountManagementComponent', () => {
       role: Role.GUEST,
       isBlocked: false,
       isReported: false,
+      resCreatedNotification:true,
+      resCanceledNotification:true,
+      gradedMeNotification:true,
+      gradedMyAccommodationNotification:true,
+      ownerAnswerNotification:false,
+      status:UserStatus.APPROVED
     };
 
     spyOn(userService, 'updateUser').and.callFake((updatedUserArg: User) => {
