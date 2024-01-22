@@ -122,13 +122,13 @@
         <mat-error>Minimal price is 1</mat-error>
       </mat-form-field>
 
-      <button mat-raised-button (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn" type="button">Add period</button>
+      <button mat-raised-button id="add-period-btn-test" (click)="onAddingPeriod()" [disabled]="!addingNewPeriod" class="global-darkBtn save-changes-btn" type="button">Add period</button>
       <button mat-raised-button (click)="onChangingPeriod(selectedPeriod.value)" [disabled]="addingNewPeriod" class="global-darkBtn save-changes-btn" type="button">Change period</button>
 
       <h2>Existing availability periods: </h2>
       <mat-form-field>
         <mat-label>Select....</mat-label>
-        <mat-select #selectedPeriod (selectionChange)="onSelectedPeriodChangeGUI($event)">
+        <mat-select id="all-periods-select-test" #selectedPeriod (selectionChange)="onSelectedPeriodChangeGUI($event)">
           <mat-option value="none">None</mat-option>
           <mat-option *ngFor="let period of accommodation.availabilityPeriods" [value]="period" >
             {{ period.startDate | date }} - {{ period.endDate | date }} : price = {{ period.price | number }}
@@ -167,6 +167,6 @@
   </div>
   </div>
 
-  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Update Accommodation</button>
+  <button id="button-submit-test" mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Update Accommodation</button>
 
 </form>

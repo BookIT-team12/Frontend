@@ -45,9 +45,10 @@ export class DetailsComponent implements OnInit {
   imagesHeaderFilesRoot: File[] = [];
   imagesHeaderStrings: string[] = [];
   favorite: boolean = false;
+  invalid: boolean = false;
   constructor(private accommodationService: AccommodationService, private authService:AuthService, private route: ActivatedRoute, private reservationService:ReservationService,
-      private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService
-  , private router: Router) {this.isFavorite$ = new Observable<boolean>();}
+              private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService
+    , private router: Router) {this.isFavorite$ = new Observable<boolean>();}
 
   async ngOnInit(): Promise<void> {
     this.accommodationId = +(this.route.snapshot.paramMap.get('id') ?? 0);
@@ -101,16 +102,16 @@ export class DetailsComponent implements OnInit {
       this.updateIsFavorite();
       console.log(this.accommodation);
       this.reviewService.getAllReviewAccommodation(this.accommodation.id!).subscribe(
-          (data)=>{
-            console.log(data);
-            this.reviews = data;
-          }
+        (data)=>{
+          console.log(data);
+          this.reviews = data;
+        }
       )
       this.reviewService.getAccommodationAverageGrade(this.accommodation.id!).subscribe(
-          (data)=>{
-            console.log(data);
-            this.avgRating = data;
-          }
+        (data)=>{
+          console.log(data);
+          this.avgRating = data;
+        }
       )
       if(this.accommodation.accommodationType == AccommodationType.APARTMENT){
         this.accommodationType = "Apartment";
@@ -191,7 +192,26 @@ export class DetailsComponent implements OnInit {
       });
     }
   }
+  isFormValid(){
+    this.invalid = false;
+    console.log("DATES: ");
+    console.log(this.startDate);
+    console.log(this.endDate);
+    if(this.startDate.getTime()!=null && this.startDate.getTime()!=null){
+      this.invalid = true;
+      return true;
+    }else{return false;}
+  }
   bookITClicked(){
+    this.invalid = false;
+    console.log("DATES: ");
+    this.startDate.setDate(NaN);
+    console.log(this.startDate.getTime());
+    console.log(this.endDate);
+    if(this.startDate==null || this.endDate==null || isNaN(this.startDate.getTime()) || isNaN(this.endDate.getTime()) || this.guestsNum==null || isNaN(this.guestsNum)){
+      this.invalid = true;
+      return;
+    }
     if(this.accommodation.bookingConfirmationType == BookingConfirmationType.AUTOMATIC){
       const reservation = new Reservation(
         this.accommodationId,
@@ -202,27 +222,27 @@ export class DetailsComponent implements OnInit {
         ReservationStatus.APPROVED,
         true,
         0
-        );
+      );
       this.reservationService.createReservation(reservation).subscribe(
-          (res:Reservation) => {
-            if(res){
-              const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
-              const notification: CustomNotification = new CustomNotification(
-                  this.accommodation.ownerEmail,
-                  message
-              );
-              this.notificationService.createNotification(notification).subscribe(
-                  (data:CustomNotification) => {
-                    if(data){
-                      console.log("Notification sent! ");
-                    }
-                    else{console.log("Error sending notification! ");}
-                  });
-              alert("Reservation successful! ");
-              this.router.navigate(['/main'])
-            }
-            else{alert("Reservation unsuccessful! ")}
-          });
+        (res:Reservation) => {
+          if(res){
+            const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
+            const notification: CustomNotification = new CustomNotification(
+              this.accommodation.ownerEmail,
+              message
+            );
+            this.notificationService.createNotification(notification).subscribe(
+              (data:CustomNotification) => {
+                if(data){
+                  console.log("Notification sent! ");
+                }
+                else{console.log("Error sending notification! ");}
+              });
+            alert("Reservation successful! ");
+            this.router.navigate(['/main'])
+          }
+          else{alert("Reservation unsuccessful! ")}
+        });
     }
     else{
       const reservation = new Reservation(
@@ -234,27 +254,27 @@ export class DetailsComponent implements OnInit {
         ReservationStatus.PENDING,
         true,
         0
-        );
+      );
       this.reservationService.createReservation(reservation).subscribe(
-          (res:Reservation) => {
-            if(res){
-              const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
-              const notification: CustomNotification = new CustomNotification(
-                  this.accommodation.ownerEmail,
-                  message
-              );
-              this.notificationService.createNotification(notification).subscribe(
-                  (data:CustomNotification) => {
-                  if(data){
-                    console.log("Notification sent! ");
-                  }
-                  else{console.log("Error sending notification! ");}
+        (res:Reservation) => {
+          if(res){
+            const message: string = "Reservation request has been sent for the accommodation: " + this.accommodation.name;
+            const notification: CustomNotification = new CustomNotification(
+              this.accommodation.ownerEmail,
+              message
+            );
+            this.notificationService.createNotification(notification).subscribe(
+              (data:CustomNotification) => {
+                if(data){
+                  console.log("Notification sent! ");
+                }
+                else{console.log("Error sending notification! ");}
               });
-              alert("Reservation request sent! ");
-              this.router.navigate(['/main'])
-            }
-            else{alert("Reservation unsuccessful! ")}
-          });
+            alert("Reservation request sent! ");
+            this.router.navigate(['/main'])
+          }
+          else{alert("Reservation unsuccessful! ")}
+        });
     }
 
   }

@@ -4,7 +4,7 @@
     <mat-icon class="icon">
         <span class="material-icons-outlined">menu</span>
     </mat-icon>
-    <button type="button" mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
+    <button type="button" id="menu-button-main" mat-button color="primary" class="text1" [matMenuTriggerFor]="accountMenu">My Account</button>
     <mat-menu class="mat-menu-panel" #accountMenu="matMenu">
       <button type="button" routerLink="/main" mat-menu-item class="text" (click)="menuItemClicked('home')">
         <span class="material-icons">home</span> Home
@@ -32,10 +32,10 @@
         <span class="material-icons">person</span>Report a guest
       </button>
 
-      <button type="button" mat-menu-item class="text"  routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
+      <button type="button" id="manage-acc-btn-test" mat-menu-item class="text"  routerLink="/owner-accommodations" (click)="menuItemClicked('owner-accommodations')"><span class="material-icons">hotel</span>Manage accommodations</button>
       <button type="button" mat-menu-item class="text" routerLink="/owner-approval-res" (click)="menuItemClicked('owner-approval-res')"><span class="material-icons">star</span>Pending reservations</button>
 
-          <button type="button" mat-menu-item class="text" routerLink="/notifications" (click)="menuItemClicked('notifications')"><span class="material-icons">forum</span>Notifications</button>
+      <button type="button" mat-menu-item class="text" routerLink="/notifications" (click)="menuItemClicked('notifications')"><span class="material-icons">forum</span>Notifications</button>
 
       <button type="button" mat-menu-item class="text"  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
 

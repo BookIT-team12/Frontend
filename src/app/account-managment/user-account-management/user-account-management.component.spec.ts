@@ -17,7 +17,24 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {BaseModule} from "../../base/base.module";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
-const mockUser: User = {
+const mockUser: {
+  lastName: string;
+  password: string;
+  address: string;
+  role: Role;
+  phone: string;
+  name: string;
+  isBlocked: boolean;
+  confirmPassword: string;
+  email: string;
+  isReported: boolean,
+  resCreatedNotification:boolean,
+  resCanceledNotification:boolean,
+  gradedMeNotification:boolean,
+  gradedMyAccommodationNotification:boolean,
+  ownerAnswerNotification:boolean,
+  status:UserStatus
+} = {
   name: 'John',
   lastName: 'Doe',
   password: 'password',
@@ -28,12 +45,12 @@ const mockUser: User = {
   role: Role.GUEST,
   isBlocked: false,
   isReported: false,
-  ownerAnswerNotification: false,
-  gradedMyAccommodationNotification: false,
-  gradedMeNotification: false,
-  resCanceledNotification: false,
-  resCreatedNotification: false,
-  status: UserStatus.PENDING
+  resCreatedNotification:true,
+  resCanceledNotification:true,
+  gradedMeNotification:true,
+  gradedMyAccommodationNotification:true,
+  ownerAnswerNotification:false,
+  status:UserStatus.APPROVED
 };
 
 fdescribe('UserAccountManagementComponent', () => {
@@ -136,12 +153,12 @@ fdescribe('UserAccountManagementComponent', () => {
       role: Role.GUEST,
       isBlocked: false,
       isReported: false,
-      status: UserStatus.APPROVED,
-      resCreatedNotification: false,
-      resCanceledNotification: false,
-      gradedMeNotification: false,
-      gradedMyAccommodationNotification: false,
-      ownerAnswerNotification: false
+      resCreatedNotification:true,
+      resCanceledNotification:true,
+      gradedMeNotification:true,
+      gradedMyAccommodationNotification:true,
+      ownerAnswerNotification:false,
+      status:UserStatus.APPROVED
     };
 
     spyOn(userService, 'updateUser').and.callFake((updatedUserArg: User) => {
