@@ -40,7 +40,6 @@ import {NotificationModule} from "./notification/notification.module";
     AccessControlModuleModule,
     HttpClientModule,
     MapModule,
-    BrowserAnimationsModule,
     MatToolbarModule,
     MatMenuModule,
     MatFormFieldModule,

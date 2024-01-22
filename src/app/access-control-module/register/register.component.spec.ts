@@ -1,72 +1,73 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
-import { RegisterComponent } from './register.component';
-import { UserService } from '../../service/user.service';
-import { AuthService } from '../auth.service';
-import { of } from 'rxjs';
-import {Role, User} from "../../model/user.model";
-import {
-  UserAccountManagementComponent
-} from "../../account-managment/user-account-management/user-account-management.component";
-import {NavbarComponent} from "../../base/navbar/navbar.component";
-import {NavbarAdminComponent} from "../../base/navbar-admin/navbar-admin.component";
-import {NavbarOwnerComponent} from "../../base/navbar-owner/navbar-owner.component";
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RegisterComponent} from './register.component';
+import {UserService} from '../../service/user.service';
+import {of} from 'rxjs';
+import {Role, User, UserStatus} from "../../model/user.model";
+import {Router, Routes} from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
+import {NavbarNonRegisteredComponent} from "../../base/navbar-non-registered/navbar-non-registered.component";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatIconModule} from "@angular/material/icon";
+import {MatSelectModule} from "@angular/material/select";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatMenuModule} from "@angular/material/menu";
 import {MatInputModule} from "@angular/material/input";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatIconModule} from "@angular/material/icon";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {BaseModule} from "../../base/base.module";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {AccommodationsMainComponent} from "../../accommodation/accommodations-main/accommodations-main.component";
+
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
 
-  let userService: UserService;
-  let authService: AuthService;
-
   let userServiceSpy: jasmine.SpyObj<UserService>;
-  let authServiceSpy: jasmine.SpyObj<AuthService>;
+  // let routerSpy: jasmine.SpyObj<Router>;  // Declare Router spy
 
-  beforeEach(async() => {
+  const routes: Routes = [
+    { path: 'localhost:4200/main', component: AccommodationsMainComponent }
+  ];
 
-    await TestBed.configureTestingModule({
-        declarations: [RegisterComponent],  //komponenta koja ce biti testirana
-        imports: [ReactiveFormsModule, RouterTestingModule],  //uvozimo potrebne module za testiranje
-        providers: [    //ovde navodimo sve servise koje cemo mokovati u testu uz pomoc jasmine
-          UserService,
-          AuthService,
-          MatSnackBar
-        ]
-      }).compileComponents();
+  beforeEach(waitForAsync(() => {
+    const userServiceSpyObj = jasmine.createSpyObj('UserService', ['registerUser']);
+    // const routerSpyObj = jasmine.createSpyObj('Router', ['navigate']);  // Create Router spy
+    TestBed.configureTestingModule({
+      declarations: [RegisterComponent, NavbarNonRegisteredComponent, AccommodationsMainComponent],
+      imports: [
+        MatMenuModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        MatInputModule,
+        MatFormFieldModule,
+        BrowserAnimationsModule,
+        MatSelectModule,
+        MatToolbarModule,
+        MatFormFieldModule,
+        RouterTestingModule,
+        HttpClientModule,
+        RouterTestingModule.withRoutes(routes)
+      ],
+      providers: [ FormBuilder,
+        { provide: UserService, useValue: userServiceSpyObj },
+        MatSnackBar,
+      ]
+    }).compileComponents();
 
-    //ovo su prvo prave implementacije
-    userService = TestBed.inject(UserService);
-    authService = TestBed.inject(AuthService);
+    userServiceSpy = TestBed.inject(UserService) as jasmine.SpyObj<UserService>;
 
-    //ovde zapravo pravis te objekte odnosno pravis njihove spy objekte koje ces koristiti
-    let userServiceSpy = jasmine.createSpyObj('UserService', ['registerUser']);
-    let authServiceSpy = jasmine.createSpyObj('AuthService', ['login', 'setUser', 'setUserDetails']);
-
-    // Sad overridujes da TestBed koristi zapravo ove spy implementacije
-    TestBed.overrideProvider(UserService, { useValue: userServiceSpy });
-    TestBed.overrideProvider(AuthService, { useValue: authServiceSpy });
-
-    fixture = TestBed.createComponent(RegisterComponent); //pravi registerComponent
-    component = fixture.componentInstance; //zatim ga daje ovoj komponenti jer ona moze da se koristi u testu
+    fixture = TestBed.createComponent(RegisterComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
 
-  it('should create', () => { //provera je li on kreirao ovu register komponentu za testiranje
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it('should submit registration form', () => {
-
-    const user = {
+    const data = {
       name: 'John',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -74,22 +75,42 @@ fdescribe('RegisterComponent', () => {
       address: '123 Main St',
       phone: '1234567890',
       confirmPassword: 'password',
-      selectedRole: Role.GUEST
+      selectedRole: 'GUEST'
     };
 
     // Set form values
-    component.form.patchValue(user);
+    component.form.patchValue(data);
+
+    const user: User = new User( component.form.value.name,
+      component.form.value.lastName,
+      component.form.value.email,
+      component.form.value.password,
+      component.form.value.address,
+      component.form.value.phone,
+      component.form.value.selectedRole as Role,
+      component.form.value.confirmPassword,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      UserStatus.PENDING)
 
 
-    //===u ovom delu ustvari mokujemo servise
+
     // Mock the userService.registerUser method to return a successful response
     userServiceSpy.registerUser.and.returnValue(of(new User(user.name, user.lastName, user.email, user.password, user.address,
-      user.phone,  user.selectedRole, user.confirmPassword, false, false, false,
-      false, false, false, true)));
+      user.phone,  Role.GUEST, user.confirmPassword, false, false, false,
+      false, false, false, true, UserStatus.PENDING)));
 
-    // Mock the authService.login method to return an AuthResponse
-    authServiceSpy.login.and.returnValue(of({ accessToken: 'token' } as any));
-    //======
+
+    const router = TestBed.inject(Router);
+
+    // Create a spy for the 'navigate' method
+    const navigateSpy = spyOn(router, 'navigate');
+
 
     // Trigger the onSubmit method
     component.onSubmit();
@@ -97,20 +118,250 @@ fdescribe('RegisterComponent', () => {
     // Expect userService.registerUser to have been called with the correct user object
     expect(userServiceSpy.registerUser).toHaveBeenCalledWith(jasmine.objectContaining(user));
 
-    // Expect authService.login to have been called with the correct login object
-    expect(authServiceSpy.login).toHaveBeenCalledWith(jasmine.objectContaining({
-      email: user.email,
-      password: user.password
-    }));
-
-    // Expect localStorage.setItem to have been called with the correct user token
-    expect(localStorage.setItem).toHaveBeenCalledWith('user', 'token');
-
-    // Expect authService.setUser and authService.setUserDetails to have been called
-    expect(authServiceSpy.setUser).toHaveBeenCalled();
-    expect(authServiceSpy.setUserDetails).toHaveBeenCalled();
-
     // Expect router.navigate to have been called with the correct route
-    expect(component.router.navigate).toHaveBeenCalledWith(['main']);
+    expect(navigateSpy).toHaveBeenCalledWith(['localhost:4200/main']);
   });
+
+  it('should be invalid because passwords dont match', () => {
+    const data = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234567890',
+      selectedRole: 'GUEST',
+      confirmPassword: 'notSamePassword'
+    };
+
+    // Set form values
+    component.form.patchValue(data);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+    expect(component.form.errors).toEqual({'passwordMismatch': true})
+
+  });
+
+  it('should be invalid because name is empty', () => {
+    const user = {
+      name: '',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'notSamePassword',
+      selectedRole: "GUEST"
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because last name is empty', () => {
+    const user = {
+      name: 'John',
+      lastName: '',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'notSamePassword',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because email is empty', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: '',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'notSamePassword',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because password is empty', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: '',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'notSamePassword',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because password lenght < 6', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'pass',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'pass',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+
+  it('should be invalid because passwords dont match', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234567890',
+      confirmPassword: 'notSamePassword',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because address is empty', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '',
+      phone: '1234567890',
+      confirmPassword: 'password',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because phone is empty', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '',
+      confirmPassword: 'password',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
+  it('should be invalid because phone contains letters', () => {
+    const user = {
+      name: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password',
+      address: '123 Main St',
+      phone: '1234ds7890',
+      confirmPassword: 'password',
+      selectedRole: 'GUEST'
+    };
+
+    // Set form values
+    component.form.patchValue(user);
+
+
+    // Trigger the onSubmit method
+    component.onSubmit();
+
+    // Expect that this form is false actually
+    expect(component.form.valid).toBeFalse();
+
+  });
+
 });
