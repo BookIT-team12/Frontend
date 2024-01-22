@@ -44,6 +44,7 @@ export class DetailsComponent implements OnInit {
   reviews: Review[] = [];
   imagesHeaderFilesRoot: File[] = [];
   imagesHeaderStrings: string[] = [];
+  favorite: boolean = false;
   constructor(private accommodationService: AccommodationService, private authService:AuthService, private route: ActivatedRoute, private reservationService:ReservationService,
       private favoriteService: FavoriteService, private notificationService: NotificationService, private reviewService: ReviewService, private imagesService: ImagesService) {this.isFavorite$ = new Observable<boolean>();}
 
@@ -67,6 +68,7 @@ export class DetailsComponent implements OnInit {
 
     this.isFavorite$.subscribe((isFavorite) => {
       console.log('Is Favorite:', isFavorite);
+      this.favorite = isFavorite;
     });
 
     this.authService.getCurrentUser().subscribe((user) => {
@@ -152,6 +154,7 @@ export class DetailsComponent implements OnInit {
         this.user.email,
         this.accommodation.id
       );
+      this.isFavorite$.subscribe((data)=>{this.favorite = data;})
     } else {
       // Handle the case where either user email or accommodation id is undefined
       this.isFavorite$ = new Observable<boolean>();
@@ -165,18 +168,23 @@ export class DetailsComponent implements OnInit {
         if (isFavorite) {
           // Remove from favorites
           if (this.accommodation.id) {
-            this.favoriteService.removeFavorite(
+            const aa: Observable<string> = this.favoriteService.removeFavorite(
               this.user.email,
               this.accommodation.id
             );
+            aa.subscribe((str)=>{console.log(str)});
+            console.log("SET FALSE")
+            this.favorite = !isFavorite;
           }
         } else {
-          // Add to favorites
           if (this.accommodation.id) {
-            this.favoriteService.addFavorite(
+            const aa: Observable<string> = this.favoriteService.addFavorite(
               this.user.email,
               this.accommodation.id
             );
+            aa.subscribe((str)=>{console.log(str)});
+            console.log("SET TRUE")
+            this.favorite = !isFavorite;
           }
         }
       });
