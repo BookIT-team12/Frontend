@@ -1,0 +1,94 @@
+* {
+  /*box-sizing: border-box;*/
+  background-color:#d9f0ff;
+  /*height: auto;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: max-content;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  padding-top: 40px;
+  background-color: #d9f0ff;
+  /*height: auto;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+}
+
+.container {
+  text-align: center;
+  align-items: center;
+  margin: 10% auto;
+  max-width: 700px;
+  padding: 5% 10%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+  background-color: #d9f0ff;
+}
+
+.form-group {
+  margin-top: 40px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box; /* Dodano da se inputi ne proširuju preko rubova */
+}
+
+.form-group input[type="submit"] {
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+}
+
+
+.form-column{
+  margin-bottom: 40px;
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+button[type="submit"] {
+  background-color: #78b1c4; /* Postavite boju pozadine */
+  color: white; /* Postavite boju teksta na belu */
+  padding: 10px 20px; /* Dodajte prostor oko teksta dugmeta */
+  border: none; /* Uklonite ivice dugmeta */
+  cursor: pointer; /* Postavite kursor na pokazivač */
+  width: 200px;
+  height: 70px;
+}
+
+#button-submit{
+  margin-top: 40px;
+  align-items: center;
+}
+button[type="submit"]:hover {
+  background-color: #5a8999; /* Promenite boju pozadine na hover */
+}

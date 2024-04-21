@@ -25,6 +25,14 @@ import {ReportsComponent} from "./reports/reports.component";
 import {AccommodationFavoritesComponent} from "./accommodation/accommodation-favorites/accommodation-favorites.component";
 import {A} from "@angular/cdk/keycodes";
 import {NotificationOverviewComponent} from "./notification/notification-overview/notification-overview.component";
+import {
+  GenerateCertificateComponent
+} from "./certificate-management/generate-certificate/generate-certificate.component";
+import {AllCertificatesComponent} from "./certificate-management/all-certificates/all-certificates.component";
+import {MyCertificatesComponent} from "./certificate-management/my-certificates/my-certificates.component";
+import {
+  HostCertificateRequestComponent
+} from "./certificate-management/host-certificate-request/host-certificate-request.component";
 
 const routes: Routes=[
   {path: "login", component: LoginComponent},
@@ -49,7 +57,11 @@ const routes: Routes=[
   {path: "reviews/owners/approval", component: AdminOwnerApprovalComponent, canActivate:[AuthGuard], data:{role:['ADMINISTRATOR']}},
   {path: "reports", component: ReportsComponent, canActivate: [AuthGuard], data: {role: ['OWNER']}},
   {path:"favorites", component:AccommodationFavoritesComponent, canActivate:[AuthGuard], data:{role:['GUEST']}},
-  {path:"notifications", component:NotificationOverviewComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}}
+  {path:"notifications", component:NotificationOverviewComponent, canActivate:[AuthGuard],data:{role:['OWNER', 'GUEST']}},
+  {path: 'generateCertificate', component: GenerateCertificateComponent },
+  { path: 'allCertificates', component: AllCertificatesComponent, canActivate:[AuthGuard],data:{role:['ADMINISTRATOR']}},
+  { path: 'myCertificates', component: MyCertificatesComponent },
+  {path: 'hostCertificateRequest', component: HostCertificateRequestComponent}
 ]
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

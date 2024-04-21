@@ -26,6 +26,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {RouterModule} from "@angular/router";
 import {NotificationModule} from "./notification/notification.module";
+import {ServicesModule} from "./services/services.module";
+import {CertificateManagementModule} from "./certificate-management/certificate-management.module";
 
 @NgModule({
   declarations: [
@@ -59,7 +61,9 @@ import {NotificationModule} from "./notification/notification.module";
     MatSelectModule,
     MatDatepickerModule,
     RouterModule,
-    NotificationModule
+    NotificationModule,
+    CertificateManagementModule,
+    ServicesModule
   ],
   providers: [
     {

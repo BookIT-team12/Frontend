@@ -71,12 +71,11 @@ export class NavbarOwnerComponent implements OnInit {
       case 'owner-report':
         this.router.navigate(['/owner-report']);
         break;
-      //TODO:
-      case 'get-user-certificate':
-        this.openSecondApp();
+      case 'host-certificate-request':
+        this.router.navigate(['/hostCertificateRequest']);
         break;
-      case 'notifications':
-        this.router.navigate(['/notifications']);
+      case 'my-certificates':
+        this.router.navigate(['/myCertificates']);
         break;
       default:
           break;

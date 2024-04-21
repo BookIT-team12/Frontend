@@ -1,0 +1,29 @@
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  padding: 20px 40px;
+  background-color: #8cbedb;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  max-width: 800px;
+}
+
+.nav-link {
+  padding: 10px 20px;
+  margin-left: 10px;
+  color: beige;
+  font-size: 18px;
+}
+
+.nav-link.active {
+  font-weight: bold;
+}

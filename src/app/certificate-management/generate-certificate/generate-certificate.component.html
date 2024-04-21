@@ -1,0 +1,287 @@
+<app-navbar></app-navbar>
+<body>
+<div>
+  <div class="split right">
+    <div class="container">
+      <form>
+        <h1>Subject :</h1>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="hostRequest">Select host request:</label>
+            <select [(ngModel)]="selectedAuthority" id="hostRequest" name="certificateType" required>
+              <option *ngFor="let request of hostRequests" [value]="request.hostUsername">{{ request.hostUsername }}</option>
+            </select>
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="certificateType1">Certificate Authority</label>
+            <input
+              [(ngModel)]="isCA"
+              id="certificateType1"
+              name="certificateType"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div><br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="certificateType2">Digital Signature</label>
+            <input
+              [(ngModel)]="isDS"
+              id="certificateType2"
+              name="certificateType"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="certificateType3">Key Encipherment</label>
+            <input
+              [(ngModel)]="isKE"
+              id="certificateType3"
+              name="certificateType"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="certificateType4">Key Cert Sign</label>
+            <input
+              [(ngModel)]="isKCS"
+              id="certificateType4"
+              name="certificateType"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="certificateType5">CRL Sign</label>
+            <input
+              [(ngModel)]="isCRL"
+              id="certificateType5"
+              name="certificateType"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="commonName1">Common Name</label>
+            <input
+              type="text"
+              id="commonName1"
+              name="commonName"
+              [(ngModel)]="subjectCN"
+              required
+            />
+          </div>
+          <div class="form-column">
+            <label for="organization1">Organisation</label>
+            <input
+              type="text"
+              id="organization1"
+              name="organization"
+              [(ngModel)]="subjectO"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="organizationalUnit1">Organisational Unit</label>
+            <input
+              type="text"
+              id="organizationalUnit1"
+              name="organizationalUnit"
+              [(ngModel)]="subjectOU"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+          <div class="form-column">
+            <label for="country1">Country</label>
+            <input
+              type="text"
+              id="country1"
+              name="country"
+              maxlength="2"
+              [(ngModel)]="subjectCountry"
+              required
+              readonly="true"
+              style="background-color: #c0c3c4"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="startDate1">Start Date</label>
+            <input
+              [(ngModel)]="startDate"
+              type="date"
+              id="startDate1"
+              name="startDate"
+              required
+            />
+          </div>
+          <div class="form-column">
+            <label for="endDate1">End Date</label>
+            <input
+              [(ngModel)]="endDate"
+              type="date"
+              id="endDate1"
+              name="endDate"
+              required
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="split left">
+    <div class="container">
+      <form>
+        <h1>Issuer :</h1>
+        <br />
+        <div class="form-group">
+          <div class="form-column">
+            <label for="keySize">Choose certificate alias</label>
+            <select
+              [(ngModel)]="selectedKeySize"
+              (change)="onSelectionChanged()"
+              id="keySize"
+              name="keySize"
+              required
+            >
+              <option *ngFor="let cert of CAcertificates" [value]="cert.alias">
+                {{ cert.alias }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="selCertType">Certification Authority</label>
+            <input
+              [(ngModel)]="selectedTemp"
+              style="background-color: #c0c3c4"
+              type="text"
+              id="selCertType"
+              name="certType"
+              readonly="true"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="commonName">Common Name</label>
+            <input
+              style="background-color: #c0c3c4"
+              readonly="true"
+              type="text"
+              id="commonName"
+              name="commonName"
+              [(ngModel)]="selectedCN"
+            />
+          </div>
+          <div class="form-column">
+            <label for="organization">Organization</label>
+            <input
+              readonly="true"
+              type="text"
+              id="organization"
+              name="organization"
+              style="background-color: #c0c3c4"
+              [(ngModel)]="selectedO"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="organizationalUnit">Organizational Unit</label>
+            <input
+              readonly="true"
+              type="text"
+              id="organizationalUnit"
+              style="background-color: #c0c3c4"
+              name="organizationalUnit"
+              [(ngModel)]="selectedOU"
+              required
+            />
+          </div>
+          <div class="form-column">
+            <label for="country">Country</label>
+            <input
+              readonly="true"
+              style="background-color: #c0c3c4"
+              type="text"
+              id="country"
+              name="country"
+              maxlength="2"
+              [(ngModel)]="selectedST"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-column">
+            <label for="startDate">Start Date</label>
+            <input
+              style="background-color: #c0c3c4"
+              type="text"
+              readonly="true"
+              id="startDate"
+              name="startDate"
+              [(ngModel)]="selectedStartDate"
+              required
+            />
+          </div>
+          <div class="form-column">
+            <label for="endDate">End Date</label>
+            <input
+              style="background-color: #c0c3c4"
+              type="text"
+              readonly="true"
+              id="endDate"
+              name="endDate"
+              [(ngModel)]="selectedEndDate"
+              required
+            />
+          </div>
+        </div>
+        <div class="form-group"></div>
+        <div class="form-group"></div>
+      </form>
+    </div>
+  </div>
+  <div class="form-group" style="text-align: center; margin-top: 10%;">
+    <input
+      style="width: 200px; height: 70px"
+      (click)="createCertificate()"
+      type="submit"
+      value="Submit"
+    />
+  </div>
+</div>
+</body>

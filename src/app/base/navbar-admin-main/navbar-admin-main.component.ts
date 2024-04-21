@@ -47,13 +47,11 @@ export class NavbarAdminMainComponent {
       case 'reviews/owners/approval':
         this.router.navigate(['reviews/owners/approval']);
         break;
-
-      //TODO:
-      case 'get-user-certificate':
-        this.openSecondApp();
+      case 'get-all-certificates':
+        this.router.navigate(['/allCertificates']);
         break;
-      case 'user-blocking':
-        this.router.navigate(['/user-blocking'])
+      case 'generate-certificate':
+        this.router.navigate(['/generateCertificate']);
         break;
       default:
         break;
