@@ -21,6 +21,10 @@ export class NavbarAdminComponent {
     })
   }
 
+  openSecondApp() {
+    window.open('http://localhost:4201/', '_blank');
+  }
+
 
   menuItemClicked(option: string) {
     console.log(`Selected option: ${option}`);
@@ -46,6 +50,10 @@ export class NavbarAdminComponent {
         break;
       case 'accommodation-approval':
         this.router.navigate(['/accommodation-approval'])
+        break;
+      //TODO:
+      case 'get-user-certificate':
+        this.openSecondApp();
         break;
       case 'user-blocking':
         this.router.navigate(['/user-blocking'])

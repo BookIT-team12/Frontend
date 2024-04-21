@@ -14,6 +14,11 @@ export class NavbarOwnerMainComponent implements OnInit {
 
   constructor(private router: Router, private authService:AuthService) {}
 
+
+  openSecondApp() {
+    window.open('http://localhost:4201/', '_blank');
+  }
+
   ngOnInit() {
     this.authService.getRoleObservable().subscribe(role=>{
       this.userRole=role;
@@ -65,6 +70,10 @@ export class NavbarOwnerMainComponent implements OnInit {
         break;
       case 'guest-reporting':
         this.router.navigate(['/user-reporting']);
+        break;
+      //TODO:
+      case 'get-user-certificate':
+        this.openSecondApp();
         break;
       case 'notifications':
         this.router.navigate(['/notifications']);
