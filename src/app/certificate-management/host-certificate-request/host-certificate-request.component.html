@@ -1,0 +1,113 @@
+<!-- HTML -->
+<body>
+<div class="container">
+  <form [formGroup]="certificateForm" (ngSubmit)="createCertificate()">
+    <h1>Host certificate request</h1>
+    <div class="form-group">
+      <label for="username">Email</label>
+      <input type="text" id="username" formControlName="email" required>
+      <div *ngIf="certificateForm?.get('email')?.invalid && (certificateForm?.get('email')?.dirty || certificateForm?.get('email')?.touched)" class="invalid-feedback">
+        Your email is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="subjectO">Organisation</label>
+      <input  type="text" id="subjectO" formControlName="subjectO" required>
+      <div *ngIf="certificateForm?.get('subjectO')?.invalid && (certificateForm?.get('subjectO')?.dirty || certificateForm?.get('subjectO')?.touched)" class="invalid-feedback">
+        Organisation is required
+    </div>
+    </div>
+    <div class="form-group">
+      <label for="subjectOU">Organisational Unit</label>
+      <input type="text" id="subjectOU" formControlName="subjectOU" required>
+      <div *ngIf="certificateForm?.get('subjectOU')?.invalid && (certificateForm?.get('subjectOU')?.dirty || certificateForm?.get('subjectOU')?.touched)" class="invalid-feedback">
+        Organisation unit is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="subjectCountry">Country</label>
+      <input  type="text" id="subjectCountry" formControlName="subjectCountry" required>
+      <div *ngIf="certificateForm?.get('subjectCountry')?.invalid && (certificateForm?.get('subjectCountry')?.dirty || certificateForm?.get('subjectCountry')?.touched)" class="invalid-feedback">
+        Organisation unit is required
+      </div>
+    </div>
+    <br />
+    <div class="form-group">
+      <div class="form-column">
+        <label for="isCA">Certificate Authority</label>
+        <select
+          [(ngModel)]="isCA"
+          id="isCA"
+          name="certificateType"
+          required
+        >
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
+        </select>
+      </div>
+    </div><br />
+    <div class="form-group">
+      <div class="form-column">
+        <label for="isDS">Digital Signature</label>
+        <select
+          [(ngModel)]="isDS"
+          id="isDS"
+          name="certificateType"
+          required
+        >
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
+        </select>
+      </div>
+    </div>
+    <br />
+    <div class="form-group">
+      <div class="form-column">
+        <label for="isKE">Key Encipherment</label>
+        <select
+          [(ngModel)]="isKE"
+          id="isKE"
+          name="certificateType"
+          required
+        >
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
+        </select>
+      </div>
+    </div>
+    <br />
+    <div class="form-group">
+      <div class="form-column">
+        <label for="isKCS">Key Cert Sign</label>
+        <select
+          [(ngModel)]="isKCS"
+          id="isKCS"
+          name="certificateType"
+          required
+        >
+          <option value="true">TRUE</option>
+          <option value="false">FALSE</option>
+        </select>
+      </div>
+    </div>
+    <br />
+    <div class="form-group">
+      <div class="form-column">
+        <label for="isCRLS">CRL Sign</label>
+        <select
+          [(ngModel)]="isCRLS"
+          id="isCRLS"
+          name="certificateType"
+          required
+        >
+        <option value="true">TRUE</option>
+        <option value="false">FALSE</option>
+      </select>
+      </div>
+    </div>
+    <div id="button-submit">
+      <button type="submit" [disabled]="certificateForm.invalid">Submit</button>
+    </div>
+  </form>
+</div>
+</body>

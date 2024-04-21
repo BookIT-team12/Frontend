@@ -41,10 +41,16 @@
 
     <button type="button" mat-menu-item class="text" routerLink="/notifications" (click)="menuItemClicked('notifications')"><span class="material-icons">forum</span>Notifications</button>
 
-    <button mat-menu-item type="button" (click)="menuItemClicked('get-user-certificate')">
+    <button mat-menu-item type="button" (click)="menuItemClicked('host-certificate-request')">
       <span class="material-icons">school</span>
-      Get a certificate
+      Request a certificate
     </button>
+
+    <button mat-menu-item type="button" (click)="menuItemClicked('my-certificates')">
+      <span class="material-icons">school</span>
+      My certificates
+    </button>
+
 
     <button type="button" mat-menu-item class="text"  (click)="menuItemClicked('owner-logout')"><span class="material-icons">logout</span>Logout</button>
 

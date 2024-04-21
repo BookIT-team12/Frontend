@@ -18,10 +18,16 @@
         <button mat-menu-item type="button" (click)="menuItemClicked('user-blocking')">
             <span class="material-icons">person</span>Block a user
         </button>
-      <button mat-menu-item type="button" (click)="menuItemClicked('get-user-certificate')">
-        <span class="material-icons">school</span>
-        Get a certificate
-      </button>
+
+        <button mat-menu-item type="button" (click)="menuItemClicked('get-all-certificates')">
+            <span class="material-icons">school</span>
+            All certificates in a system
+        </button>
+
+        <button mat-menu-item type="button" (click)="menuItemClicked('generate-certificate')">
+            <span class="material-icons">school</span>
+            Generate a certificate
+        </button>
         <button type="button" mat-menu-item  (click)="menuItemClicked('logout')"><span class="material-icons">logout</span>Logout</button>
 
     </mat-menu>
