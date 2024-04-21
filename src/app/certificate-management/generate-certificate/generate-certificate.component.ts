@@ -120,8 +120,6 @@ export class GenerateCertificateComponent implements OnInit{
       )?.startDate;
       this.selectedO = subjectObj.O;
       this.selectedOU = subjectObj.OU;
-      this.selectedUN = subjectObj.UN;
-      this.selectedST = subjectObj.ST;
       this.selectedTemp = this.findCertificateByAlias(
         this.selectedKeySize
       )?.isCA;

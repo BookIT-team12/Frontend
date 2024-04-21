@@ -71,10 +71,6 @@ export class NavbarOwnerComponent implements OnInit {
       case 'owner-report':
         this.router.navigate(['/owner-report']);
         break;
-      //TODO:
-      case 'get-all-certificates':
-        this.router.navigate(['allCertificates']);
-        break;
       case 'host-certificate-request':
         this.router.navigate(['/hostCertificateRequest']);
         break;

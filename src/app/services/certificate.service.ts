@@ -25,20 +25,6 @@ export class CertificateService {
     });
   }
 
-  getCertificatesByUserID(): Observable<Certificate[]> {
-    this.userService.getCurrentUser().subscribe((res: any) => {
-      this.user = res;
-      console.log(this.user);
-    });
-    var userID = this.user?.email;
-    return this.http.get<Certificate[]>(
-      this.apiHost + 'api/certificate/getUserCertificates/' + userID,
-      {
-        headers: this.headers,
-      }
-    );
-  }
-
   revokeCertificate(alias: string): any {
     return this.http.get(this.apiHost + 'api/certificate/revoke/' + alias, {
       headers: this.headers,
@@ -75,6 +61,20 @@ export class CertificateService {
     return this.http.post<any>(
       this.apiHost + 'api/certificate/root/create',
       JSON.stringify(certificateDTO),
+      {
+        headers: this.headers,
+      }
+    );
+  }
+
+  getMyCertificates() {
+    this.userService.getCurrentUser().subscribe((res: any) => {
+      this.user = res;
+      console.log(this.user);
+    });
+    var userID = this.user?.email;
+    return this.http.get<Certificate[]>(
+      this.apiHost + 'api/certificate/userCertificates/' + userID,
       {
         headers: this.headers,
       }

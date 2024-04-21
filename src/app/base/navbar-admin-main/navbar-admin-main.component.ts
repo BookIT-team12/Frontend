@@ -47,8 +47,6 @@ export class NavbarAdminMainComponent {
       case 'reviews/owners/approval':
         this.router.navigate(['reviews/owners/approval']);
         break;
-
-      //TODO:
       case 'get-all-certificates':
         this.router.navigate(['/allCertificates']);
         break;

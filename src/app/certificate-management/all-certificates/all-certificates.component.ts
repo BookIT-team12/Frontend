@@ -157,33 +157,6 @@ export class AllCertificatesComponent implements OnInit{
     this.certificateService.getCertificates().subscribe((res: any) => {
       this.certificates = res;
     });
-    //
-    // window.addEventListener('message', (event) => {
-    //
-    //   if (event.origin === 'http://localhost:4200') {
-    //     if (event.data.type === 'userCredentials') {
-    //       const user = event.data.user;
-    //       console.log('User logged on port 4201:', user);
-    //     }
-    //   }
-    // });
-
-
-// Listening for messages from Port 4200
-//     window.addEventListener('message', event => {
-//       // Check if message is from Port 4200 and contains user credentials
-//       console.log("Event origin: ", event.origin);
-//       console.log("User credentials: ", event.data.type);
-//       if (event.origin === 'http://localhost:4200' && event.data.type === 'userCredentials') {
-//         // Retrieve user credentials from the message
-//         const userCredentialsString = event.data.data;
-//         // Store user credentials in localStorage on Port 4201
-//         localStorage.setItem('userCredentials', userCredentialsString);
-//       }
-//     });
-
-
-
   }
 
   revokeCertificate(alias: string) {
