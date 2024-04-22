@@ -1,5 +1,5 @@
 export interface HostCertificateRequest {
-  hostUsername?: string;
+  email?: string;
   organisation?: string;
   organisationUnit?: string;
   country?: string;

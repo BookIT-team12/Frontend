@@ -56,7 +56,7 @@ export class HostCertificateRequestComponent implements OnInit {
     // }
 
     var certificateRequest: HostCertificateRequest = {
-      hostUsername: this.user?.email,
+      email: this.user?.email,
       organisation: this.certificateForm?.get('subjectO')?.value,
       organisationUnit: this.certificateForm?.get('subjectOU')?.value,
       country: this.certificateForm?.get('subjectCountry')?.value,

@@ -10,8 +10,9 @@
           <div class="form-column">
             <label for="hostRequest">Select host request:</label>
             <select [(ngModel)]="selectedAuthority" id="hostRequest" name="certificateType" required>
-              <option *ngFor="let request of hostRequests" [value]="request.hostUsername">{{ request.hostUsername }}</option>
+              <option *ngFor="let request of hostRequests" [ngValue]="request.email">{{ request.email }}</option>
             </select>
+
           </div>
         </div>
         <br />
