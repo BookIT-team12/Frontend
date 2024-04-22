@@ -64,6 +64,7 @@ export class HostCertificateRequestComponent implements OnInit{
       isCRLS: this.certificateForm?.get('isCRLS')?.value,
     };
 
+    console.log("SERTIFIKAT ZAHTEV:" , certificateRequest);
       this.hostRequestService.createCertificateRequest(certificateRequest).subscribe(() => {
         this.snackBar.open("Request is created successfully.", 'Close', {
           duration: 3000,

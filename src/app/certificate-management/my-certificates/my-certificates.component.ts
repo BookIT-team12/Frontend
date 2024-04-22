@@ -11,6 +11,7 @@ import {CertificateService} from "../../services/certificate.service";
 export class MyCertificatesComponent implements OnInit{
   currentPage: number = 1;
   itemsPerPage: number = 5;
+  certificates!: Certificate[];
 
   constructor(private certificateService: CertificateService) {}
 
@@ -18,143 +19,9 @@ export class MyCertificatesComponent implements OnInit{
     //dobavljaju se sertifikati vlasnika koji udje da vidi svoje sertifikaate
     this.certificateService.getMyCertificates().subscribe((res: any) => {
       this.certificates = res;
+      console.log("MOJI SERTIFIKATI:" , this.certificates);
     });
   }
-
-  private certificates = [
-    {
-      type: 'Root CA1',
-      issuer: 'Example Root CA',
-      subject: 'Example Root CA',
-      startDate: '2022-01-01',
-      endDate: '2030-01-01',
-      alias: 'my root ca',
-      isRevoked: false
-    },
-    {
-      type: 'Intermediate CA2',
-      issuer: 'Example Root CA',
-      subject: 'Example Intermediate CA',
-      startDate: '2022-01-01',
-      endDate: '2025-01-01',
-      alias: 'intermediate ca',
-      isRevoked: false
-    },
-    {
-      type: 'End-entity3',
-      issuer: 'Example Intermediate CA',
-      subject: 'Example End-entity Certificate',
-      startDate: '2022-01-01',
-      endDate: '2023-01-01',
-      alias: 'end-entity cert',
-      isRevoked: true
-    },
-    {
-      type: 'Root CA4',
-      issuer: 'Example Root CA',
-      subject: 'Example Root CA',
-      startDate: '2022-01-01',
-      endDate: '2030-01-01',
-      alias: 'my root ca',
-      isRevoked: false
-    },
-    {
-      type: 'Intermediate CA5',
-      issuer: 'Example Root CA',
-      subject: 'Example Intermediate CA',
-      startDate: '2022-01-01',
-      endDate: '2025-01-01',
-      alias: 'intermediate ca',
-      isRevoked: false
-    },
-    {
-      type: 'End-entity6',
-      issuer: 'Example Intermediate CA',
-      subject: 'Example End-entity Certificate',
-      startDate: '2022-01-01',
-      endDate: '2023-01-01',
-      alias: 'end-entity cert',
-      isRevoked: true
-    },{
-      type: 'Root CA7',
-      issuer: 'Example Root CA',
-      subject: 'Example Root CA',
-      startDate: '2022-01-01',
-      endDate: '2030-01-01',
-      alias: 'my root ca',
-      isRevoked: false
-    },
-    {
-      type: 'Intermediate CA8',
-      issuer: 'Example Root CA',
-      subject: 'Example Intermediate CA',
-      startDate: '2022-01-01',
-      endDate: '2025-01-01',
-      alias: 'intermediate ca',
-      isRevoked: false
-    },
-    {
-      type: 'End-entity9',
-      issuer: 'Example Intermediate CA',
-      subject: 'Example End-entity Certificate',
-      startDate: '2022-01-01',
-      endDate: '2023-01-01',
-      alias: 'end-entity cert',
-      isRevoked: true
-    },{
-      type: 'Root CA10',
-      issuer: 'Example Root CA',
-      subject: 'Example Root CA',
-      startDate: '2022-01-01',
-      endDate: '2030-01-01',
-      alias: 'my root ca',
-      isRevoked: false
-    },
-    {
-      type: 'Intermediate CA11',
-      issuer: 'Example Root CA',
-      subject: 'Example Intermediate CA',
-      startDate: '2022-01-01',
-      endDate: '2025-01-01',
-      alias: 'intermediate ca',
-      isRevoked: false
-    },
-    {
-      type: 'End-entity12',
-      issuer: 'Example Intermediate CA',
-      subject: 'Example End-entity Certificate',
-      startDate: '2022-01-01',
-      endDate: '2023-01-01',
-      alias: 'end-entity cert',
-      isRevoked: true
-    },{
-      type: 'Root CA13',
-      issuer: 'Example Root CA',
-      subject: 'Example Root CA',
-      startDate: '2022-01-01',
-      endDate: '2030-01-01',
-      alias: 'my root ca',
-      isRevoked: false
-    },
-    {
-      type: 'Intermediate CA14',
-      issuer: 'Example Root CA',
-      subject: 'Example Intermediate CA',
-      startDate: '2022-01-01',
-      endDate: '2025-01-01',
-      alias: 'intermediate ca',
-      isRevoked: false
-    },
-    {
-      type: 'End-entity15',
-      issuer: 'Example Intermediate CA',
-      subject: 'Example End-entity Certificate',
-      startDate: '2022-01-01',
-      endDate: '2023-01-01',
-      alias: 'end-entity cert',
-      isRevoked: true
-    }
-  ];
 
   revokeCertificate(alias: string) {
     this.certificateService.revokeCertificate(alias).subscribe();
