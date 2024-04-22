@@ -4,6 +4,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Certificate} from "../../model/certificate";
 import {HostCertificateRequest} from "../../model/host-certificate-request";
 import {SubjectObj} from "../../model/subject";
+import {HostRequestService} from "../../services/host-request.service";
 
 @Component({
   selector: 'app-generate-certificate',
@@ -12,7 +13,7 @@ import {SubjectObj} from "../../model/subject";
 })
 
 export class GenerateCertificateComponent implements OnInit{
-  certificates!: Certificate[]
+  certificates!: Certificate[];
   selectedAuthority!: string;
   subjectCN!:string;
   subjectO!: string;
@@ -41,16 +42,24 @@ export class GenerateCertificateComponent implements OnInit{
 
   constructor(
     private certificateService: CertificateService,
-    private snackBar : MatSnackBar
+    private snackBar : MatSnackBar,
+    private hostRequestService: HostRequestService
   ) {}
 
   ngOnInit(): void {
+    this.selectedAuthority = "bilo sta";
+    this.hostRequestService.getAllRequests().subscribe((res: any) => {
+      this.hostRequests = res;
+      console.log("ZAHTEVI", this.hostRequests)
+    });
+
     //dobavljamo sve zahteve
     this.certificateService.getCertificates().subscribe((res: any) => {
       this.certificates = res;
       this.CAcertificates = this.certificates.filter((cert: Certificate) => {
         return cert.isCA === true;
       });
+      console.log("SERTIFIKATI U GEN ", this.certificates)
     });
   }
 

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {HostCertificateRequest} from "../model/host-certificate-request";
+import {Observable} from "rxjs";
+import {Certificate} from "../model/certificate";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HostRequestService {
-  apiHost: string = 'http://localhost:8080/';
+  apiHost: string = 'http://localhost:8081/';
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });
@@ -15,7 +17,7 @@ export class HostRequestService {
 
   createCertificateRequest(hostCertificateRequest: HostCertificateRequest) {
     return this.http.post<any>(
-      this.apiHost + 'api/certificateRequest/create',
+      this.apiHost + 'api/certificates/request/create',
       JSON.stringify(hostCertificateRequest),
       {
         headers: this.headers,
@@ -24,4 +26,9 @@ export class HostRequestService {
   }
 
 
+  getAllRequests(): Observable<HostCertificateRequest[]> {
+    return this.http.get<HostCertificateRequest[]>(this.apiHost + 'api/certificates/request/all', {
+      headers: this.headers,
+    });
+  }
 }

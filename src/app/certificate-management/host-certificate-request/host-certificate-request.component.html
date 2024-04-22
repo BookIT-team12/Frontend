@@ -39,7 +39,7 @@
         <select
           [(ngModel)]="isCA"
           id="isCA"
-          name="certificateType"
+          name="isCA"
           required
         >
           <option value="true">TRUE</option>
@@ -53,7 +53,7 @@
         <select
           [(ngModel)]="isDS"
           id="isDS"
-          name="certificateType"
+          name="isDS"
           required
         >
           <option value="true">TRUE</option>
@@ -68,7 +68,7 @@
         <select
           [(ngModel)]="isKE"
           id="isKE"
-          name="certificateType"
+          name="isKE"
           required
         >
           <option value="true">TRUE</option>
@@ -83,7 +83,7 @@
         <select
           [(ngModel)]="isKCS"
           id="isKCS"
-          name="certificateType"
+          name="isKCS"
           required
         >
           <option value="true">TRUE</option>
@@ -98,7 +98,7 @@
         <select
           [(ngModel)]="isCRLS"
           id="isCRLS"
-          name="certificateType"
+          name="isCRLS"
           required
         >
         <option value="true">TRUE</option>
@@ -107,7 +107,7 @@
       </div>
     </div>
     <div id="button-submit">
-      <button type="submit" [disabled]="certificateForm.invalid">Submit</button>
+      <button type="submit" >Submit</button>
     </div>
   </form>
 </div>
