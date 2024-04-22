@@ -1,19 +1,17 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../model/user.model";
-import {CertificateService} from "../../services/certificate.service";
-import {UserService} from "../../services/user.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {HostCertificateRequest} from "../../model/host-certificate-request";
-import {HostRequestService} from "../../services/host-request.service";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '../../model/user.model';
+import { HostCertificateRequest } from '../../model/host-certificate-request';
+import { HostRequestService } from '../../services/host-request.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-host-certificate-request',
   templateUrl: './host-certificate-request.component.html',
   styleUrls: ['./host-certificate-request.component.css']
 })
-
-export class HostCertificateRequestComponent implements OnInit{
+export class HostCertificateRequestComponent implements OnInit {
   certificateForm!: FormGroup;
   user: User | undefined;
   isCA!: boolean;
@@ -26,14 +24,18 @@ export class HostCertificateRequestComponent implements OnInit{
               private userService: UserService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
+    this.isCA = true;
+    this.isDS = false;
+    this.isKE = false;
+    this.isKCS = false;
+    this.isCRLS = false;
     this.certificateForm = this.formBuilder.group({
       email: ['', Validators.required],
-      subjectCN: ['', Validators.required],
       subjectO: ['', Validators.required],
       subjectOU: ['', Validators.required],
       subjectCountry: ['', Validators.required],
       isCA: ['', Validators.required],
-      isDT: ['', Validators.required],
+      isDS: ['', Validators.required],
       isKE: ['', Validators.required],
       isKCS: ['', Validators.required],
       isCRLS: ['', Validators.required]
@@ -47,28 +49,29 @@ export class HostCertificateRequestComponent implements OnInit{
   }
 
   createCertificate() {
-    if (this.certificateForm?.invalid) {
-      return;
-    }
+    console.log("udje")
+    // if (this.certificateForm?.invalid) {
+    //   console.log("Invalid form");
+    //   return;
+    // }
 
-    var certificateRequest:HostCertificateRequest = {
+    var certificateRequest: HostCertificateRequest = {
       hostUsername: this.user?.email,
-      commonName: this.certificateForm?.get('subjectCN')?.value,
       organisation: this.certificateForm?.get('subjectO')?.value,
       organisationUnit: this.certificateForm?.get('subjectOU')?.value,
-      country: this.certificateForm?.get('subjectOU')?.value,
-      isCA: this.certificateForm?.get('isCA')?.value,
-      isDS: this.certificateForm?.get('isDS')?.value,
-      isKE: this.certificateForm?.get('isKE')?.value,
-      isKCS: this.certificateForm?.get('isKCS')?.value,
-      isCRLS: this.certificateForm?.get('isCRLS')?.value,
+      country: this.certificateForm?.get('subjectCountry')?.value,
+      isCA: this.isCA,
+      isDS: this.isDS,
+      isKE: this.isKE,
+      isKCS: this.isKCS,
+      isCRLS: this.isCRLS,
     };
 
-    console.log("SERTIFIKAT ZAHTEV:" , certificateRequest);
-      this.hostRequestService.createCertificateRequest(certificateRequest).subscribe(() => {
-        this.snackBar.open("Request is created successfully.", 'Close', {
-          duration: 3000,
-        });
+    console.log("SERTIFIKAT ZAHTEV:", certificateRequest);
+    this.hostRequestService.createCertificateRequest(certificateRequest).subscribe(() => {
+      this.snackBar.open("Request is created successfully.", 'Close', {
+        duration: 3000,
       });
-    }
+    });
+  }
 }

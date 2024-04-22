@@ -8,7 +8,7 @@ import {Certificate} from "../model/certificate";
   providedIn: 'root'
 })
 export class HostRequestService {
-  apiHost: string = 'http://localhost:8080/';
+  apiHost: string = 'http://localhost:8081/';
   headers: HttpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
   });

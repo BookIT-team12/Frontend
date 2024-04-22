@@ -47,9 +47,10 @@ export class GenerateCertificateComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-
+    this.selectedAuthority = "bilo sta";
     this.hostRequestService.getAllRequests().subscribe((res: any) => {
       this.hostRequests = res;
+      console.log("ZAHTEVI", this.hostRequests)
     });
 
     //dobavljamo sve zahteve
@@ -58,6 +59,7 @@ export class GenerateCertificateComponent implements OnInit{
       this.CAcertificates = this.certificates.filter((cert: Certificate) => {
         return cert.isCA === true;
       });
+      console.log("SERTIFIKATI U GEN ", this.certificates)
     });
   }
 
