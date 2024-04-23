@@ -1,13 +1,14 @@
 export interface Certificate {
-  issuerAlias?: string;
-  subjectCommonName?: string;
+  requestId?: number;
+  issuer: string; //issuerAlias
+  commonName?: string; // subject ceo
   startDate?: string;
   endDate?: string;
   alias?: string;
   isRevoked?: boolean;
-  isCA?: boolean;
-  isDS?: boolean;
-  isKE?: boolean;
-  isKCS?: boolean;
-  isCRLS?: boolean;
+  ca?: boolean;
+  ds?: boolean;
+  ke?: boolean;
+  kcs?: boolean;
+  crls?: boolean;
 }

@@ -14,11 +14,10 @@ import {HostRequestService} from "../../services/host-request.service";
 
 export class GenerateCertificateComponent implements OnInit{
   certificates!: Certificate[];
-  selectedAuthority!: string;
   subjectCN!:string;
-  subjectO!: string;
-  subjectOU!: string;
-  subjectCountry!:string;
+  subjectO!: string | undefined;
+  subjectOU!: string | undefined;
+  subjectCountry!:string | undefined;
   startDate: any;
   endDate: any;
   selectedKeySize!: string;
@@ -27,18 +26,21 @@ export class GenerateCertificateComponent implements OnInit{
   selectedST!: string;
   selectedOU!: string;
   selectedO!: string;
-  selectedCN!: string;
+  selectedCN!: string | undefined;
   selectedTemp: any;
   selectedAlias!: string;
   selectedC!: string;
   selectedUN!: string;
   hostRequests!: HostCertificateRequest[];
-  isCRL!: boolean;
-  isCA!: boolean;
-  isDS!: boolean;
-  isKE!: boolean;
-  isKCS!: boolean;
+  notUsedHostRequests!:HostCertificateRequest[];
+  isCRL!: boolean | undefined;
+  isCA!: boolean | undefined;
+  isDS!: boolean | undefined;
+  isKE!: boolean | undefined;
+  isKCS!: boolean | undefined;
   CAcertificates! : Certificate[];
+  selectedHostRequest: HostCertificateRequest | undefined;
+  selectedRequestId: number | undefined;
 
   constructor(
     private certificateService: CertificateService,
@@ -47,20 +49,30 @@ export class GenerateCertificateComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.selectedAuthority = "bilo sta";
-    this.hostRequestService.getAllRequests().subscribe((res: any) => {
-      this.hostRequests = res;
-      console.log("ZAHTEVI", this.hostRequests)
-    });
 
-    //dobavljamo sve zahteve
+    //dobavljamo sve sertifikate kako bismo mogli da odaberemo ca sertifikat za issuera
     this.certificateService.getCertificates().subscribe((res: any) => {
       this.certificates = res;
-      this.CAcertificates = this.certificates.filter((cert: Certificate) => {
-        return cert.isCA === true;
-      });
+
+      //od svih sertifikata biramo onaj koji je ca
+      this.CAcertificates = this.certificates.filter((cert: Certificate) => cert.ca);
+      console.log("SERTIFIKATI U CA", this.CAcertificates)
       console.log("SERTIFIKATI U GEN ", this.certificates)
+
+      //dobavimo sve zahteve za kreiranje sertifikata od vlasnika
+      this.hostRequestService.getAllRequests().subscribe((res: any) => {
+        this.hostRequests = res;
+        console.log("ZAHTEVI", this.hostRequests);
+
+        //od svih zahteva uzimamo samo neiskoriscene zahteve
+        const certificateRequestIds = this.certificates.map(cert => cert.requestId);
+        this.notUsedHostRequests = this.hostRequests.filter(hostRequest => !certificateRequestIds.includes(hostRequest.id));
+        console.log("NEISKORISCENI ZAHTEVI", this.notUsedHostRequests);
+      });
+
     });
+
+
   }
 
   findCertificateByAlias(alias: string): Certificate | undefined {
@@ -72,15 +84,18 @@ export class GenerateCertificateComponent implements OnInit{
   createCertificate() {
 
     const certificateDTO: Certificate = {
-      issuerAlias :this.selectedAlias,
-      subjectCommonName:this.subjectCN,
+      requestId: this.selectedHostRequest?.id as number,
+      issuer :this.selectedAlias,
+      // C=SRB, OU=Certificate issuer department, O=My Root organisation enterprise, CN=Root CA
+      // subject:"C=" + this.subjectCountry + ", " + "OU=" + this.subjectOU + ", " + "O=" + this.subjectO + ", " + "CN=" + this.subjectCN,
+      commonName:this.subjectCN,
       startDate:this.startDate,
       endDate:this.endDate,
-      isCA: this.isCA,
-      isDS: this.isDS,
-      isKE: this.isKE,
-      isKCS: this.isKCS,
-      isCRLS: this.isCRL
+      ca: this.isCA,
+      ds: this.isDS,
+      ke: this.isKE,
+      kcs: this.isKCS,
+      crls: this.isCRL
     };
 
     let selectedStartDateMs = this.parseDate(this.selectedStartDate).getTime();
@@ -95,6 +110,7 @@ export class GenerateCertificateComponent implements OnInit{
       startDateMs < selectedEndDateMs &&
       endDateMs > startDateMs
     ) {
+      console.log("CERTIFICATE THAT IS CREATED:" , certificateDTO)
       this.certificateService.createCertificate(certificateDTO).subscribe();
     } else {
       window.alert('Wrong date!');
@@ -106,7 +122,7 @@ export class GenerateCertificateComponent implements OnInit{
     const selectedCert = this.findCertificateByAlias(this.selectedAlias);
 
     if (selectedCert) {
-      const certSubject = selectedCert.subjectCommonName;
+      const certSubject = selectedCert.commonName;
       const subjectObj: any = {
         C: '',
         OU: '',
@@ -116,10 +132,14 @@ export class GenerateCertificateComponent implements OnInit{
 
       certSubject?.split(',').forEach((item: string) => {
         const parts = item.trim().split('=');
-        subjectObj[parts[0]] = parts[1];
+        const key = parts[0].trim();
+        const value = parts[1].trim();
+        subjectObj[key] = value;
       });
 
-      this.selectedCN = subjectObj.CN; // access the CN value
+      this.selectedCN = subjectObj.CN;
+      this.selectedO = subjectObj.O;
+      this.selectedOU = subjectObj.OU;
       this.selectedC = subjectObj.C;
       this.selectedEndDate = this.findCertificateByAlias(
         this.selectedKeySize
@@ -127,11 +147,9 @@ export class GenerateCertificateComponent implements OnInit{
       this.selectedStartDate = this.findCertificateByAlias(
         this.selectedKeySize
       )?.startDate;
-      this.selectedO = subjectObj.O;
-      this.selectedOU = subjectObj.OU;
       this.selectedTemp = this.findCertificateByAlias(
         this.selectedKeySize
-      )?.isCA;
+      )?.ca;
     }
   }
 
@@ -165,4 +183,19 @@ export class GenerateCertificateComponent implements OnInit{
 
     return date;
   }
+
+  onSelectionChangedRequest() {
+    this.selectedHostRequest = this.hostRequests.find(request => request.id === this.selectedRequestId);
+    if (this.selectedHostRequest) {
+      this.isCA = this.selectedHostRequest.ca;
+      this.isDS = this.selectedHostRequest.ds;
+      this.isKE = this.selectedHostRequest.ke;
+      this.isKCS = this.selectedHostRequest.kcs;
+      this.isCRL = this.selectedHostRequest.crls;
+      this.subjectO = this.selectedHostRequest.organisation;
+      this.subjectOU = this.selectedHostRequest.organisationUnit;
+      this.subjectCountry = this.selectedHostRequest.organisation;
+    }
+  }
+
 }

@@ -1,11 +1,12 @@
 export interface HostCertificateRequest {
+  id?: number
   email?: string;
   organisation?: string;
   organisationUnit?: string;
   country?: string;
-  isCA?: boolean;
-  isDS?: boolean;
-  isKE?:boolean;
-  isKCS?:boolean;
-  isCRLS?:boolean;
+  ca?: boolean;
+  ds?: boolean;
+  ke?:boolean;
+  kcs?:boolean;
+  crls?:boolean;
 }
