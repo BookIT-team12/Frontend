@@ -16,7 +16,7 @@
       <input  type="text" id="subjectO" formControlName="subjectO" required>
       <div *ngIf="certificateForm?.get('subjectO')?.invalid && (certificateForm?.get('subjectO')?.dirty || certificateForm?.get('subjectO')?.touched)" class="invalid-feedback">
         Organisation is required
-    </div>
+      </div>
     </div>
     <div class="form-group">
       <label for="subjectOU">Organisational Unit</label>
@@ -37,13 +37,13 @@
       <div class="form-column">
         <label for="isCA">Certificate Authority</label>
         <select
-          [(ngModel)]="isCA"
+          formControlName="isCA"
           id="isCA"
           name="isCA"
           required
         >
-          <option value="true">TRUE</option>
-          <option value="false">FALSE</option>
+          <option [ngValue]="true">TRUE</option>
+          <option [ngValue]="false">FALSE</option>
         </select>
       </div>
     </div><br />
@@ -51,13 +51,13 @@
       <div class="form-column">
         <label for="isDS">Digital Signature</label>
         <select
-          [(ngModel)]="isDS"
+          formControlName="isDS"
           id="isDS"
           name="isDS"
           required
         >
-          <option value="true">TRUE</option>
-          <option value="false">FALSE</option>
+          <option [ngValue]="true">TRUE</option>
+          <option [ngValue]="false">FALSE</option>
         </select>
       </div>
     </div>
@@ -66,13 +66,13 @@
       <div class="form-column">
         <label for="isKE">Key Encipherment</label>
         <select
-          [(ngModel)]="isKE"
+          formControlName="isKE"
           id="isKE"
           name="isKE"
           required
         >
-          <option value="true">TRUE</option>
-          <option value="false">FALSE</option>
+          <option [ngValue]="true">TRUE</option>
+          <option [ngValue]="false">FALSE</option>
         </select>
       </div>
     </div>
@@ -81,13 +81,13 @@
       <div class="form-column">
         <label for="isKCS">Key Cert Sign</label>
         <select
-          [(ngModel)]="isKCS"
+          formControlName="isKCS"
           id="isKCS"
           name="isKCS"
           required
         >
-          <option value="true">TRUE</option>
-          <option value="false">FALSE</option>
+          <option [ngValue]="true">TRUE</option>
+          <option [ngValue]="false">FALSE</option>
         </select>
       </div>
     </div>
@@ -96,14 +96,14 @@
       <div class="form-column">
         <label for="isCRLS">CRL Sign</label>
         <select
-          [(ngModel)]="isCRLS"
+          formControlName="isCRLS"
           id="isCRLS"
           name="isCRLS"
           required
         >
-        <option value="true">TRUE</option>
-        <option value="false">FALSE</option>
-      </select>
+          <option [ngValue]="true">TRUE</option>
+          <option [ngValue]="false">FALSE</option>
+        </select>
       </div>
     </div>
     <div id="button-submit">

@@ -14,31 +14,21 @@ import { UserService } from '../../services/user.service';
 export class HostCertificateRequestComponent implements OnInit {
   certificateForm!: FormGroup;
   user: User | undefined;
-  isCA!: boolean;
-  isDS!: boolean;
-  isKE!: boolean;
-  isKCS!: boolean;
-  isCRLS!: boolean;
 
   constructor(private formBuilder: FormBuilder, private hostRequestService: HostRequestService,
               private userService: UserService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.isCA = true;
-    this.isDS = false;
-    this.isKE = false;
-    this.isKCS = false;
-    this.isCRLS = false;
     this.certificateForm = this.formBuilder.group({
       email: ['', Validators.required],
       subjectO: ['', Validators.required],
       subjectOU: ['', Validators.required],
       subjectCountry: ['', Validators.required],
-      isCA: ['', Validators.required],
-      isDS: ['', Validators.required],
-      isKE: ['', Validators.required],
-      isKCS: ['', Validators.required],
-      isCRLS: ['', Validators.required]
+      isCA: [true, Validators.required],
+      isDS: [true, Validators.required],
+      isKE: [true, Validators.required],
+      isKCS: [true, Validators.required],
+      isCRLS: [true, Validators.required]
     });
 
     this.userService.getCurrentUser().subscribe((res: any) => {
@@ -49,22 +39,22 @@ export class HostCertificateRequestComponent implements OnInit {
   }
 
   createCertificate() {
-    console.log("udje")
-    // if (this.certificateForm?.invalid) {
-    //   console.log("Invalid form");
-    //   return;
-    // }
+
+    if (this.certificateForm?.invalid) {
+      console.log("Invalid form");
+      return;
+    }
 
     var certificateRequest: HostCertificateRequest = {
-      hostUsername: this.user?.email,
+      email: this.user?.email,
       organisation: this.certificateForm?.get('subjectO')?.value,
       organisationUnit: this.certificateForm?.get('subjectOU')?.value,
       country: this.certificateForm?.get('subjectCountry')?.value,
-      isCA: this.isCA,
-      isDS: this.isDS,
-      isKE: this.isKE,
-      isKCS: this.isKCS,
-      isCRLS: this.isCRLS,
+      ca: this.certificateForm?.get('isCA')?.value,
+      ds: this.certificateForm?.get('isDS')?.value,
+      ke: this.certificateForm?.get('isKE')?.value,
+      kcs: this.certificateForm?.get('isKCS')?.value,
+      crls: this.certificateForm?.get('isCRLS')?.value,
     };
 
     console.log("SERTIFIKAT ZAHTEV:", certificateRequest);

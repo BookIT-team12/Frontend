@@ -9,9 +9,10 @@
         <div class="form-group">
           <div class="form-column">
             <label for="hostRequest">Select host request:</label>
-            <select [(ngModel)]="selectedAuthority" id="hostRequest" name="certificateType" required>
-              <option *ngFor="let request of hostRequests" [value]="request.hostUsername">{{ request.hostUsername }}</option>
+            <select (change)="onSelectionChangedRequest()" [(ngModel)]="selectedRequestId" id="hostRequest" name="certificateType" required>
+              <option *ngFor="let request of notUsedHostRequests" [ngValue]="request.id">{{ request.id }}</option>
             </select>
+
           </div>
         </div>
         <br />
@@ -19,22 +20,25 @@
           <div class="form-column">
             <label for="certificateType1">Certificate Authority</label>
             <input
-              [(ngModel)]="isCA"
+              type="text"
               id="certificateType1"
               name="certificateType"
+              [value]="isCA ? 'true' : 'false'"
               required
               readonly="true"
               style="background-color: #c0c3c4"
             />
           </div>
-        </div><br />
+        </div>
+        <br />
         <div class="form-group">
           <div class="form-column">
             <label for="certificateType2">Digital Signature</label>
             <input
-              [(ngModel)]="isDS"
+              type="text"
               id="certificateType2"
               name="certificateType"
+              [value]="isDS ? 'true' : 'false'"
               required
               readonly="true"
               style="background-color: #c0c3c4"
@@ -46,10 +50,11 @@
           <div class="form-column">
             <label for="certificateType3">Key Encipherment</label>
             <input
-              [(ngModel)]="isKE"
+              type="text"
               id="certificateType3"
               name="certificateType"
               required
+              [value]="isKE ? 'true' : 'false'"
               readonly="true"
               style="background-color: #c0c3c4"
             />
@@ -60,10 +65,11 @@
           <div class="form-column">
             <label for="certificateType4">Key Cert Sign</label>
             <input
-              [(ngModel)]="isKCS"
+              type="text"
               id="certificateType4"
               name="certificateType"
               required
+              [value]="isKCS ? 'true' : 'false'"
               readonly="true"
               style="background-color: #c0c3c4"
             />
@@ -74,7 +80,8 @@
           <div class="form-column">
             <label for="certificateType5">CRL Sign</label>
             <input
-              [(ngModel)]="isCRL"
+              type="text"
+              [value]="isCRL ? 'true' : 'false'"
               id="certificateType5"
               name="certificateType"
               required
@@ -239,7 +246,7 @@
               id="country"
               name="country"
               maxlength="2"
-              [(ngModel)]="selectedST"
+              [(ngModel)]="selectedC"
               required
             />
           </div>
