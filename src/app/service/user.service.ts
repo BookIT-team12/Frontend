@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {map, Observable, throwError} from "rxjs";
 import { catchError } from "rxjs/operators";
 import {Role, User} from "../model/user.model";
@@ -24,9 +24,14 @@ export class UserService {
     );
   }
 
-  registerUser(dto: User): Observable<User> {
+  registerUser(user: User, recaptchaToken: string): Observable<User> {
     const url = `${this.apiUrl}/register`;
-    return this.http.post<User>(url, dto).pipe(
+
+    // Construct request parameters
+    const params = new HttpParams()
+      .set('recaptchaToken', recaptchaToken);
+
+    return this.http.post<User>(url, user, { params }).pipe(
       catchError((error) => {
         console.error('Error registering user:', error);
         return throwError(error);

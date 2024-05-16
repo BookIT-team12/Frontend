@@ -42,8 +42,12 @@ export class AuthService {
     return this.userState;
   }
 
-  login(auth: any): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(environment.apiHost + 'users/login', auth);
+  login(auth: any, recaptchaToken: string): Observable<AuthResponse> {
+    const body = {
+      ...auth,
+      recaptchaToken: recaptchaToken
+    };
+    return this.http.post<AuthResponse>(`${environment.apiHost}users/login`, body);
   }
 
   logout(): Observable<void|null> {

@@ -1,11 +1,12 @@
-import {Component} from '@angular/core';
-import {UserService} from "../../service/user.service";
-import {Role, User, UserStatus} from "../../model/user.model";
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from '@angular/router'; // Import the Router service
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {AuthService} from "../auth.service";
-import {RecaptchaLoaderService} from "../../service/recaptcha-loader";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from "../../service/user.service";
+import { Role, User, UserStatus } from "../../model/user.model";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from '@angular/router'; // Import the Router service
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from "../auth.service";
+import { RecaptchaLoaderService } from "../../service/recaptcha-loader";
+
 declare var grecaptcha: any;
 
 @Component({
@@ -13,7 +14,7 @@ declare var grecaptcha: any;
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   siteKey: string = '6LfPBd4pAAAAAOz2SvGECUrynQQhc_BKbjK68pob'; // Replace with your actual Site Key
   form: FormGroup;
   hide: boolean = true;
@@ -26,8 +27,28 @@ export class RegisterComponent {
   address: string = '';
   phone: string = '';
   confirmPassword: string = '';
-  isBlocked:boolean=false;
-  isReported:boolean=false;
+  isBlocked: boolean = false;
+  isReported: boolean = false;
+  recaptchaResponse: string | null = null; // Add a property to hold the recaptcha response
+
+  constructor(
+    private userService: UserService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    public router: Router,
+    private authService: AuthService,
+    private recaptchaLoaderService: RecaptchaLoaderService
+  ) {
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      address: ['', [Validators.required]],
+    }, { validators: this.passwordMatchValidator });
+  }
 
   ngOnInit(): void {
     this.recaptchaLoaderService.loadScript().then(() => {
@@ -42,149 +63,94 @@ export class RegisterComponent {
     });
   }
 
-  constructor(private userService: UserService, private fb: FormBuilder, private snackBar: MatSnackBar, public router:Router, private authService:AuthService, private recaptchaLoaderService: RecaptchaLoaderService) {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', [Validators.required]],
-      name: ['', [Validators.required]],
-      lastName: ['', [Validators.required]],
-      phone: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
-      address: ['', [Validators.required]],
-    }, {validators: this.passwordMatchValidator});
-
-  }
   get emailControl() {
     return this.form.get('email');
   }
+
   get passwordControl() {
     return this.form.get('password');
   }
 
-  get confirmPasswordControl(){
+  get confirmPasswordControl() {
     return this.form.get('confirmPassword');
-
   }
+
   passwordMatchValidator(control: AbstractControl) {
-    // @ts-ignore
-    const password = control.get('password').value;
-    // @ts-ignore
-    const confirmPassword = control.get('confirmPassword').value;
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('confirmPassword')?.value;
 
-    return password === confirmPassword ? null : {passwordMismatch: true};
+    return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
+  onCaptchaResolved(response: string): void {
+    this.recaptchaResponse = response; // Store the recaptcha response
+    console.log('reCAPTCHA response:', response);
+  }
 
   onSubmit() {
-    // Create a new User object
-    console.log(this.password)
-/*
-    if (this.form.valid) {
-*/
-      let newUser: User;
-      const recaptchaResponse = grecaptcha.getResponse();
+    console.log("USAO  U ON SUBMIT!")
+    // if (this.form.valid) {
+    const recaptchaResponse = localStorage.getItem('_grecaptcha')
+    console.log("ReCaptcha Response u OnSubmit: ", recaptchaResponse)
 
-      console.log("Captcha: ", recaptchaResponse)
-
-      if (!recaptchaResponse) {
+    if (!recaptchaResponse) {
         alert('Please complete the reCAPTCHA');
         return;
       }
-      if ((this.selectedRole as Role) === Role.GUEST){
-          newUser = new User(
-              this.name,
-              this.lastName,
-              this.email,
-              this.password,
-              this.address,
-              this.phone,
-              this.selectedRole as Role,  // Set the selected role
-              // this.Role.ADMINISTRATOR, //
-              this.confirmPassword,
-              this.isReported,
-              this.isBlocked,
-              false,
-              false,
-              false,
-              false,
-              true,
-              UserStatus.PENDING
-          );
-      } else {  //it will be owner then
-          newUser = new User(
-              this.name,
-              this.lastName,
-              this.email,
-              this.password,
-              this.address,
-              this.phone,
-              this.selectedRole as Role,  // Set the selected role
-              // this.Role.ADMINISTRATOR, //
-              this.confirmPassword,
-              this.isReported,
-              this.isBlocked,
-              true,
-              true,
-              true,
-              true,
-              false,
-              UserStatus.PENDING
-          );
+
+      let newUser: User;
+      if (this.selectedRole === Role.GUEST) {
+        newUser = new User(
+          this.name,
+          this.lastName,
+          this.email,
+          this.password,
+          this.address,
+          this.phone,
+          this.selectedRole,
+          this.confirmPassword,
+          this.isReported,
+          this.isBlocked,
+          false,
+          false,
+          false,
+          false,
+          true,
+          UserStatus.PENDING
+        );
+      } else { // it will be owner then
+        newUser = new User(
+          this.name,
+          this.lastName,
+          this.email,
+          this.password,
+          this.address,
+          this.phone,
+          this.selectedRole,
+          this.confirmPassword,
+          this.isReported,
+          this.isBlocked,
+          true,
+          true,
+          true,
+          true,
+          false,
+          UserStatus.PENDING
+        );
       }
-    console.log('User: ', newUser)
 
-    this.userService.registerUser(newUser).subscribe(
+
+      this.userService.registerUser(newUser, recaptchaResponse).subscribe(
         (result) => {
-          // Handle success, if needed
           console.log('User registered successfully', result);
-          this.router.navigate(['/main'])
+          this.router.navigate(['/main']);
+        },
+        (error) => {
+          console.error('Error registering user', error);
         }
-  //        this.showSnackBar('Registration successful');
- //          const login: Login = {
- //            email: newUser.email || "test",
- //            password: newUser.password || "test"
- //          }
- //          this.authService.login(login).subscribe({
- //            next: (response: AuthResponse) => {
- //              console.log(response)
- //              console.log(response.accessToken)
- //              localStorage.setItem('user', response.accessToken);
- //              this.authService.setUser()
- //              this.authService.setUserDetails()
- //              this.router.navigate(['main'])
- //            }
- //          });
- //        },
- //        (error) => {
- //          // Handle error, if needed
- // //         this.showSnackBar('Error registering user');
- //          console.error('Error registering user', error);
- //        }
-    );
-
-
-
-/*
+      );
+    // }
   }
-*/
-}
-
-    onCaptchaResolved(response: string): void {
-        // 'response' contains the token generated by reCAPTCHA
-        console.log('reCAPTCHA response:', response);
-        // You can perform further actions here, such as setting a flag to indicate that the captcha has been resolved
-    }
 
   protected readonly Role = Role;
-    /*
-      }
-    */
-  }
-  // private showSnackBar(message:string){
-  //   this.snackBar.open(message, 'Close', {
-  //     duration: 3000, // Adjust the duration as needed
-  //     verticalPosition: 'bottom', // You can also use 'bottom'
-  //     panelClass: 'snackbar-success' // Add a custom CSS class for styling
-  //   });
-
-
+}
