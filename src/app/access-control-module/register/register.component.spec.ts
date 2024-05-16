@@ -1,25 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {FormBuilder, ReactiveFormsModule} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { RouterTestingModule } from '@angular/router/testing';
-import { RegisterComponent } from './register.component';
-import { UserService } from '../../service/user.service';
-import { AuthService } from '../auth.service';
-import { of } from 'rxjs';
-import {Role, User} from "../../model/user.model";
-import {
-  UserAccountManagementComponent
-} from "../../account-managment/user-account-management/user-account-management.component";
-import {NavbarComponent} from "../../base/navbar/navbar.component";
-import {NavbarAdminComponent} from "../../base/navbar-admin/navbar-admin.component";
-import {NavbarOwnerComponent} from "../../base/navbar-owner/navbar-owner.component";
-import {HttpClientModule} from "@angular/common/http";
-import {MatInputModule} from "@angular/material/input";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {MatIconModule} from "@angular/material/icon";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {BaseModule} from "../../base/base.module";
-import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RegisterComponent} from './register.component';
+import {UserService} from '../../service/user.service';
+import {AuthService} from '../auth.service';
+import {of} from 'rxjs';
+import {Role, User, UserStatus} from "../../model/user.model";
 
 fdescribe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -85,7 +72,7 @@ fdescribe('RegisterComponent', () => {
     // Mock the userService.registerUser method to return a successful response
     userServiceSpy.registerUser.and.returnValue(of(new User(user.name, user.lastName, user.email, user.password, user.address,
       user.phone,  user.selectedRole, user.confirmPassword, false, false, false,
-      false, false, false, true)));
+      false, false, false, true, UserStatus.PENDING)));
 
     // Mock the authService.login method to return an AuthResponse
     authServiceSpy.login.and.returnValue(of({ accessToken: 'token' } as any));
