@@ -78,7 +78,6 @@ export class RegisterComponent implements OnInit {
   passwordMatchValidator(control: AbstractControl) {
     const password = control.get('password')?.value;
     const confirmPassword = control.get('confirmPassword')?.value;
-
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
@@ -90,7 +89,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     console.log("USAO  U ON SUBMIT!")
     // if (this.form.valid) {
-    const recaptchaResponse = localStorage.getItem('_grecaptcha')
+    const recaptchaResponse = grecaptcha.getResponse();
     console.log("ReCaptcha Response u OnSubmit: ", recaptchaResponse)
 
     if (!recaptchaResponse) {

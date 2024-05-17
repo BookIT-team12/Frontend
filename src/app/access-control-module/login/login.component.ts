@@ -50,12 +50,12 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      console.log("ReCaptchaToken LoginForm: ", this.loginForm.value.recaptchaToken)
-      const recaptchaResponse = localStorage.getItem('_grecaptcha')
+      // Get Google ReCaptcha Score
+      const captchaToken = grecaptcha.getResponse();
       const login: Login = {
         email: this.loginForm.value.email || "",
         password: this.loginForm.value.password || "",
-        recaptchaToken: recaptchaResponse || ""
+        recaptchaToken: captchaToken || ""
 
       };
 
