@@ -81,6 +81,21 @@ export class RegisterComponent implements OnInit {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
+  passwordDiversityValidator(password: string) {
+    const longEnough = password.trim().length > 8;
+    const hasDigit = /\d/.test(password);
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasSpecialChar = /[@!#\$%\^&\*]/.test(password);
+
+    if (!longEnough) { return 'ERR-LENGTH'; }
+    else if (!hasDigit) { return 'ERR-DIGITS'; }
+    else if (!hasUpperCase) { return 'ERR-UPPER_CASE'; }
+    else if (!hasLowerCase) { return 'ERR-LOWER_CASE'; }
+    else if (!hasSpecialChar) { return 'ERR-SPECIAL_CHARS'; }
+    else { return 'GOOD'; }
+  }
+
   onCaptchaResolved(response: string): void {
     this.recaptchaResponse = response; // Store the recaptcha response
     console.log('reCAPTCHA response:', response);
@@ -89,65 +104,92 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     console.log("USAO  U ON SUBMIT!")
     // if (this.form.valid) {
-    const recaptchaResponse = grecaptcha.getResponse();
-    console.log("ReCaptcha Response u OnSubmit: ", recaptchaResponse)
+      const recaptchaResponse = grecaptcha.getResponse();
+      console.log("ReCaptcha Response u OnSubmit: ", recaptchaResponse)
 
-    if (!recaptchaResponse) {
-        alert('Please complete the reCAPTCHA');
-        return;
+      if (!recaptchaResponse) {
+          alert('Please complete the reCAPTCHA');
+          return;
       }
 
-      let newUser: User;
-      if (this.selectedRole === Role.GUEST) {
-        newUser = new User(
-          this.name,
-          this.lastName,
-          this.email,
-          this.password,
-          this.address,
-          this.phone,
-          this.selectedRole,
-          this.confirmPassword,
-          this.isReported,
-          this.isBlocked,
-          false,
-          false,
-          false,
-          false,
-          true,
-          UserStatus.PENDING
-        );
-      } else { // it will be owner then
-        newUser = new User(
-          this.name,
-          this.lastName,
-          this.email,
-          this.password,
-          this.address,
-          this.phone,
-          this.selectedRole,
-          this.confirmPassword,
-          this.isReported,
-          this.isBlocked,
-          true,
-          true,
-          true,
-          true,
-          false,
-          UserStatus.PENDING
-        );
-      }
-
-
-      this.userService.registerUser(newUser, recaptchaResponse).subscribe(
-        (result) => {
-          console.log('User registered successfully', result);
-          this.router.navigate(['/main']);
-        },
-        (error) => {
-          console.error('Error registering user', error);
+      const passwordReview = this.passwordDiversityValidator(this.password)
+      if (passwordReview != "GOOD") {
+        switch (passwordReview) {
+          case 'ERR-LENGTH':
+            alert('Password must be longer than 8 characters');
+            return;
+          case 'ERR-DIGITS':
+            alert('Password must contain at least 1 digit');
+            return;
+          case 'ERR-UPPER_CASE':
+            alert('Password must contain at least 1 uppercase letter');
+            return;
+          case 'ERR-LOWER_CASE':
+            alert('Password must contain at least 1 lowercase letter');
+            return;
+          case 'ERR-SPECIAL_CHARS':
+            alert('Password must contain at least 1 special character');
+            return;
         }
-      );
+      }
+
+        let newUser: User;
+        if (this.selectedRole === Role.GUEST) {
+          newUser = new User(
+            this.name,
+            this.lastName,
+            this.email,
+            this.password,
+            this.address,
+            this.phone,
+            this.selectedRole,
+            this.confirmPassword,
+            this.isReported,
+            this.isBlocked,
+            false,
+            false,
+            false,
+            false,
+            true,
+            UserStatus.PENDING
+          );
+        } else { // it will be owner then
+          newUser = new User(
+            this.name,
+            this.lastName,
+            this.email,
+            this.password,
+            this.address,
+            this.phone,
+            this.selectedRole,
+            this.confirmPassword,
+            this.isReported,
+            this.isBlocked,
+            true,
+            true,
+            true,
+            true,
+            false,
+            UserStatus.PENDING
+          );
+        }
+
+
+        this.userService.registerUser(newUser, recaptchaResponse).subscribe(
+          (result) => {
+            console.log('User registered successfully', result);
+            this.router.navigate(['/main']);
+          },
+          (error) => {
+            console.error('Error registering user', error);
+            if (error.error.errCode === "ERR-TOO_WEAK"){
+              alert("Password you want to set is too weak!");
+            }
+            else {
+              alert("Unkown error, check console for more details...")
+            }
+          }
+        );
     // }
   }
 

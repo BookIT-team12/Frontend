@@ -55,8 +55,8 @@ export class LoginComponent implements OnInit {
       const login: Login = {
         email: this.loginForm.value.email || "",
         password: this.loginForm.value.password || "",
-        recaptchaToken: captchaToken || ""
-
+        recaptchaToken: captchaToken || "",
+        errCode: "GOOD"
       };
 
       console.log("ReCaptcha iz LocalStorage-a: ", login.recaptchaToken)

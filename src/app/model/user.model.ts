@@ -63,3 +63,22 @@ export class User {
     this.status = status;
   }
 }
+
+export class Credentials {
+  email: string;
+  password: string;
+  errCode: string;
+  recaptchaToken: string;
+
+  constructor(
+    email: string,
+    password: string,
+    errCode: string,
+    recaptchaToken: string,
+  ) {
+    this.email = email;
+    this.password = password;
+    this.errCode = errCode;
+    this.recaptchaToken = recaptchaToken;
+  }
+}
