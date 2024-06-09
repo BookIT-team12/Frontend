@@ -8,7 +8,7 @@ import {Review} from "../model/review.model";
 })
 
 export class ReviewService{
-  private apiUrl='http://localhost:8080/api/reviews';
+  private apiUrl='https://localhost:8080/api/reviews';
   constructor(private http:HttpClient) {}
   createReview(review:Review):Observable<Review>{
     const url=`${this.apiUrl}`;

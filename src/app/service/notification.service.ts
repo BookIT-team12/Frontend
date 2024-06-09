@@ -7,7 +7,7 @@ import {CustomNotification} from "../model/notification.model";
     providedIn: 'root',
 })
 export class NotificationService {
-    private apiUrl = 'http://localhost:8080/notifications';
+    private apiUrl = 'https://localhost:8080/notifications';
     constructor(private http: HttpClient) {}
 
     getGuestNotifications(guestEmail: string): Observable<CustomNotification[]> {

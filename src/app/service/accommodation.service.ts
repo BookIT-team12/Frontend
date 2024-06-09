@@ -13,7 +13,7 @@ import {AccommodationResponseModel} from "../model/accommodation.response.model"
 
 export class AccommodationService{
 
-  private apiUrl = 'http://localhost:8080/api/accommodations';
+  private apiUrl = 'https://localhost:8080/api/accommodations';
   constructor(private http: HttpClient, private router:Router) {}
 
   getAccommodationById(id: number): Observable<AccommodationResponseModel> {

@@ -8,7 +8,7 @@ import {Role, User} from "../model/user.model";
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:8080/users';
+  private apiUrl = 'https://localhost:8080/users';
 
 
 

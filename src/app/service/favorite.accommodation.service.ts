@@ -7,7 +7,7 @@ import { Accommodation } from '../model/accommodation.model';
   providedIn: 'root',
 })
 export class FavoriteService {
-  private baseUrl = 'http://localhost:8080/api/favorites';
+  private baseUrl = 'https://localhost:8080/api/favorites';
 
   constructor(private http: HttpClient) {}
 

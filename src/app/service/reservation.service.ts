@@ -10,7 +10,7 @@ import {AvailabilityPeriod} from "../model/availability-period.model";
   providedIn: 'root',
 })
 export class ReservationService {
-  private apiUrl = 'http://localhost:8080';
+  private apiUrl = 'https://localhost:8080';
 
   constructor(private http: HttpClient) {}
 
