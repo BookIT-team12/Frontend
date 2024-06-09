@@ -5,6 +5,7 @@ import { AuthResponse, AuthService } from "../auth.service";
 import { Login } from "../../model/login.model";
 import { Role } from "../../model/user.model";
 import { RecaptchaLoaderService } from "../../service/recaptcha-loader";
+import {KeycloakService} from "../../services/keycloak.service";
 
 declare var grecaptcha: any;
 
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private recaptchaLoaderService: RecaptchaLoaderService
+    private recaptchaLoaderService: RecaptchaLoaderService,
+    private keycloakService: KeycloakService,
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl('', Validators.required),
@@ -49,37 +51,39 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    if (this.loginForm.valid) {
-      // Get Google ReCaptcha Score
-      const captchaToken = grecaptcha.getResponse();
-      const login: Login = {
-        email: this.loginForm.value.email || "",
-        password: this.loginForm.value.password || "",
-        recaptchaToken: captchaToken || ""
-
-      };
-
-      console.log("ReCaptcha iz LocalStorage-a: ", login.recaptchaToken)
-
-      // @ts-ignore
-      this.authService.login(login, login.recaptchaToken).subscribe({
-        next: (response: AuthResponse) => {
-          if (!response) {
-            alert("Account not verified yet!!!");
-          } else {
-            localStorage.setItem('user', response.accessToken);
-            this.authService.setUser();
-            this.authService.setUserDetails();
-            this.router.navigate(['main']);
-          }
-        },
-        error: (error) => {
-          alert('Bad credentials or account not verified yet');
-        }
-      });
-    } else {
-      alert('Bad credentials');
-    }
+    this.keycloakService.init();
+    this.keycloakService.login();
+    // if (this.loginForm.valid) {
+    //   // Get Google ReCaptcha Score
+    //   const captchaToken = grecaptcha.getResponse();
+    //   const login: Login = {
+    //     email: this.loginForm.value.email || "",
+    //     password: this.loginForm.value.password || "",
+    //     recaptchaToken: captchaToken || ""
+    //
+    //   };
+    //
+    //   console.log("ReCaptcha iz LocalStorage-a: ", login.recaptchaToken)
+    //
+    //   // @ts-ignore
+    //   this.authService.login(login, login.recaptchaToken).subscribe({
+    //     next: (response: AuthResponse) => {
+    //       if (!response) {
+    //         alert("Account not verified yet!!!");
+    //       } else {
+    //         localStorage.setItem('user', response.accessToken);
+    //         this.authService.setUser();
+    //         this.authService.setUserDetails();
+    //         this.router.navigate(['main']);
+    //       }
+    //     },
+    //     error: (error) => {
+    //       alert('Bad credentials or account not verified yet');
+    //     }
+    //   });
+    // } else {
+    //   alert('Bad credentials');
+    // }
   }
 
   protected readonly Role = Role;

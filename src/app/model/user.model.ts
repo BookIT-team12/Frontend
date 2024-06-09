@@ -10,6 +10,7 @@ export enum UserStatus {
 }
 
 export class User {
+  token? : string;
   name: string;
   lastName: string;
   email: string;
@@ -63,3 +64,5 @@ export class User {
     this.status = status;
   }
 }
+
+

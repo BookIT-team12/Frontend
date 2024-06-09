@@ -5,6 +5,7 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {catchError} from "rxjs/operators";
 import {Role, User} from "../model/user.model";
 import {UserService} from "../service/user.service";
+import {KeycloakService} from "../services/keycloak.service";
 export const environment = {
   apiHost: 'http://localhost:8080/'
 }
@@ -31,7 +32,7 @@ export class AuthService {
 
   userAccount$=new BehaviorSubject<User | null>(null);
 
-  constructor(private http: HttpClient, private userService:UserService) {
+  constructor(private http: HttpClient, private userService:UserService, private keyCloakService: KeycloakService) {
     this.user$.next(this.getRole());
     this.setUser();
     this.setUserDetails();
@@ -50,15 +51,16 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${environment.apiHost}users/login`, body);
   }
 
-  logout(): Observable<void|null> {
-
-    localStorage.removeItem('user');
-    this.user$.next('');
-    this.userAccount$.next(null);
-    console.log("You have logged out successfully!");
-    return of(null);
-    // return this.http.get(environment.apiHost + 'users/login', {
-    //   responseType: 'text',
+  async logout(){
+    this.keyCloakService.logout()
+    //
+    // localStorage.removeItem('user');
+    // this.user$.next('');
+    // this.userAccount$.next(null);
+    // console.log("You have logged out successfully!");
+    // return of(null);
+    // // return this.http.get(environment.apiHost + 'users/login', {
+    // //   responseType: 'text',
     }
 
 
@@ -78,30 +80,49 @@ export class AuthService {
 
 
   getRole(): any {
-    console.log("usao u getRole")
-    if (this.isLoggedIn()) {
-      console.log("is logged in")
-      try {
-        const accessToken: any = localStorage.getItem('user');
-        const helper = new JwtHelperService();
-        const decodedToken = helper.decodeToken(accessToken);
-        console.log(decodedToken)
-
-        return decodedToken ? decodedToken.role : null;
+    if(this.isLoggedIn()){
+      const accessToken: any=this.keyCloakService.keycloak.token;
+      const jwtHelper=new JwtHelperService();
+      console.log("Role::::", jwtHelper.decodeToken(accessToken).Role)
+      // return "ROLE_" + jwtHelper.decodeToken(accessToken).Role;
+      if(jwtHelper.decodeToken(accessToken).Role == "Guest")
+      {
+        return Role.GUEST
       }
-      catch (error) {
-        alert("Error decoding token");
-        return null;
+      if(jwtHelper.decodeToken(accessToken).Role == "Host")
+      {
+        return Role.OWNER
+      }
+      if(jwtHelper.decodeToken(accessToken).Role == "Admin")
+      {
+        return Role.ADMINISTRATOR
       }
     }
-    else{
-      return Role.UNKNOWN;
-    }
+    // console.log("usao u getRole")
+    // if (this.isLoggedIn()) {
+    //   console.log("is logged in")
+    //   try {
+    //     const accessToken: any = localStorage.getItem('user');
+    //     const helper = new JwtHelperService();
+    //     const decodedToken = helper.decodeToken(accessToken);
+    //     console.log(decodedToken)
+    //
+    //     return decodedToken ? decodedToken.role : null;
+    //   }
+    //   catch (error) {
+    //     alert("Error decoding token");
+    //     return null;
+    //   }
+    // }
+    // else{
+    //   return Role.UNKNOWN;
+    // }
   }
 
   isLoggedIn(): boolean {
-    const user = localStorage.getItem('user');
-    return user !== null && user !== '';
+    return this.keyCloakService.keycloak.token != null
+    // const user = localStorage.getItem('user');
+    // return user !== null && user !== '';
   }
 
   setUser(): void {
@@ -109,20 +130,25 @@ export class AuthService {
   }
 
   getCurrentUser(): Observable<User | null> {
-    const accessToken = localStorage.getItem('user');
-    console.log(accessToken);
+    const accessToken: any=this.keyCloakService.keycloak.token;
     if (!accessToken) {
       return of(null);
     }
+    const jwtHelper=new JwtHelperService();
+    console.log("Username::::", jwtHelper.decodeToken(accessToken).email)
 
-    const helper = new JwtHelperService();
-    const decodedToken = helper.decodeToken(accessToken);
+    // const accessToken = localStorage.getItem('user');
+    // console.log(accessToken);
 
-    if (!decodedToken || !decodedToken.sub) {
-      return of(null);
-    }
-
-    const userId = decodedToken.sub;
+    //
+    // const helper = new JwtHelperService();
+    // const decodedToken = helper.decodeToken(accessToken);
+    //
+    // if (!decodedToken || !decodedToken.sub) {
+    //   return of(null);
+    // }
+    //
+    const userId =jwtHelper.decodeToken(accessToken).email;
     console.log("User ID: ", userId);
     //return userId;
     if (!userId) {

@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {APP_INITIALIZER, NgModule} from "@angular/core";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -28,6 +28,11 @@ import {RouterModule} from "@angular/router";
 import {NotificationModule} from "./notification/notification.module";
 import {ServicesModule} from "./services/services.module";
 import {CertificateManagementModule} from "./certificate-management/certificate-management.module";
+import {KeycloakService} from "./services/keycloak.service";
+
+export function kcFactory(kcService:KeycloakService){
+  return ()=>kcService.init();
+}
 
 @NgModule({
   declarations: [
@@ -71,6 +76,12 @@ import {CertificateManagementModule} from "./certificate-management/certificate-
       useClass: Interceptor,
       multi: true,
     },
+    {
+      provide: APP_INITIALIZER,
+      deps:[KeycloakService],
+      useFactory: kcFactory,
+      multi: true,
+    }
 ],
   bootstrap: [AppComponent]
 })

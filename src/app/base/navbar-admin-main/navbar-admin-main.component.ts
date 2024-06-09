@@ -33,12 +33,13 @@ export class NavbarAdminMainComponent {
     switch (option) {
 
       case 'logout':
-        this.authService.logout().subscribe(() => {
-          // Clear user-related data and navigate to the login page
-          localStorage.setItem('user',"");
-          this.router.navigate(['/login']);
-          console.log("Logged out successfully!");
-        });
+        this.authService.logout();
+        // this.authService.logout().subscribe(() => {
+        //   // Clear user-related data and navigate to the login page
+        //   localStorage.setItem('user',"");
+        //   this.router.navigate(['/login']);
+        //   console.log("Logged out successfully!");
+        // });
         break;
         // Add other cases for different options
       case 'reviews/apartments/approval':

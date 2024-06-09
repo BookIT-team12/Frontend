@@ -28,12 +28,13 @@ export class NavbarAdminComponent {
     switch (option) {
 
       case 'logout':
-        this.authService.logout().subscribe(() => {
-          // Clear user-related data and navigate to the login page
-          localStorage.setItem('user',"");
-          this.router.navigate(['/login']);
-          console.log("Logged out successfully!");
-        });
+        this.authService.logout();
+        // this.authService.logout().subscribe(() => {
+        //   // Clear user-related data and navigate to the login page
+        //   localStorage.setItem('user',"");
+        //   this.router.navigate(['/login']);
+        //   console.log("Logged out successfully!");
+        // });
         break;
       case 'manage':
         this.router.navigate(['/manage']);

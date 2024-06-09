@@ -17,4 +17,8 @@ export class NavbarNonRegisteredMainComponent implements OnInit {
       console.log("rola koja treba da bude unknown: ",this.userRole);
     })
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }
