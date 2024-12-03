@@ -1,0 +1,59 @@
+<form [formGroup]='loginForm' (ngSubmit)="login()">
+
+  <div *ngIf="userRole === Role.GUEST">
+    <!-- Guest Navbar Links -->
+    <app-navbar></app-navbar>
+  </div>
+
+  <div *ngIf="userRole === Role.OWNER">
+    <!-- Owner Navbar Links -->
+    <app-navbar-owner></app-navbar-owner>
+  </div>
+
+  <div *ngIf="userRole === Role.ADMINISTRATOR">
+    <!-- Admin Navbar Links -->
+    <app-navbar-admin></app-navbar-admin>
+  </div>
+
+  <div *ngIf="userRole === Role.UNKNOWN">
+    <!-- Admin Navbar Links -->
+    <app-navbar-non-registered></app-navbar-non-registered>
+  </div>
+<div class="form-container">
+  <h1 class="login-header">Log in</h1>
+  <mat-form-field class="global-icon-color">
+    <span matTextPrefix>
+      <mat-icon>
+        <span class="material-symbols-outlined">alternate_email</span>
+      </mat-icon>
+    </span>
+    <mat-label>
+      Enter your email
+    </mat-label>
+    <input matInput formControlName="email" required>
+  </mat-form-field>
+  <mat-form-field class="global-icon-color">
+    <span matTextPrefix>
+      <mat-icon>
+        <span class="material-symbols-outlined">key</span>
+      </mat-icon>
+    </span>
+    <mat-label>Enter your password here</mat-label>
+    <input matInput [type]=" hide ? 'password' : 'text'" formControlName="password" required>
+    <button  mat-icon-button matSuffix (click)="hide = !hide"
+             [attr.aria-pressed]="hide" type="button">
+      <mat-icon >
+        <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+        <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+      </mat-icon>
+    </button>
+  </mat-form-field>
+
+  <!-- reCAPTCHA widget -->
+  <div id="recaptchaElement" class="g-recaptcha" [attr.data-sitekey]="siteKey"></div>
+
+
+  <button mat-raised-button class="global-darkBtn login-btn" type="submit"> Log in </button>
+</div>
+</form>
+

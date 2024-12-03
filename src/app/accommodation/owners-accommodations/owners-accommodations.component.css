@@ -1,0 +1,73 @@
+/* owner-accommodations.component.css */
+.form-container {
+  border-radius: 27px;
+  width: 90%;
+  height: 100%;
+  max-width: 1200px;
+  max-height: 1700px;
+  margin: 2% auto;
+  padding: 2%;
+  background: rgba(109, 142, 207, 0.74);
+  display: flex;
+  flex-direction: column;
+}
+
+.left-part {
+  float: left;
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 2%;
+}
+
+.acc-management-header {
+  color: rgba(8, 0, 103, 1);
+  font-size: 2em;
+  font-weight: bold;
+  width: 100%;
+  border-bottom: 3px solid white; /* Add a white underline */
+  padding-bottom: 10px;
+  margin-bottom: 20px; /* Add margin for spacing */
+}
+
+.accommodation-card {
+  background-color: rgba(2, 19, 72, 0.42); /* Set the card background color to #080067 */
+  border-radius: 20px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 3px solid rgba(2, 19, 72, 0.42); /* Set the border color to #080067 */
+  color: white; /* Set text color to white */
+  transition: background-color 0.3s; /* Add a smooth transition effect */
+  flex-direction: column; /* Ensure the card grows vertically */
+  display: flex;
+}
+
+.accommodation-card:hover {
+  background-color: rgba(2, 19, 72, 0.91); /* Change background color to a lighter shade on hover */
+  color: #ffffff; /* Change text color to white on hover */
+  cursor: pointer;
+}
+
+/* owner-accommodations.component.css */
+.right-part {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px; /* Add margin to separate buttons from content */
+}
+
+.update-button {
+  background-color: rgba(2, 19, 72, 0.91);
+  color: white;
+  font-weight: bold;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-left: auto; /* Align the button to the right */
+  font-size: 16px;
+
+}
+
+.update-button:hover {
+  background-color: rgba(2, 19, 72, 0.81);
+}

@@ -1,0 +1,18 @@
+<div class="background-container">
+
+<!--  TODO: DODATI NAKON STO SE ODRADI AUTORIZACIJA=JEDINSTVENI NAVBAR SPRAM ROLE -->
+<!--   Other content
+  <ng-container *ngIf="authService.isLoggedIn()">
+    <ng-container *ngIf="authService.getRole() === 'guest'; else otherNav">
+      <app-guest-navbar></app-guest-navbar>
+    </ng-container>
+    <ng-template #otherNav>
+       Include other conditionals for owner and admin
+      <app-owner-navbar *ngIf="authService.getRole() === 'owner'"></app-owner-navbar>
+      <app-admin-navbar *ngIf="authService.getRole() === 'admin'"></app-admin-navbar>
+    </ng-template>
+  </ng-container>
+   Other content -->
+
+  <router-outlet></router-outlet>
+</div>

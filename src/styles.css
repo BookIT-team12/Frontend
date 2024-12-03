@@ -1,0 +1,74 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  .mat-mdc-raised-button.global-darkBtn {
+    color:  white;
+    background-color: rgba(8,0,103,1);
+  }
+  .mat-mdc-raised-button.global-dangerBtn{
+    color: white;
+    background-color: rgba(177, 0, 0, 1);
+  }
+
+  .global-icon-color{
+    color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  }
+
+  .mat-menu-content {
+    font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+    'Liberation Sans', sans-serif;
+    color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+    font-weight: bold;
+  }
+
+  /* Round the edges of the menu */
+  .mat-menu-panel {
+    border-radius: 8px; /* Adjust the value as needed */
+  }
+
+  /* Style the lines between menu items */
+  .mat-menu-item {
+    border-bottom: 1px rgba(8, 0, 103, 1); /* Changes text color to blue */
+
+  }
+  /* Style the last item to remove the bottom border */
+  .mat-menu-item:last-child {
+    border-bottom: none;
+  }
+/*
+  .mat-form-field {
+    border-radius: 8px; !* Adjust the border-radius for rounded corners *!
+    border: 1px solid lightgray; !* Add a light gray border *!
+    margin-bottom: 10px; !* Add margin for spacing between mat-form-fields *!
+  }
+
+  !* Style the input inside mat-form-field *!
+  .mat-form-field-wrapper input {
+    border: none; !* Remove default input border inside mat-form-field *!
+  }*/
+
+
+#card-visited-places{
+  width: 18%; /* Adjust the size of each key */
+  height: fit-content;
+  margin: 5% 2%;
+
+  & mat-card {
+    background-color:rgba(109,142,207,0.72);
+    border-radius: 20px;
+  }
+  & button {
+    background-color: #080067;
+    color: white;
+    margin: 2%;
+  }
+}
+  .custom-dialog-content {
+    overflow: hidden; /* Ensure content within the dialog does not overflow rounded corners */
+    background-color: rgba(109, 142,207,0.74);
+  }
+}

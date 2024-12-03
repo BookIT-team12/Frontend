@@ -1,0 +1,12 @@
+<app-navbar-admin></app-navbar-admin>
+<router-outlet></router-outlet>
+<h1 class="header">
+<!--      <mat-icon class="header-icon">
+        <span class="material-symbols-outlined">home</span>
+      </mat-icon>-->
+    Apartment moderating page
+  </h1>
+
+<div class="card-container">
+  <app-accommodation-approval-card *ngFor="let accommodation of pendingAccommodations" [accommodation]="accommodation"></app-accommodation-approval-card>
+</div>

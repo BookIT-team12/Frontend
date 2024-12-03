@@ -1,0 +1,262 @@
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 3; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color:#CDDBFF;
+  display: flex;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: hidden;
+  padding-top: 20px;
+  width: auto;
+}
+.logo {
+  height: 52px;
+  max-width: 52px;
+  margin-right: 16px;
+  border-radius: 9px;
+  flex: 1;
+  margin-left: 10px;
+  margin-top: 3%;
+}
+.title {
+  color: #080067;
+  font-size: 50px;
+  line-height: 130%;
+  font-weight: 700;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  flex: 1;
+  margin-right: 20px;
+}
+.logo-header{
+  display: flex;
+  flex-direction: row;
+  border-bottom: 4px solid rgba(8, 0, 103, 1);
+}
+.mat-grid-tile {
+  background: rgba(0,0,0,0);
+  height: 10px;
+
+}
+.mat-drawer-content{
+  margin-left: 300px;
+  margin-right: 20px;
+  background: rgba(0,0,0,0);
+  overflow: hidden;
+  z-index: 1;
+}
+.mat-drawer-container{
+  background: rgba(0,0,0,0);
+  overflow: hidden;
+}
+.grid-container{
+  background: rgba(125, 155, 232,0.85);
+  margin: 3%;
+  padding: 3%;
+  border-radius: 25px;
+  min-height: 80%;
+  min-width: 70%;
+  overflow: hidden;
+  width: 25%;
+}
+.background-container{
+  position: fixed;
+  min-height: 100%;
+  min-width: 100%;
+}
+.filters-container{
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+.custom-input {
+  font-size: 16px; /* Adjust the font size as needed */
+}
+.mat-grid-list{
+  overflow: hidden;
+}
+.aaa{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-top: -4px;
+  margin-bottom: -4px;
+}
+.aaa5{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 3%;
+}
+.aaaG{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: -3%;
+}
+.aaaD{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  margin-bottom: -3%;
+  margin-top: 3%;
+}
+.aaaS{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  padding-top: 1%;
+}
+.aaa1{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  bottom: 0;
+  margin-top: 10%;
+}
+.filters-title{
+  text-align: center;
+  padding-top: 5px;
+  width: 50%;
+  background-color: #080067;
+  color: white;
+  border-radius: 25px;
+  max-height: 35px;
+}
+.material-icons {
+  font-size: 32px;
+  margin-top: 8px;
+  margin-right: 10px;
+  color: #080067;
+}
+/* navbar.component.css */
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  background-color:rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  z-index: 2;
+}
+.rectangle37 {
+  position: absolute;
+  right: 10px; /* Adjust the right position */
+  top: 10px; /* Adjust the top position */
+  width: 176px;
+  height: 46px;
+  border-radius: 8px;
+  background-color: #6d8ecf33;
+}
+button.mat-button.mat-accent {
+  color: #080067; /* Set the text color to blue */
+}
+button.mat-button.mat-accent:hover {
+  background-color: transparent; /* Set the background color to transparent on hover */
+}
+.text{
+  color:#080067;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 0;
+}
+.text1{
+  color:#080067;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top:0;
+}
+.icon{
+  font-size: 23px;
+  color: #080067;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.spacer {
+  flex: 1;
+}
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.slider-label-left {
+  white-space: nowrap;
+  margin-left: -1%;
+}
+.slider-label-right {
+  white-space: nowrap;
+  margin-right: -7%;
+}
+
+.mat-slider-horizontal {
+  display: flex;
+}
+.aaaa {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.example{
+  width: 160px;
+  margin-left: 10px;
+}
+.example-cb{
+  width: 80px;
+  margin-left: 10px;
+  margin-top: 4px;
+}
+.mat-form-field {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+.filters-txt{
+  margin-top: 10px;
+  margin-right: 5px;
+}
+.mat-slider{
+  width: 146px;
+}
+.acc-name{
+  color: #080067;
+  font-size: 24px;
+  font-weight: bold;
+}
+.acc-desc{
+  color: white;
+  font-size: 16px;
+}
+.slider-comp{
+  display: flex;
+  flex-direction: row;
+  padding-top: 6%;
+}
+.symbols-outlined{
+  padding: 0;
+  margin: 0;
+}
+.accommodation-image{
+  max-height: 22vh;
+  width: 100%;
+  border-radius: 18px;
+}
+mat-grid-tile{
+  min-height: 30px;
+  max-height: 30px;
+}

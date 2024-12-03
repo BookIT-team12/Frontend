@@ -1,0 +1,81 @@
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Owner Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
+<div class="form-container">
+  <h1 class="register-header">Accommodation Details</h1>
+  <div class="container">
+    <div class="half">
+      <div class="picture_container">
+        <div class="main_picture"><img mat-card-md-image [src]="getUrl(imagesHeaderFilesRoot[0]!)" alt="Not implemented [src] yet" /></div>
+      </div>
+      <div class="container1">
+        <h1 class="acc-header">WHAT THIS PLACE HAS TO OFFER</h1>
+        <div class="grid-container">
+          <div class="grid-item" *ngIf="wifi"><span class="material-icons">wifi</span><body class="grid-item-text">Wi-Fi</body></div>
+          <div class="grid-item" *ngIf="parking"><span class="material-icons">local_parking</span><body class="grid-item-text">Parking</body></div>
+          <div class="grid-item" *ngIf="ac_unit"><span class="material-icons">ac_unit</span><body class="grid-item-text">AC Unit</body></div>
+          <div class="grid-item" *ngIf="kitchen"><span class="material-icons">kitchen</span><body class="grid-item-text">Fridge</body></div>
+          <div class="grid-item" *ngIf="balcony"><span class="material-icons">balcony</span><body class="grid-item-text">Balcony</body></div>
+          <div class="grid-item" *ngIf="pool"><span class="material-icons">pool</span><body class="grid-item-text">Pool</body></div>
+          <div class="grid-item" *ngIf="bath"><span class="material-icons">bathtub</span><body class="grid-item-text">In-Suite Bathroom</body></div>
+        </div>
+      </div>
+      <div class="container1">
+        <h1 class="acc-header">DESCRIPTION</h1>
+        <body class="description">
+        {{accommodation.description}}
+        </body>
+      </div>
+    </div>
+    <div class="half">
+
+      <div class="container1">
+
+        <h1 class="name-header">{{accommodation.name}} <span class="material-icons" *ngIf="favorite">favorite</span><span class="material-icons" *ngIf="!favorite" (click)="toggleFavorite()">favorite_border</span></h1>
+        <ul class="list"><li class="list-item">{{accommodation.location.address}}</li><li class="list-item">{{accommodationType}}</li></ul>
+      </div>
+      <div class="container1">
+<!--        <button mat-raised-button (click)="toggleFavorite()" class="global-darkBtn login-btn"> Add to favorites </button>-->
+        <h3 class="date-picker-text">Choose time of your stay: </h3>
+        <mat-form-field>
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="startDate">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="endDate">
+          </mat-date-range-input>
+          <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <button mat-raised-button (click)="bookITClicked()" class="global-darkBtn login-btn"> BOOKIT </button>
+      </div>
+      <div class="container-reviews">
+        <div class="review"><span class="material-icons star">star</span><h1 class="review">{{reviews.length}} REVIEWS •  {{avgRating}}</h1></div>
+        <div *ngIf="reviews.length > 0; else noReviews">
+          <ng-container *ngFor="let review of reviews">
+            <div>
+              <ul class="list"><li class="list-item">Rating: {{review.rating}},     Review: {{review.text}}</li></ul>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noReviews>
+  <div class="review-txt">No reviews yet</div>
+</ng-template>

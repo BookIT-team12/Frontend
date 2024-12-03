@@ -1,0 +1,140 @@
+<app-navbar-non-registered></app-navbar-non-registered>
+<form class="form-container" (ngSubmit)="onSubmit()">
+  <h1 class="register-header">Register</h1>
+  <div>
+    <div class="left-part">
+      <mat-form-field class="global-icon-color">
+         <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">alternate_email</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your email
+        </mat-label>
+        <input matInput [(ngModel)]="email" name="email" required>
+        <mat-error *ngIf="emailControl?.hasError('required')">
+          Email is required.
+        </mat-error>
+        <mat-error *ngIf="emailControl?.hasError('email')">
+          Please enter a valid email address.
+        </mat-error>
+      </mat-form-field>
+
+<!--      Password field-->
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your password
+        </mat-label>
+        <input matInput [type]=" hide ? 'password' : 'text'" [(ngModel)]="password" name="password" required>
+        <mat-error *ngIf="passwordControl?.hasError('required')">
+          Password is required.
+        </mat-error>
+        <button  mat-icon-button matSuffix (click)="hide = !hide"
+                 [attr.aria-pressed]="hide" type="button">
+          <mat-icon >
+            <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+
+
+<!--      Confirm password-->
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+
+        <mat-label>
+          Confirm your password
+        </mat-label>
+        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+        <mat-error *ngIf="confirmPasswordControl?.hasError('required')">
+          Confirmation password is required.
+        </mat-error>
+        <mat-error *ngIf="form.hasError('passwordMismatch')">
+          Passwords do not match.
+        </mat-error>
+        <button  mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation"
+                 [attr.aria-pressed]="hideConfirmation" type="button">
+          <mat-icon >
+            <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+
+      <!-- Role selection dropdown -->
+      <mat-form-field class="global-icon-color">
+  <span matTextPrefix>
+    <mat-icon>
+      <span class="material-symbols-outlined">badge</span>
+    </mat-icon>
+  </span>
+        <mat-label>Select your role</mat-label>
+        <mat-select [(ngModel)]="selectedRole" name="selectedRole" required>
+          <mat-option value="OWNER">OWNER</mat-option>
+          <mat-option value="GUEST">GUEST</mat-option>
+          <!-- Add other role options as needed -->
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="right-part">
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your name
+        </mat-label>
+        <input matInput  [(ngModel)]="name" name="name" required>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your last name
+        </mat-label>
+        <input matInput  [(ngModel)]="lastName" name="lastName" required>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">call</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your phone
+        </mat-label>
+        <input matInput type="number"  [(ngModel)]="phone" name="phone" required>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">location_on</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your home address
+        </mat-label>
+        <input matInput [(ngModel)]="address" name="address" required>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="g-recaptcha" [attr.data-sitekey]="siteKey"></div>
+
+  <button mat-raised-button class="global-darkBtn register-btn"  type="submit"> Register </button>
+</form>

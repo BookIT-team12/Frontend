@@ -1,0 +1,83 @@
+.header {
+  font-size: 3em;
+  color: rgba(8,0,103,1);
+  text-align: center;
+  margin-top: 3%;
+  font-weight: bold;
+  position: relative;
+}
+.header-icon {
+  padding: 2.6%;
+  font-size: 88%;
+}
+.header-div{
+  width: 30%;
+  background-color: rgba(125, 155, 232,0.85);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 25px;
+  padding: 0.3%;
+  padding-bottom: 1%;
+}
+.card-container{
+  margin: 2%;
+}
+mat-card{
+  background-color: rgba(109, 142,207,0.74);
+}
+mat-card-title{
+  color: rgba(8,0,103,1);
+}
+.navigation-div{
+  display: inline-block;
+  width: 100%;
+  margin-top: 5%;
+}
+.reservation-status-form{
+  margin: 0 2% 0 4%;
+}
+
+li{
+  color: rgba(8,0,103,1);
+}
+button{
+  margin: 0.2%;
+  width: 23em;
+  border-radius: 20px;
+}
+
+.picture{
+  margin-right: 2%;
+  margin-top: 2%;
+}
+
+#add-pictures-btn{
+  margin-top: 4.5%;
+}
+.grid-container{
+  background: rgba(125, 155, 232,0.85);
+  margin: 3%;
+  padding: 3%;
+  border-radius: 25px;
+  min-height: 80%;
+  min-width: 70%;
+  overflow: hidden;
+}
+.acc-name{
+  color: #080067;
+  font-size: 24px;
+  font-weight: bold;
+}
+.not-pending{
+  height: 50px;
+}
+.notifications{
+  padding-top: 2%;
+}
+.search-button{
+  margin-left: 2%;
+  width: 200px;
+  margin-bottom: 2%;
+}

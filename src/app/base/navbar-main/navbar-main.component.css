@@ -1,0 +1,100 @@
+/* navbar.component.css */
+mat-toolbar {
+  position: sticky;
+  top: 0;
+  background-color:rgba(1,1,1,0);
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 42px;
+  height: auto;
+  margin-right: 16px;
+  border-radius: 9px;
+
+}
+
+.title {
+  color: #080067;
+  font-size: 42px;
+  line-height: 130%;
+  font-weight: 700;
+  width: min-content;
+  height: min-content;
+  white-space: nowrap;
+  flex-direction: column;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+}
+
+
+.rectangle37 {
+  position: absolute;
+  right: 10px; /* Adjust the right position */
+  top: 10px; /* Adjust the top position */
+  width: 176px;
+  height: 46px;
+  border-radius: 8px;
+  background-color: #6d8ecf33;
+}
+
+button.mat-button.mat-accent {
+  color: #080067; /* Set the text color to blue */
+}
+
+button.mat-button.mat-accent:hover {
+  background-color: transparent; /* Set the background color to transparent on hover */
+}
+
+.text{
+  color:#080067;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  font-weight: bold;
+  font-size: 15px;
+  margin-top: 0;
+}
+
+.text1{
+  color:#080067;
+  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+  'Liberation Sans', sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  margin-top:0;
+}
+
+
+
+.material-icons {
+  font-size: 23px;
+  margin-right: 10px;
+  color: #080067;
+}
+.icon{
+  font-size: 23px;
+  color: #080067;
+  margin-right: 10px;
+
+
+
+}
+
+/*.material-icons:not(.special-icon) {*/
+/*  font-size: 25px;*/
+/*  color: #080067;*/
+/*}*/
+
+
+/*.mat-menu-item {*/
+/*  font-weight: bold;*/
+/*  color: #080067;*/
+/*  font-family: Roboto Flex, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',*/
+/*  'Liberation Sans', sans-serif;*/
+
+/*}*/
+.spacer {
+  flex: 1;
+}
+

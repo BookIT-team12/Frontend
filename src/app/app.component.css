@@ -1,0 +1,18 @@
+.background-container {
+  /* Set the background image */
+  background-image: url('../assets/bookit.jpg'); /* Adjust the path accordingly */
+  /* Set background size and other properties */
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  /*!* Set other styles as needed *!*/
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+
+/* Add these styles to your component's CSS file */
+.snackbar-success {
+  background-color: rgba(142, 182, 245, 0.66); /* Green */
+  color: white;
+}

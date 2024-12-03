@@ -1,0 +1,26 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="accommodations.length > 0; else noAccommodations">
+  <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
+    <div class="form-container">
+      <div class="acc-management-header" *ngIf="isFirst">{{ accommodation.name }}</div>
+
+      <div class="left-part">
+
+        <div class="user-card">
+          <h2>Hotel name: {{ accommodation.name }}</h2>
+          <p>Description: {{ accommodation.description }}</p>
+        </div>
+      </div>
+      <div class="right-part">
+        <button *ngIf="accommodation.id !== undefined" class="update-button" (click)="showMoreDetails(accommodation.id)">More Details</button>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #noAccommodations>
+  <p>No accommodations found.</p>
+</ng-template>
+
+

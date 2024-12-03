@@ -1,0 +1,142 @@
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
+<form class="form-container" [formGroup]="form" (ngSubmit)="updateAccount()">
+  <h1 class="acc-management-header">Manage account details</h1>
+  <div>
+    <div class="left-part">
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">alternate_email</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          {{ user?.email }}
+        </mat-label>
+        <input matInput readonly formControlName="email">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your name
+        </mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">badge</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your last name
+        </mat-label>
+        <input matInput formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your password
+        </mat-label>
+        <input matInput [type]=" hide ? 'password' : 'text'" formControlName="password" required>
+        <button type="button"  mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-pressed]="hide">
+          <mat-icon >
+            <span *ngIf="hide" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hide" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">key</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Confirm your password
+        </mat-label>
+        <input matInput [type]=" hideConfirmation ? 'password' : 'text'" formControlName="confirmPassword" required>
+        <button type="button" mat-icon-button matSuffix (click)="hideConfirmation = !hideConfirmation" [attr.aria-pressed]="hideConfirmation">
+          <mat-icon >
+            <span *ngIf="hideConfirmation" class="material-symbols-outlined">visibility_on</span>
+            <span *ngIf="!hideConfirmation" class="material-symbols-outlined">visibility_off</span>
+          </mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div class="right-part">
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">phone</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your phone number
+        </mat-label>
+        <input matInput type="number" formControlName="phone">
+      </mat-form-field>
+      <mat-form-field class="global-icon-color">
+        <span matTextPrefix>
+          <mat-icon>
+            <span class="material-symbols-outlined">location_on</span>
+          </mat-icon>
+        </span>
+        <mat-label>
+          Enter your address
+        </mat-label>
+        <input matInput formControlName="address">
+      </mat-form-field>
+      <div class="notifications-container">
+        <ng-container *ngIf="userRole == Role.OWNER">
+          <div class="notifications-column">
+            <mat-checkbox class="global-icon-color" formControlName="resCreatedNotification">
+              <div class="notifications-text">Reservation request notification</div>
+            </mat-checkbox>
+            <mat-checkbox class="global-icon-color" formControlName="resCanceledNotification">
+              <div class="notifications-text">Reservation cancel notification</div>
+            </mat-checkbox>
+          </div>
+          <div class="notifications-column">
+            <mat-checkbox class="global-icon-color" formControlName="gradedMeNotification">
+              <div class="notifications-text">Review account notification</div>
+            </mat-checkbox>
+            <mat-checkbox class="global-icon-color" formControlName="gradedMyAccommodationNotification">
+              <div class="notifications-text">Review accommodation notification</div>
+            </mat-checkbox>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="userRole == Role.GUEST">
+          <div class="notifications-column">
+              <mat-checkbox class="global-icon-color" formControlName="ownerAnswerNotification">
+                <div class="notifications-text">Reservation request notification</div>
+              </mat-checkbox>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit" [disabled]="!isFormValid" >Update account</button>
+  <button mat-raised-button class="global-dangerBtn save-changes-btn"  (click)="deleteAccount()">Delete account</button>
+</form>

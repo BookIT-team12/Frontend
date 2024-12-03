@@ -1,0 +1,162 @@
+<app-navbar-owner></app-navbar-owner>
+<router-outlet></router-outlet>
+<form class="form-container" [formGroup]="accommodationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <h1 class="acc-management-header">Add new accommodation</h1>
+  <div>
+    <div class="left-part">
+      <!-- Accommodation Name -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Name</mat-label>
+        <input matInput placeholder="Enter accommodation name" formControlName="name" required>
+          <mat-error>You have to enter accommodation name</mat-error>
+      </mat-form-field>
+
+      <!-- Number of MIN Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Min Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of min guests" formControlName="minGuests" required>
+        <mat-error>Number of min guests must be greater than 0</mat-error>
+      </mat-form-field>
+
+      <!-- Number of MAX Guests -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">people</mat-icon>Number of Max Guests</mat-label>
+        <input matInput type="number" placeholder="Enter number of max guests" formControlName="maxGuests" required>
+      </mat-form-field>
+
+      <!-- Price per Night -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">local_atm</mat-icon>Price per Night</mat-label>
+        <input matInput type="number" placeholder="Enter price per night" formControlName="price" required>
+        <mat-error>Minimal price is 1</mat-error>
+      </mat-form-field>
+
+      <!-- Allow Cancel -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">free_cancellation</mat-icon>Allowed Number of Days to Cancel Before Reservation</mat-label>
+        <input matInput type="number" placeholder="Enter number of days" formControlName="cancelAllow" required>
+        <mat-error>Minimal number of days for free cancelation is 0</mat-error>
+      </mat-form-field>
+
+      <!-- Detailed Description -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">description</mat-icon>Detailed Description</mat-label>
+        <textarea matInput placeholder="Enter detailed description" formControlName="description"></textarea>
+        <mat-error>Maximum number of characters is 200</mat-error>
+      </mat-form-field>
+
+      <!-- Accommodation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">business</mat-icon>Accommodation Type</mat-label>
+        <mat-select placeholder="Select accommodation type" formControlName="accommodationType" required>
+          <mat-option value="STUDIO">Studio</mat-option>
+          <mat-option value="APARTMENT">Apartment</mat-option>
+          <mat-option value="ROOM">Room</mat-option>
+          <mat-option value="HOTEL">Hotel</mat-option>
+        </mat-select>
+        <mat-error>You have to select accommodation type</mat-error>
+      </mat-form-field>
+
+      <!-- Booking Confirmation Type Dropdown -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">check</mat-icon>Booking Confirmation Type</mat-label>
+        <mat-select placeholder="Select booking confirmation type" formControlName="bookingConfirmationType" required>
+          <mat-option value="AUTOMATIC">Automatic</mat-option>
+          <mat-option value="MANUAL">Manual</mat-option>
+        </mat-select>
+          <mat-error>You have to select booking confirmation type</mat-error>
+      </mat-form-field>
+
+      <div>
+        <input type="file" (change)="onFileSelected($event)" multiple />
+        <div class="image-container">
+          <div *ngFor="let image of imageFiles">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title-group>
+                  <img mat-card-sm-image [src]="getUrl(image)" alt="Uploaded Image" />
+                  <button mat-icon-button (click)="deleteImage(image)" matIconSuffix style="margin-top: 13%">
+                    <mat-icon >
+                      <span class="material-symbols-outlined">close</span>
+                    </mat-icon>
+                  </button>
+                </mat-card-title-group>
+              </mat-card-header>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="right-part">
+      <h2>Accommodation amenities: </h2>
+      <div class="amenities-container">
+
+        <!-- Amenities Checkboxes -->
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, {id: 1, name: 'Parking'})">
+            <mat-icon class="material-icons">local_parking</mat-icon>Parking
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 2, name: 'Wifi' })">
+            <mat-icon class="material-icons">wifi</mat-icon>Wifi
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 3, name: 'Air Conditioning' })">
+            <mat-icon class="material-icons">ac_unit</mat-icon>Air Conditioning
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 4, name: 'Kitchen' })">
+            <mat-icon class="material-icons">kitchen</mat-icon>Kitchen
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 5, name: 'Bathroom' })">
+            <mat-icon class="material-icons">bathtub</mat-icon>Bathroom
+          </mat-checkbox>
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 6, name: 'Pool' })">
+            <mat-icon class="material-icons">pool</mat-icon>Pool
+          </mat-checkbox>
+        </div>
+        <div class="amenities-column">
+          <mat-checkbox class="global-icon-color" (change)="onAmenityChange($event, { id: 7, name: 'Balcony' })">
+            <mat-icon class="material-icons">balcony</mat-icon>Balcony
+          </mat-checkbox>
+        </div>
+      </div>
+
+
+      <h2>Add first availability period</h2>
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available from</mat-label>
+        <input matInput formControlName="startDate" [matDatepicker]="fromDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromDatePicker></mat-datepicker>
+        <mat-error *ngIf="accommodationForm.get('startDate')">
+          <span *ngIf="accommodationForm.get('startDate')?.hasError('required')">You have to select start date<br></span>
+          <span *ngIf="accommodationForm.get('startDate')?.hasError('invalidStartDate')"> Start date cant be in the past</span>
+        </mat-error>
+
+      </mat-form-field>
+
+      <!-- Datepicker for "To" Date -->
+      <mat-form-field class="global-icon-color">
+        <mat-label><mat-icon class="material-icons">date_range</mat-icon> Available until</mat-label>
+        <input matInput formControlName="endDate" [matDatepicker]="toDatePicker" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #toDatePicker></mat-datepicker>
+      </mat-form-field>
+
+      <h2>Define pricing policy</h2>
+
+      <mat-radio-group aria-label="Select an option" (change)="onPricingPolicyChange($event)">
+        <mat-radio-button value="priceByHead" checked="true">Price by guest</mat-radio-button>
+        <mat-radio-button value="priceByDay">Price by night spent</mat-radio-button>
+      </mat-radio-group>
+
+
+      <app-map></app-map>
+    </div>
+
+  </div>
+
+  <button mat-raised-button class="global-darkBtn save-changes-btn" type="submit">Add Apartment</button>
+</form>

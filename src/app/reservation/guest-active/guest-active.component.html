@@ -1,0 +1,77 @@
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar></app-navbar>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered></app-navbar-non-registered>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner></app-navbar-owner>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Admin Navbar Links -->
+  <app-navbar-admin></app-navbar-admin>
+</div>
+<router-outlet></router-outlet>
+<h1 class="header">
+  <div class="header-div">
+    <mat-icon class="header-icon">
+      <span class="material-symbols-outlined">work</span>
+    </mat-icon>
+    Reservations
+  </div>
+</h1>
+<div class="navigation-div">
+  <mat-form-field class="reservation-status-form">
+    <mat-label>Reservation status</mat-label>
+    <select matNativeControl [(ngModel)]="status">
+      <option value="" selected></option>
+      <option value="CANCELED">Canceled</option>
+      <option value="APPROVED">Approved</option>
+      <option value="PENDING">Pending</option>
+      <option value="REJECTED">Denied</option>
+    </select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Search by name</mat-label>
+      <mat-icon matIconPrefix>
+      <span class="material-symbols-outlined">search</span>
+    </mat-icon>
+    <input type="text" matInput [(ngModel)]="searchBar">
+  </mat-form-field>
+  <button mat-raised-button class="global-darkBtn search-button" (click)="applyFilters()"> Search </button>
+</div>
+
+  <mat-grid-list cols="3" rowHeight="3:4">
+    <div *ngIf="reservationDetails.length > 0; else noReservations">
+      <ng-container *ngFor="let reservation of reservationDetails; let isFirst = first">
+        <div class="card-container">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title-group>
+                <mat-card-title>{{reservation.accommodationName}}</mat-card-title>
+                <mat-card-subtitle>
+                  <li>Price: {{reservation.price}}</li>
+                  <li>Address: {{reservation.accommodationLocation}}</li>
+                  <li>From: {{reservation.startDate}} To: {{reservation.endDate}}</li>
+                  <li>Status: {{reservation.status.toString()}}</li>
+                </mat-card-subtitle>
+              </mat-card-title-group>
+            </mat-card-header>
+            <mat-card-content>
+              <button mat-raised-button class="global-dangerBtn" (click)="cancelReservation(reservation)" *ngIf="reservation.status != ReservationStatus.CANCELED && reservation.status != ReservationStatus.REJECTED"> Cancel reservation </button>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </ng-container>
+    </div>
+  </mat-grid-list>
+
+<ng-template #noReservations>
+  <div class="grid-container">
+    <h2 class="acc-name">No reservations found. </h2>
+  </div>
+</ng-template>

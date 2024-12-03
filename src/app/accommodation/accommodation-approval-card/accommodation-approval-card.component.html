@@ -1,0 +1,20 @@
+<div class="card-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{accommodation.name}}</mat-card-title>
+      <mat-card-subtitle>
+        <li><span class="white-text">Owner: </span> <span class="blue-text">{{ accommodation.ownerEmail }}</span></li>
+        <li><span class="white-text">Description: <wbr><wbr><wbr> </span> <span class="blue-text">{{accommodation.description}}</span></li>
+        <li><span class="white-text">Min guests:</span> <span class="blue-text">{{accommodation.minGuests}}</span></li>
+        <li><span class="white-text">Max guests:</span> <span class="blue-text">{{accommodation.maxGuests}}</span></li>
+        <li><span class="white-text">Accommodation status:</span> <span class="blue-text">{{accommodation.status}}</span></li>
+        <li><span class="white-text">Booking confirmation type:</span> <span class="blue-text">{{accommodation.bookingConfirmationType}}</span></li>
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <button mat-raised-button class="global-dangerBtn" (click)="denyAccommodation(accommodation)"> Deny unit </button>
+      <button mat-raised-button class="global-darkBtn" (click)="approveAccommodations(accommodation)"> Approve unit </button>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,29 @@
+<!-- owner-accommodations.component.html -->
+<app-navbar-owner></app-navbar-owner>
+
+<div *ngIf="accommodations.length > 0; else noAccommodations">
+  <ng-container *ngFor="let accommodation of accommodations; let isFirst = first">
+    <div class="form-container">
+      <div class="acc-management-header" *ngIf="isFirst">Your Accommodations</div>
+
+      <div class="left-part">
+
+        <div class="accommodation-card">
+          <h3>Name: {{ accommodation.name }}</h3>
+          <p>Accommodation description: {{ accommodation.description }}</p>
+          <p>Accommodation Type: {{ accommodation.accommodationType }}</p>
+          <p>Booking Confirmation Type: {{ accommodation.bookingConfirmationType }}</p>
+          <p>Minimum Guests: {{ accommodation.minGuests }}</p>
+          <p>Maximum Guests: {{ accommodation.maxGuests }}</p>
+          <!-- Add more details as needed -->
+        </div>
+      </div>
+      <div class="right-part">
+        <button class="update-button" (click)="openAccommodationUpdate(accommodation.id)">Update</button>      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #noAccommodations>
+  <p>No accommodations found.</p>
+</ng-template>

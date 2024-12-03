@@ -1,0 +1,171 @@
+
+.form-container {
+  border-radius: 40px; /* Adjust the border-radius for a smoother look */
+  width: 90%; /* Use percentage for responsiveness */
+  max-width: 1500px; /* Set a maximum width if needed */
+  margin: 50px auto; /* Center the container horizontally and add top margin */
+  max-height: 1500px;
+  padding: 2%;
+  background: rgba(109, 142,207,0.82);
+  display: flex;
+  flex-direction: column;
+}
+.register-header {
+  color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  font-size: x-large; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+}
+.acc-header {
+  color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  font-size: large; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+  margin-top: 4%;
+}
+.acc-header::after {
+  content: ''; /* Required for pseudo-elements */
+  display: block; /* Display as a block to apply styles */
+  width: 50%; /* Width to span the entire line */
+  height: 2px; /* Height for the line thickness */
+  background-color: rgba(8, 0, 103, 1); /* Color of the line */
+  position: absolute; /* Positioning */
+  bottom: -5px; /* Positioning to be just below the text */
+  left: 0; /* Position from the left edge of the h1 element */
+}
+.register-header::after {
+  content: ''; /* Required for pseudo-elements */
+  display: block; /* Display as a block to apply styles */
+  width: 100%; /* Width to span the entire line */
+  height: 4px; /* Height for the line thickness */
+  background-color: white; /* Color of the line */
+  position: absolute; /* Positioning */
+  bottom: -5px; /* Positioning to be just below the text */
+  left: 0; /* Position from the left edge of the h1 element */
+}
+.container {
+  display: flex;
+  height: 100%; /* Set the height of the container to 100% of the viewport height */
+  flex-direction: row;
+  position: relative;
+}
+.container1 {
+  display: flex;
+  height: 100%; /* Set the height of the container to 100% of the viewport height */
+  flex-direction: column;
+  position: relative;
+}
+.half {
+  flex: 1; /* Make both halves take equal space */
+  box-sizing: border-box; /* Include border in the element's total width and height */
+  height: 100%;
+  margin-left: 1%;
+}
+.picture_container {
+  display: flex;
+  flex-direction: row;
+  height: 100%; /* Set the height of the container to 100% of the viewport height */
+  margin: 20px auto;
+}
+.main_picture {
+  height: 300px;
+  max-width: 85%;
+  flex: 3;
+}
+.container img {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  margin: 5px auto;
+  object-fit: cover;
+  border-radius: 15px;
+}
+.sidebar_pictures {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.description{
+  color: white; /* Changes text color to blue */
+  font-size: medium; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+  margin-right: 8%;
+}
+.grid-container{
+  display: grid;
+  column-count: 2;
+  column-gap: 10px;
+  row-gap: 10px;
+  grid-template-columns: 280px 280px;
+}
+.grid-item{
+  display: flex;
+  flex-direction: row;
+}
+.grid-item-text{
+  color: white;
+  font-weight: bold;
+  font-size: medium;
+  margin-top: 5px;
+}
+.material-icons {
+  font-size: 32px;
+  margin-top: 5px;
+  margin-right: 10px;
+  color: #080067;
+}
+.icon{
+  font-size: 23px;
+  color: #080067;
+  margin-right: 10px;
+}
+.name-header {
+  color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  font-size: xx-large; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+  margin-top: 3%;
+  margin-bottom: -1%;
+}
+.list{
+  list-style-type: circle;
+  color: white;
+  font-size: x-large;
+}
+.list-item{
+  margin: 1%;
+}
+.review{
+  display: flex;
+  flex-direction: row;
+  color: rgba(8, 0, 103, 1); /* Changes text color to blue */
+  font-size: xx-large; /* Increases font size */
+  font-weight: bold; /* Makes the text bold */
+  position: relative;
+  margin-top: 3%;
+}
+.container-reviews{
+  display: flex;
+  height: 100%; /* Set the height of the container to 100% of the viewport height */
+  flex-direction: column;
+  position: relative;
+  margin-top: 5%;
+}
+.date-picker-text{
+  color: #080067;
+  font-size: medium;
+  font-weight: bold;
+  margin-top: 3%;
+  margin-bottom: 5px;
+}
+.review-txt{
+  color: #080067;
+  font-size: larger;
+  font-weight: bold;
+  padding: 3%;
+}
+.star{
+  padding-top: 8px;
+}

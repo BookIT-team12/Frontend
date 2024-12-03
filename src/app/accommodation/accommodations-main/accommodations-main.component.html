@@ -1,0 +1,165 @@
+<div *ngIf="userRole === Role.GUEST">
+  <!-- Guest Navbar Links -->
+  <app-navbar-main></app-navbar-main>
+</div>
+<div *ngIf="userRole === Role.UNKNOWN">
+  <!-- Non Reg Navbar Links -->
+  <app-navbar-non-registered-main></app-navbar-non-registered-main>
+</div>
+<div *ngIf="userRole === Role.OWNER">
+  <!-- Owner Navbar Links -->
+  <app-navbar-owner-main></app-navbar-owner-main>
+</div>
+
+<div *ngIf="userRole === Role.ADMINISTRATOR">
+  <!-- Owner Navbar Links -->
+  <app-navbar-admin-main></app-navbar-admin-main>
+</div>
+
+<mat-drawer-container>
+  <mat-drawer opened mode="side" class="sidenav">
+    <h1 class="logo-header">
+      <img src="../../../assets/logo.png" alt="Logo" class="logo">
+      <h1 class="title">BookIT</h1>
+    </h1>
+    <div class="filters-container">
+        <mat-form-field>
+          <mat-label>Search by name</mat-label>
+          <mat-icon matIconPrefix class="symbols-outlined">
+            <span class="material-symbols-outlined">search</span>
+          </mat-icon>
+          <input type="text" matInput [(ngModel)]="searchBar" name="search">
+        </mat-form-field>
+      <div class="aaaD">
+        <span class="material-icons">date_range</span>
+        <mat-form-field>
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [(ngModel)]="startDate" name="startDate">
+            <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="endDate">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+      <div class="aaa5"><div class="filters-title"><h2>Filters:</h2></div></div>
+      <h1>  </h1>
+      <div class="aaaG">
+        <span class="material-icons">person</span>
+        <h3 class="filters-txt">Guests: </h3>
+        <mat-form-field class="example">
+          <mat-label>Enter a Number</mat-label>
+          <input matInput type="number" [(ngModel)]="value" class="custom-input" name="value">
+        </mat-form-field>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+          class="example-cb"
+          [(ngModel)]="wifi" name="wifi">
+        </mat-checkbox>
+        <span class="material-icons">wifi</span>
+        <h3 class="filters-txt">Wi-Fi</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+          class="example-cb"
+          [(ngModel)]="parking" name="parking">
+        </mat-checkbox>
+        <span class="material-icons">local_parking</span>
+        <h3 class="filters-txt">Parking</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+          class="example-cb"
+          [(ngModel)]="ac_unit" name="ac_unit">
+        </mat-checkbox>
+        <span class="material-icons">ac_unit</span>
+        <h3 class="filters-txt">Air Condition</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="bath" name="bath">
+        </mat-checkbox>
+        <span class="material-icons">bathtub</span>
+        <h3 class="filters-txt">In-Suite Bathroom</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="pool" name="pool">
+        </mat-checkbox>
+        <span class="material-icons">pool</span>
+        <h3 class="filters-txt">Pool</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="kitchen" name="kitchen">
+        </mat-checkbox>
+        <span class="material-icons">kitchen</span>
+        <h3 class="filters-txt">Kitchen</h3>
+      </div>
+      <div class="aaa">
+        <mat-checkbox
+                class="example-cb"
+                [(ngModel)]="balcony" name="balcony">
+        </mat-checkbox>
+        <span class="material-icons">balcony</span>
+        <h3 class="filters-txt">Balcony</h3>
+      </div>
+
+      <div class="aaaS">
+        <div class="slider-comp">
+          <span class="material-icons">paid</span>
+          <h3 class="filters-txt">Price range: </h3>
+        </div>
+        <!-- Display Min and Max Values Above Slider Ends -->
+        <div class="aaaa">
+        <div class="slider-labels">
+          <div class="slider-label-left" *ngIf="minSliderValue >= 10">{{ minSliderValue }}$</div>
+          <div class="slider-label-left" *ngIf="minSliderValue < 10">{{ minSliderValue + 1 }}-$</div>
+          <div class="slider-label-right" *ngIf="maxSliderValue <= 200">{{ maxSliderValue }}$</div>
+          <div class="slider-label-right" *ngIf="maxSliderValue > 200">{{ maxSliderValue - 1 }}+$</div>
+        </div>
+
+        <!-- MatSlider with Display Function -->
+        <mat-slider class="mat-slider" min="9" max="201" [displayWith]="displayFn" [(ngModel)]="sliderValues">
+          <input matSliderStartThumb [(ngModel)]="minSliderValue" name="min">
+          <input matSliderEndThumb [(ngModel)]="maxSliderValue" name="max">
+        </mat-slider>
+        </div>
+      </div>
+      <div class="aaa1">
+        <button mat-raised-button class="global-darkBtn login-btn" (click)="applyFilters()"> Apply filters </button>
+      </div>
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-grid-list cols="3" rowHeight="4:5">
+      <ng-container *ngIf="accommodationsShow.size > 0; else noAccommodations">
+        <mat-grid-tile *ngFor="let accommodation of accommodationsShow; let isFirst = first">
+<!--          <mat-card-header>-->
+<!--            <mat-card-title-group>-->
+<!--              <img class="accommodation-image" mat-card-md-image [src]="getUrl(accommodation[1]!)" alt="Not implemented [src] yet" />-->
+<!--            </mat-card-title-group>-->
+<!--          </mat-card-header>-->
+          <div class="grid-container">
+            <img class="accommodation-image" mat-card-md-image [src]="getUrl(accommodation[1]!)" alt="Not implemented [src] yet" />
+            <h2 class="acc-name">Name: {{ accommodation[0].name }}</h2>
+            <p class="acc-desc">• Location: {{ accommodation[0].location.address}}</p>
+            <p class="acc-desc">• Type: {{ accommodation[0].accommodationType }}</p>
+            <p class="acc-desc">• Booking Confirmation Type: {{ accommodation[0].bookingConfirmationType }}</p>
+            <!-- Add more details as needed -->
+            <button mat-raised-button (click)="bookITClicked(accommodation[0].id)" class="global-darkBtn login-btn"> Book IT </button>
+          </div>
+        </mat-grid-tile>
+      </ng-container>
+    </mat-grid-list>
+  </mat-drawer-content>
+</mat-drawer-container>
+<ng-template #noAccommodations>
+  <div class="grid-container">
+    <h2 class="acc-name">No accommodations found.</h2>
+  </div>
+</ng-template>
